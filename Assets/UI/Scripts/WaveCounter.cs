@@ -7,22 +7,23 @@ namespace UI.Scripts
 {
     public class WaveCounter : MonoBehaviour
     {
-        private TMP_Text _text;
+        [SerializeField] private TMP_Text text;
         [SerializeField] private Wavespawner waveSpawner;
-
-        private void Start()
+        public Action CurrentWaveCounter;
+        
+        private void OnEnable()
         {
-            _text = GetComponent<TMP_Text>();
+            CurrentWaveCounter += ChangeTextInWaveCounterUI;
         }
 
-        private void Update()
+        private void OnDisable()
         {
-           ChangeTextInWaveCounterUI();
+            CurrentWaveCounter -= ChangeTextInWaveCounterUI;
         }
-
+        
         private void ChangeTextInWaveCounterUI()
         {
-            _text.SetText($"Wave Number: {waveSpawner.CurrentWaveIndex + 1}");
+            text.SetText($"Wave Number: {waveSpawner.CurrentWaveIndex + 1}");
         }
     }
 }

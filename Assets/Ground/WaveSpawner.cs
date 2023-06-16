@@ -1,12 +1,5 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
-using System.Threading;
-using Events;
-using JetBrains.Annotations;
+using UI.Scripts;
 using UnityEngine;
 
 namespace Ground
@@ -14,6 +7,7 @@ namespace Ground
     public class Wavespawner : MonoBehaviour 
     {
         [SerializeField] private Wave[] waves;
+        [SerializeField] private WaveCounter waveCounter;
         private int _currentWaveIndex;
         private int _enemiesLeftToSpawn;
         private int _currentSettings;
@@ -30,6 +24,7 @@ namespace Ground
 
         private IEnumerator SpawnWave()
         {
+            waveCounter.CurrentWaveCounter.Invoke();
             PrepareForSpawnEnemy();
             if (_enemiesLeftToSpawn > 0)
             {

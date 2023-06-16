@@ -1,5 +1,3 @@
-using System;
-using Freeze_Tower;
 using UnityEngine;
 
 namespace Enemy
