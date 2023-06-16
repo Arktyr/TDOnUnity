@@ -9,6 +9,8 @@ namespace CreateTower
     {
         [SerializeField] private Camera mainCamera;
         [SerializeField] private SetTowerType setTowerType;
+        [SerializeField] private TowerFactory towerFactory;
+        [SerializeField] private AlertAboutNotEnoughMoney alert;
         [SerializeField] private MoneyCounter moneyCounter;
         private Ray _ray;
         private RaycastHit _hit;
@@ -33,11 +35,11 @@ namespace CreateTower
             _layerMask = 1 << LayerMask.NameToLayer("Ignore Raycast");
             if (Input.GetMouseButton(0) && _delayCreation == false)
             {
-                CreateTowerOnHit(_ray, _layerMask);
+                CheckForConstruct(_ray, _layerMask);
             }
         }
         
-        private void CreateTowerOnHit(Ray ray, int layerMask)
+        private void CheckForConstruct(Ray ray, int layerMask)
         {
             if (CheckCollisionHit(ray, layerMask).collider == null) return;
             if (CheckCollisionHit(ray, layerMask).collider.TryGetComponent(out CreatePlatform createPlatform) &&
@@ -45,9 +47,13 @@ namespace CreateTower
             {
                 _delayCreation = true;
                 setTowerType.ChooseTypeTower();
-                if (setTowerType.Type != 0)
+                if (createPlatform.isEmpty)
                 {
-                    createPlatform.CreateTower(setTowerType.Type);
+                    ChangePlatformColor(_lastMeshRenderer, Color.red);
+                }
+                if (setTowerType.Type != 0 && createPlatform.isEmpty == false)
+                {
+                    ConstructTower(setTowerType.Type, createPlatform);
                 }
                 StartCoroutine(DelayBeforeNextConstruction());
             }
@@ -89,6 +95,27 @@ namespace CreateTower
         {
             yield return new WaitForSeconds(1);
             _delayCreation = false;
+        }
+        
+        private void ConstructTower(TowersTypes.TowerTypes type, CreatePlatform createPlatform)
+        {
+            if (moneyCounter.Money >= towerFactory.GetPriceTower(type))
+            {
+                TakePlace(type, createPlatform);
+                moneyCounter.BuyTower(towerFactory.GetPriceTower(type));
+                Vector3 position = createPlatform.transform.position;
+                towerFactory.Create(type, new Vector3(position.x, position.y + 5, position.z));
+            }
+            else
+            {
+                StartCoroutine(alert.AnimationPlay());
+            }
+        }
+
+        private void TakePlace(TowersTypes.TowerTypes type, CreatePlatform createPlatform)
+        {
+            createPlatform.isEmpty = true;
+            createPlatform.type = type;
         }
     }
 }

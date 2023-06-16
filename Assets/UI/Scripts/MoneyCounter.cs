@@ -9,28 +9,19 @@ namespace UI.Scripts
     {
         [SerializeField] private TMP_Text text;
         [SerializeField] private float startMoney;
-        public static float Money;
-        private float _lastMoney;
+        private float _money;
+        public float Money => _money;
         private float _reward;
 
         private void Start()
         {
-            Money = startMoney;
-        }
-
-        private void Update()
-        {
-            if (_lastMoney != Money)
-            {
-                ChangeTextInMoneyCounterUI();
-                _lastMoney = Money;
-            }
+            _money = startMoney;
+            ChangeTextInMoneyCounterUI();
         }
 
         public void GetMoney()
         {
-            Money += _reward;
-            _lastMoney = Money;
+            _money += _reward;
             ChangeTextInMoneyCounterUI();
         }
 
@@ -41,12 +32,13 @@ namespace UI.Scripts
 
         private void ChangeTextInMoneyCounterUI()
         {
-            text.SetText($"{Money}");
+            text.SetText($"{_money}");
         }
 
-        public static void BuyTower(float price)
+        public void BuyTower(float price)
         {
-            Money -= price;
+            _money -= price;
+            ChangeTextInMoneyCounterUI();
         }
     }
 }
