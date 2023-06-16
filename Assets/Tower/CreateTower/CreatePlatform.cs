@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using UI.Scripts;
 using UnityEngine;
 
 namespace CreateTower
@@ -7,8 +9,12 @@ namespace CreateTower
         [SerializeField] private TowerFactory towerFactory;
         public void CreateTower(TowersTypes.TowerTypes type)
         {
-            Vector3 position = transform.position;
-            towerFactory.Create(type, new Vector3(position.x, position.y + 5, position.z));
+            if (MoneyCounter.Money >= towerFactory.GetPriceTower(type))
+            {
+                MoneyCounter.BuyTower(towerFactory.GetPriceTower(type));
+                Vector3 position = transform.position;
+                towerFactory.Create(type, new Vector3(position.x, position.y + 5, position.z));
+            }
         }
     }
 }

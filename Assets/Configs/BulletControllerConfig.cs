@@ -6,7 +6,7 @@ namespace Configs
     [CreateAssetMenu(fileName = "BulletControllerConfig", menuName = "Configs/BulletControllerConfig")]
     public class BulletControllerConfig : ScriptableObject
     {
-        [SerializeField] private BulletController bulletcontroller;
-        public BulletController BulletController => bulletcontroller;
+        [SerializeField] private BulletController bulletController;
+        public BulletController BulletController => bulletController;
     }
 }

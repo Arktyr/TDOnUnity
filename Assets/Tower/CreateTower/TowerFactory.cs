@@ -57,5 +57,20 @@ namespace CreateTower
             BulletTower tower = Instantiate(bulletTowerConfig.Tower, pos, Quaternion.identity); ;
             tower.Construct(bulletControllerConfig.BulletController, bulletTowerConfig.BulletSpeed, bulletTowerConfig.BulletRateOfFire, bulletTowerConfig.BulletTowerDamage);
         }
+
+        public float GetPriceTower(TowersTypes.TowerTypes type)
+        {
+            switch (type)
+            {
+                case TowersTypes.TowerTypes.BulletTower:
+                    return bulletTowerConfig.PriceBulletTower;
+                case TowersTypes.TowerTypes.FreezeTower:
+                    return freezeTowerConfig.PriceFreezeTower;
+                case TowersTypes.TowerTypes.LaserTower:
+                    return laserTowerConfig.PriceLaserTower;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
+            }
+        }
     }
 }

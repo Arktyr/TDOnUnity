@@ -11,10 +11,12 @@ namespace Configs
         [SerializeField] private float bulletRateOfFire;
         [SerializeField] private float bulletSpeed;
         [SerializeField] private float bulletTowerDamage;
+        [SerializeField] private float priceBulletTower;
         public BulletTower Tower => tower;
         public BulletController Bullet => bullet;
         public float BulletRateOfFire => bulletRateOfFire;
         public float BulletSpeed => bulletSpeed;
         public float BulletTowerDamage => bulletTowerDamage;
+        public float PriceBulletTower => priceBulletTower;
     }
 }

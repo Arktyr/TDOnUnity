@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using UI.Scripts;
 using UnityEngine;
 
 namespace CreateTower
@@ -8,6 +9,7 @@ namespace CreateTower
     {
         [SerializeField] private Camera mainCamera;
         [SerializeField] private SetTowerType setTowerType;
+        [SerializeField] private MoneyCounter moneyCounter;
         private Ray _ray;
         private RaycastHit _hit;
         private MeshRenderer _lastMeshRenderer;

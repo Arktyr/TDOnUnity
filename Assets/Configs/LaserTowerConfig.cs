@@ -8,7 +8,9 @@ namespace Configs
  {
   [SerializeField] private LaserTower tower;
   [SerializeField] private float laserTowerDamage;
+  [SerializeField] private float priceLaserTower;
   public LaserTower Tower => tower;
   public float LaserTowerDamage => laserTowerDamage;
+  public float PriceLaserTower => priceLaserTower;
  }
 }
