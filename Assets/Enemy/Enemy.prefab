@@ -150,7 +150,7 @@ MonoBehaviour:
   points: []
   speed: 600
   health: 60
-  enemyCounter: {fileID: 6282576160498616347, guid: 764057b10c5ee144ebfb61a0362de79f, type: 3}
+  moneyReward: 20
   minimumSpeed: 0
   speedBeforefreeze: 0
   freezeStacks: 0

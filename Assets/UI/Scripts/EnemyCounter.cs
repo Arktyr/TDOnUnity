@@ -1,4 +1,5 @@
 ﻿using System;
+using Enemy;
 using TMPro;
 using UnityEngine;
 
@@ -7,20 +8,26 @@ namespace UI.Scripts
     public class EnemyCounter : MonoBehaviour
     {
         [SerializeField] private TMP_Text text;
+        [SerializeField] private MoneyCounter moneyCounter;
         public Action OnEnemySpawn;
         public Action OnEnemyKill;
+        public Action OnEnemyFinish;
         private float _leftEnemy;
 
         private void OnEnable()
         {
             OnEnemySpawn += CounterUp;
             OnEnemyKill += CounterDown;
+            OnEnemyKill += moneyCounter.GetMoney;
+            OnEnemyFinish += CounterDown;
         }
 
         private void OnDisable()
         {
             OnEnemySpawn -= CounterUp;
             OnEnemyKill -= CounterDown;
+            OnEnemyKill -= moneyCounter.GetMoney;
+            OnEnemyFinish -= CounterDown;
         }
 
         private void CounterUp()

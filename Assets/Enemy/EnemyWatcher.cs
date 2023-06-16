@@ -8,6 +8,7 @@ namespace Enemy
     public class EnemyWatcher : MonoBehaviour
     {
         [SerializeField] private EnemyCounter enemyCounter;
+        [SerializeField] private MoneyCounter moneyCounter;
         private List<EnemyController> _enemyCount;
 
         private void Start()
@@ -38,14 +39,14 @@ namespace Enemy
 
         private void OnEnemySpawn(EnemyController enemyController)
         {
-            enemyCounter.OnEnemySpawn();
+            enemyCounter.OnEnemySpawn.Invoke();
             _enemyCount.Add(enemyController);
         }
 
         private void OnEnemyFinishedThePath(EnemyController enemyController)
         {
             _enemyCount.Remove(enemyController);
-            enemyCounter.OnEnemyKill();
+            enemyCounter.OnEnemyFinish.Invoke();
         }
 
         private void OnEnemyKill()
@@ -56,8 +57,9 @@ namespace Enemy
                 {
                     if (_enemyCount.ElementAt(i) == null)
                     {
+                        moneyCounter.GetRewardFromEnemy(_enemyCount.ElementAt(i));
                         _enemyCount.Remove(_enemyCount.ElementAt(i));
-                        enemyCounter.OnEnemyKill();
+                        enemyCounter.OnEnemyKill.Invoke();
                     }
                 }
             }

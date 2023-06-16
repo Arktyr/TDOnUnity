@@ -9,7 +9,8 @@ namespace Enemy
         [SerializeField] public float speed;
         [SerializeField] private float health;
         private Rigidbody _enemyRigidBody;
-        private int _currentPoint;                              
+        private int _currentPoint;
+        public float moneyReward;
         [HideInInspector]public float minimumSpeed;
         [HideInInspector]public float speedBeforefreeze;
         [HideInInspector]public float freezeStacks;
