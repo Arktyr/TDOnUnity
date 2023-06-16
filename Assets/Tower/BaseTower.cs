@@ -12,7 +12,7 @@ public abstract class BaseTower : MonoBehaviour
     protected LineRenderer LaserLine;
     private bool _checkEnemyInRadius;
     private bool _checkEnemyCount;
-    private GameObject _lastEnemy;
+    protected GameObject LastEnemy;
 
 
 
@@ -39,14 +39,10 @@ public abstract class BaseTower : MonoBehaviour
         SetPositionLaser(CheckingEnemy());
         if (BoolCheckingEnemyInRadius())
         {
-            if (_lastEnemy != EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()) && _lastEnemy != null)
-            {
-                EnemyInRadius.Remove(_lastEnemy);
-            }
+            RemoveEnemyIfKill();
             EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).GetComponent<EnemyController>().TakeDamage(damage);
-            _lastEnemy = EnemyInRadius.ElementAt(IntCheckingEnemyInRadius());
+            LastEnemy = EnemyInRadius.ElementAt(IntCheckingEnemyInRadius());
         }
-       
     }
 
     protected int IntCheckingEnemyInRadius()
@@ -89,6 +85,14 @@ public abstract class BaseTower : MonoBehaviour
         return _checkEnemyCount;
     }
 
+    protected void RemoveEnemyIfKill()
+    {
+        if (LastEnemy != EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()) && LastEnemy != null)
+        {
+            EnemyInRadius.Remove(LastEnemy);
+        }
+    }
+    
     protected void SetPositionLaser(bool check)
     {
         switch (check)

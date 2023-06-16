@@ -106,7 +106,6 @@ namespace Freeze_Tower
                 }
                 case > 0:
                 {
-                    Debug.Log(currentEnemy.freezeStacks);
                     currentEnemy.speed = currentEnemy.speedBeforefreeze - currentEnemy.speedBeforefreeze * (freezePower * currentEnemy.freezeStacks);
                     CheckMinimumSpeed(_currentEnemy);
                     break;

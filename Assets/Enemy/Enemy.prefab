@@ -149,6 +149,8 @@ MonoBehaviour:
   path: {fileID: 8580228050563552444, guid: 3cd2f16d93363e04abd634677c4af6b2, type: 3}
   points: []
   speed: 600
-  health: 20
+  health: 60
+  minimumSpeed: 0
+  speedBeforefreeze: 0
   freezeStacks: 0
   inRadius: 0

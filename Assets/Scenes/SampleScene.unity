@@ -804,8 +804,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963194229}
-        m_TargetAssemblyTypeName: CreateTower.CreateTower, Assembly-CSharp
+      - m_Target: {fileID: 323913940}
+        m_TargetAssemblyTypeName: CreateTower.SetTowerType, Assembly-CSharp
         m_MethodName: CheckBulletEnableInUI
         m_Mode: 0
         m_Arguments:
@@ -1202,11 +1202,11 @@ MonoBehaviour:
   - settings:
     - enemyGameObject: {fileID: 5067808080209307704, guid: 422de99448ebfab40b0d305de34a0f17, type: 3}
       enemyCount: 1
-      spawnTimeTimer: 1
+      spawnDelay: 0
   - settings:
     - enemyGameObject: {fileID: 5067808080209307704, guid: 422de99448ebfab40b0d305de34a0f17, type: 3}
       enemyCount: 1
-      spawnTimeTimer: 1
+      spawnDelay: 0
 --- !u!1001 &235381890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1871,6 +1871,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b55f0e9b572fbe44f9b50d6ff33acd11, type: 3}
+--- !u!1 &323913939
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 323913941}
+  - component: {fileID: 323913940}
+  m_Layer: 0
+  m_Name: SetTowerType
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &323913940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323913939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74e4c1c6b71046868f7ba2247fcac5f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &323913941
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 323913939}
+  m_LocalRotation: {x: -0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: -57.18373, y: -17.584991, z: 159.3762}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 963194228}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &327148478 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 180443831573065519, guid: b55f0e9b572fbe44f9b50d6ff33acd11, type: 3}
@@ -3251,8 +3295,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963194229}
-        m_TargetAssemblyTypeName: CreateTower.CreateTower, Assembly-CSharp
+      - m_Target: {fileID: 323913940}
+        m_TargetAssemblyTypeName: CreateTower.SetTowerType, Assembly-CSharp
         m_MethodName: CheckLaserEnableInUI
         m_Mode: 0
         m_Arguments:
@@ -6879,7 +6923,8 @@ Transform:
   m_LocalPosition: {x: -5.7, y: 160.4, z: 67}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 323913941}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 90}
@@ -6896,6 +6941,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainCamera: {fileID: 963194227}
+  setTowerType: {fileID: 323913940}
 --- !u!1001 &963611193
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8205,7 +8251,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.05647917, y: 0.92800003}
   m_AnchorMax: {x: 0.21900001, y: 0.98333323}
-  m_AnchoredPosition: {x: -58.700073, y: 4.399994}
+  m_AnchoredPosition: {x: -58.700073, y: 4.3999634}
   m_SizeDelta: {x: -115, y: -10}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1148849629
@@ -14240,8 +14286,8 @@ MonoBehaviour:
   onValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 963194229}
-        m_TargetAssemblyTypeName: CreateTower.CreateTower, Assembly-CSharp
+      - m_Target: {fileID: 323913940}
+        m_TargetAssemblyTypeName: CreateTower.SetTowerType, Assembly-CSharp
         m_MethodName: CheckFreezeEnableInUI
         m_Mode: 0
         m_Arguments:

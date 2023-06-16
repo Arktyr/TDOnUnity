@@ -51,10 +51,11 @@ public class BulletTower : BaseTower
         if (CheckingEnemy())
         {
             BulletCreate();
+            LastEnemy = EnemyInRadius.ElementAt(IntCheckingEnemyInRadius());
         }
         else
         {
-            EnemyInRadius.Remove(EnemyInRadius.First());
+            RemoveEnemyIfKill();
         }
     }
 
@@ -77,7 +78,7 @@ public class BulletTower : BaseTower
     private void BulletCreate()
     {
         _newBullet = Instantiate(_bullet, transform.GetChild(0).position, Quaternion.identity);
-        _newBullet.gameObject.GetComponent<BulletController>().bulletTowerDamage = _bulletTowerDamage;
+        _newBullet.GetComponent<BulletController>().bulletTowerDamage = _bulletTowerDamage;
         BulletMovement();
     }
 
