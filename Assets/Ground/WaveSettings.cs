@@ -1,12 +1,14 @@
-﻿using UnityEngine;
+﻿using Configs;
+using UnityEngine;
 
 namespace Ground
 {
     [System.Serializable]
     public class WaveSettings
     {
-        [SerializeField] private GameObject enemyGameObject;
-        public GameObject EnemyGameObject => enemyGameObject;
+        [SerializeField] private EnemyConfig enemyConfig;
+        public EnemyConfig EnemyConfig => enemyConfig;
+        
         [SerializeField] private int enemyCount;
         public int EnemyCount => enemyCount;
         [SerializeField] private float spawnDelay;

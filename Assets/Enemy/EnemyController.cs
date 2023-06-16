@@ -4,20 +4,25 @@ namespace Enemy
 {
     public class EnemyController : MonoBehaviour
     {
-        [SerializeField] private Transform path;
-        [SerializeField] private Transform[] points;
-        [SerializeField] public float speed;
-        [SerializeField] private float health;
+        private Transform _path;
+        private Transform[] _points;
+        [HideInInspector]public float speed;
+        private float _health;
         private Rigidbody _enemyRigidBody;
         private int _currentPoint;
-        public float moneyReward;
+        [HideInInspector]public float moneyReward;
         [HideInInspector]public float minimumSpeed;
         [HideInInspector]public float speedBeforefreeze;
         [HideInInspector]public float freezeStacks;
         [HideInInspector]public int inRadius;
         
-        private void Start()
+        public void Construct(Transform Path, Transform[] Points, float Speed, float Health, float MoneyReward )
         {
+            _path = Path;
+            _points = Points;
+            speed = Speed;
+            _health = Health;
+            moneyReward = MoneyReward;
             minimumSpeed = speed - (speed*0.65f);
             speedBeforefreeze = speed;
             _enemyRigidBody = GetComponent<Rigidbody>();
@@ -43,14 +48,14 @@ namespace Enemy
         
         private void EnemyMove()
         {
-            Vector3 velocity = (_enemyRigidBody.transform.position - points[_currentPoint].position).normalized;
+            Vector3 velocity = (_enemyRigidBody.transform.position - _points[_currentPoint].position).normalized;
             _enemyRigidBody.velocity = -velocity * (speed * Time.fixedDeltaTime);
         }
 
         public void TakeDamage(float damage)
         {
-            health -= damage;
-            if (health <= 0)
+            _health -= damage;
+            if (_health <= 0)
             {
                 Destroy(gameObject);
             }
@@ -58,10 +63,10 @@ namespace Enemy
 
         private void GetPoints()
         {
-            points = new Transform[path.childCount];
-            for (int i = 0; i < points.Length; i++)
+            _points = new Transform[_path.childCount];
+            for (int i = 0; i < _points.Length; i++)
             {
-                points[i] = path.GetChild(i);
+                _points[i] = _path.GetChild(i);
             }
         }
     }

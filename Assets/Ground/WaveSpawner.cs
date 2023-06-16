@@ -1,4 +1,5 @@
 using System.Collections;
+using Enemy;
 using UI.Scripts;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace Ground
     {
         [SerializeField] private Wave[] waves;
         [SerializeField] private WaveCounter waveCounter;
+        [SerializeField] private EnemyFactory enemyFactory;
         private int _currentWaveIndex;
         private int _enemiesLeftToSpawn;
         private int _currentSettings;
@@ -47,7 +49,7 @@ namespace Ground
 
         private void SpawnCurrentEnemy()
         {
-            Instantiate(waves[_currentWaveIndex].Settings[_currentSettings].EnemyGameObject, transform.position, Quaternion.identity);
+            enemyFactory.CreateEnemy(waves[_currentWaveIndex].Settings[_currentSettings].EnemyConfig, transform.position);
             _enemiesLeftToSpawn--;
             StartCoroutine(SpawnWave());
         }
