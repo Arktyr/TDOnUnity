@@ -15,5 +15,6 @@ MonoBehaviour:
   tower: {fileID: 4786586311508209222, guid: c4446df0f46e57c4eb20ef648f4c464e, type: 3}
   bullet: {fileID: 182018789025706645, guid: 5242279194a681a459634d3fad3b07ee, type: 3}
   bulletRateOfFire: 0.5
-  bulletSpeed: 3500
+  bulletSpeed: 4000
   bulletTowerDamage: 15
+  priceBulletTower: 50

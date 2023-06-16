@@ -10,7 +10,7 @@ namespace CreateTower
         [SerializeField] private Camera mainCamera;
         [SerializeField] private SetTowerType setTowerType;
         [SerializeField] private TowerFactory towerFactory;
-        [SerializeField] private AlertAboutNotEnoughMoney alert;
+        [SerializeField] private Alert alert;
         [SerializeField] private MoneyCounter moneyCounter;
         private Ray _ray;
         private RaycastHit _hit;
@@ -50,6 +50,7 @@ namespace CreateTower
                 if (createPlatform.isEmpty)
                 {
                     ChangePlatformColor(_lastMeshRenderer, Color.red);
+                    StartCoroutine(alert.AnimationPlay("Здесь уже установлена вышка"));
                 }
                 if (setTowerType.Type != 0 && createPlatform.isEmpty == false)
                 {
@@ -108,7 +109,7 @@ namespace CreateTower
             }
             else
             {
-                StartCoroutine(alert.AnimationPlay());
+                StartCoroutine(alert.AnimationPlay("У вас недостаточно монет для покупки"));
             }
         }
 

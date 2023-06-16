@@ -15,3 +15,4 @@ MonoBehaviour:
   tower: {fileID: 1118748088132024622, guid: 801f97392bb0aa5469ba38d8e15ce333, type: 3}
   freezeTowerDamage: 0.01
   freezingPower: 10
+  priceFreezeTower: 120

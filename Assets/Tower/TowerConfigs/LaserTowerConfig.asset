@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   tower: {fileID: 1213900178349330682, guid: a125d8ca06c00e84080a37ca0518737c, type: 3}
   laserTowerDamage: 0.2
+  priceLaserTower: 100

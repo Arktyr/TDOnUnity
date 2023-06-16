@@ -13,6 +13,8 @@ namespace Ground
         private int _currentSettings;
         private float _spawnEnemyDelay;
         private int _settingsCount;
+        private bool _isDelay;
+        public float CurrentDelayBeforeNextWave => waves[_currentWaveIndex].DelayBeforeNextWave;
         public int CurrentWaveIndex => _currentWaveIndex;
         
         
@@ -24,7 +26,6 @@ namespace Ground
 
         private IEnumerator SpawnWave()
         {
-            waveCounter.CurrentWaveCounter.Invoke();
             PrepareForSpawnEnemy();
             if (_enemiesLeftToSpawn > 0)
             {
@@ -39,7 +40,7 @@ namespace Ground
             {
                 if (_currentWaveIndex < waves.Length - 1)
                 {
-                    NextWave();
+                    if (_isDelay == false) StartCoroutine(DelayBeforeNextWave(waves[_currentWaveIndex].DelayBeforeNextWave));
                 }
             }
         }
@@ -61,6 +62,7 @@ namespace Ground
         private void NextWave()
         {
             _currentWaveIndex++;
+            waveCounter.ChangeWaveCounter.Invoke();
             _currentSettings = 0;
             _enemiesLeftToSpawn = waves[_currentWaveIndex].Settings[_currentSettings].EnemyCount;
             StartCoroutine(SpawnWave()); 
@@ -70,6 +72,15 @@ namespace Ground
         {
             _spawnEnemyDelay = waves[_currentWaveIndex].Settings[_currentSettings].SpawnDelay;
             _settingsCount = waves[_currentWaveIndex].Settings.Length;
+        }
+
+        private IEnumerator DelayBeforeNextWave(float delay)
+        {
+            waveCounter.NextWave.Invoke();
+            _isDelay = true;
+            yield return new WaitForSeconds(delay);
+            _isDelay = false;
+            NextWave();
         }
     }
 }
