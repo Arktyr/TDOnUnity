@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Palmmedia.ReportGenerator.Core.Reporting.Builders;
 using UI.Scripts;
 using UnityEngine;
 
@@ -69,6 +70,10 @@ namespace CreateTower
                     CheckLastMeshRenderer(createPlatform);
                     return _hit;
                 }
+            }
+            if (_lastMeshRenderer != null)
+            {
+                ChangePlatformColor(_lastMeshRenderer, Color.white);
             }
             return _hit;
         }

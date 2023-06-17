@@ -6,10 +6,10 @@ namespace Enemy
     {
         private Transform _path;
         private Transform[] _points;
-        [HideInInspector]public float speed;
         private float _health;
         private Rigidbody _enemyRigidBody;
         private int _currentPoint;
+        [HideInInspector]public float speed;
         [HideInInspector]public float moneyReward;
         [HideInInspector]public float minimumSpeed;
         [HideInInspector]public float speedBeforefreeze;
