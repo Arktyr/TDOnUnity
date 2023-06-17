@@ -10,6 +10,7 @@ namespace Configs
         [SerializeField] private float bulletSpeed;
 
         public BulletController BulletController => bulletController;
+   
         public float BulletSpeed => bulletSpeed;
     }
 }

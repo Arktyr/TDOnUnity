@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using Bullet_Tower;
+using Configs;
 using Tower;
 using UnityEngine;
 
@@ -8,7 +9,7 @@ namespace Bullet_Tower
 {
 public class BulletTower : BaseTower
 {
-    private BulletController _bullet;
+    private BulletControllerConfig _bulletControllerConfig;
     private BulletFactory _bulletFactory;
     private float _bulletRateOfFire;
     private float _bulletSpeed;
@@ -18,12 +19,15 @@ public class BulletTower : BaseTower
     private BulletController _newBullet;
     private Rigidbody _bulletRigidBody;
 
-    public void Construct(BulletFactory bulletFactory, float bulletRateOfFire, float bulletTowerDamage)
+    public void Construct(BulletFactory bulletFactory, float bulletRateOfFire, float bulletTowerDamage, BulletControllerConfig bulletControllerConfig)
     {
+        _bulletControllerConfig = bulletControllerConfig;
         _bulletFactory = bulletFactory;
         _bulletRateOfFire = bulletRateOfFire;
         _bulletTowerDamage = bulletTowerDamage;
     }
+    
+    
     
     private void FixedUpdate()
     {
@@ -79,8 +83,8 @@ public class BulletTower : BaseTower
     {
         if (BoolCheckingEnemyInRadius())
         {
-            _bulletFactory.CreateBullet(transform.GetChild(0).position, EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).transform.position, _bulletTowerDamage);
-        
+            _bulletFactory.ConstructConfig(_bulletControllerConfig);
+            _bulletFactory.TakeFromPool( transform.GetChild(0).position, EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).transform.position, _bulletTowerDamage, _bulletFactory);
         }
     }
 }

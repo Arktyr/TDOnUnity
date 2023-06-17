@@ -1,6 +1,5 @@
-using System;
 using System.Collections;
-using Palmmedia.ReportGenerator.Core.Reporting.Builders;
+using Bullet_Tower;
 using UI.Scripts;
 using UnityEngine;
 
@@ -13,6 +12,8 @@ namespace CreateTower
         [SerializeField] private TowerFactory towerFactory;
         [SerializeField] private Alert alert;
         [SerializeField] private MoneyCounter moneyCounter;
+        [SerializeField] private BulletFactory bulletFactory;
+        private bool _isCreatePool;
         private Ray _ray;
         private RaycastHit _hit;
         private MeshRenderer _lastMeshRenderer;
@@ -110,7 +111,7 @@ namespace CreateTower
                 TakePlace(type, createPlatform);
                 moneyCounter.BuyTower(towerFactory.GetPriceTower(type));
                 Vector3 position = createPlatform.transform.position;
-                towerFactory.Create(type, new Vector3(position.x, position.y + 5, position.z));
+                towerFactory.Create(type, new Vector3(position.x, position.y + 5, position.z), bulletFactory);
             }
             else
             {

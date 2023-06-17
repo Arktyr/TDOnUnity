@@ -13,13 +13,13 @@ namespace CreateTower
         [SerializeField] private FreezeTowerConfig freezeTowerConfig;
         [SerializeField] private LaserTowerConfig laserTowerConfig;
 
-        public void Create(TowersTypes.TowerTypes type, Vector3 position)
+        public void Create(TowersTypes.TowerTypes type, Vector3 position, BulletFactory bulletFactory)
         {
             switch (type)
             {
                 case TowersTypes.TowerTypes.BulletTower:
                 {
-                    CreateBulletTower(position);
+                    CreateBulletTower(position, bulletFactory);
                 }
                     break;
                 case TowersTypes.TowerTypes.FreezeTower:
@@ -51,10 +51,10 @@ namespace CreateTower
             tower.Construct(laserTowerConfig.LaserTowerDamage);
         }
 
-        private void CreateBulletTower(Vector3 pos)
+        private void CreateBulletTower(Vector3 pos,BulletFactory bulletFactory)
         {
-            BulletTower tower = Instantiate(bulletTowerConfig.Tower, pos, Quaternion.identity); ;
-            tower.Construct(bulletTowerConfig.BulletFactory, bulletTowerConfig.BulletRateOfFire, bulletTowerConfig.BulletTowerDamage);
+            BulletTower tower = Instantiate(bulletTowerConfig.Tower, pos, Quaternion.identity);
+            tower.Construct(bulletFactory, bulletTowerConfig.BulletRateOfFire, bulletTowerConfig.BulletTowerDamage, bulletTowerConfig.BulletControllerConfig);
         }
 
         public float GetPriceTower(TowersTypes.TowerTypes type)
