@@ -10,7 +10,6 @@ namespace CreateTower
     public class TowerFactory : MonoBehaviour
     {
         [SerializeField] private BulletTowerConfig bulletTowerConfig;
-        [SerializeField] private BulletControllerConfig bulletControllerConfig;
         [SerializeField] private FreezeTowerConfig freezeTowerConfig;
         [SerializeField] private LaserTowerConfig laserTowerConfig;
 
@@ -55,7 +54,7 @@ namespace CreateTower
         private void CreateBulletTower(Vector3 pos)
         {
             BulletTower tower = Instantiate(bulletTowerConfig.Tower, pos, Quaternion.identity); ;
-            tower.Construct(bulletControllerConfig.BulletController, bulletTowerConfig.BulletSpeed, bulletTowerConfig.BulletRateOfFire, bulletTowerConfig.BulletTowerDamage);
+            tower.Construct(bulletTowerConfig.BulletFactory, bulletTowerConfig.BulletRateOfFire, bulletTowerConfig.BulletTowerDamage);
         }
 
         public float GetPriceTower(TowersTypes.TowerTypes type)

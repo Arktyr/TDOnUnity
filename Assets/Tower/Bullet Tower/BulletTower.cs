@@ -9,6 +9,7 @@ namespace Bullet_Tower
 public class BulletTower : BaseTower
 {
     private BulletController _bullet;
+    private BulletFactory _bulletFactory;
     private float _bulletRateOfFire;
     private float _bulletSpeed;
     private float _bulletTowerDamage;
@@ -17,11 +18,10 @@ public class BulletTower : BaseTower
     private BulletController _newBullet;
     private Rigidbody _bulletRigidBody;
 
-    public void Construct(BulletController bullet, float bulletSpeed, float bulletRateOfFire, float bulletTowerDamage)
+    public void Construct(BulletFactory bulletFactory, float bulletRateOfFire, float bulletTowerDamage)
     {
-        _bullet = bullet;
+        _bulletFactory = bulletFactory;
         _bulletRateOfFire = bulletRateOfFire;
-        _bulletSpeed = bulletSpeed;
         _bulletTowerDamage = bulletTowerDamage;
     }
     
@@ -77,18 +77,10 @@ public class BulletTower : BaseTower
 
     private void BulletCreate()
     {
-        _newBullet = Instantiate(_bullet, transform.GetChild(0).position, Quaternion.identity);
-        _newBullet.GetComponent<BulletController>().bulletTowerDamage = _bulletTowerDamage;
-        BulletMovement();
-    }
-
-    private void BulletMovement()
-    {
         if (BoolCheckingEnemyInRadius())
         {
-            _bulletRigidBody = _newBullet.GetComponent<Rigidbody>();
-            Vector3 velocity = (_newBullet.transform.position - EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).transform.position).normalized;
-            _bulletRigidBody.velocity = -velocity * (_bulletSpeed * Time.fixedDeltaTime);
+            _bulletFactory.CreateBullet(transform.GetChild(0).position, EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).transform.position, _bulletTowerDamage);
+        
         }
     }
 }

@@ -7,6 +7,9 @@ namespace Configs
     public class BulletControllerConfig : ScriptableObject
     {
         [SerializeField] private BulletController bulletController;
+        [SerializeField] private float bulletSpeed;
+
         public BulletController BulletController => bulletController;
+        public float BulletSpeed => bulletSpeed;
     }
 }
