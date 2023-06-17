@@ -21,12 +21,7 @@ namespace Bullet_Tower
             _bulletSpeed = bulletSpeed;
             _target = target;
         }
-
-        private void Start()
-        {
-            StartCoroutine(CycleLifeTimeBullet());
-        }
-
+        
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out EnemyController enemyController))
@@ -38,6 +33,7 @@ namespace Bullet_Tower
 
         public void BulletMovement()
         {
+            StartCoroutine(CycleLifeTimeBullet());
             _bulletRigidBody = GetComponent<Rigidbody>();
             Vector3 velocity = (transform.position - _target).normalized;
             _bulletRigidBody.velocity = -velocity * (_bulletSpeed * Time.fixedDeltaTime);
@@ -45,7 +41,7 @@ namespace Bullet_Tower
         
         private IEnumerator CycleLifeTimeBullet()   
         {
-            yield return new WaitForSeconds(3);
+            yield return new WaitForSeconds(1);
             _bulletFactory.ReturnToPool(_bulletController);
         }
     }

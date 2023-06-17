@@ -31,6 +31,7 @@ namespace CreateTower
         
         public void ChooseTypeTower()
         {
+            _type = 0;
             if (_laserEnable) ChooseTypeLaserTower();
             if (_bulletEnable) ChooseTypeBulletTower();
             if (_freezeEnable) ChooseTypeFreezeTower();
