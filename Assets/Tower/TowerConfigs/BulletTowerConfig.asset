@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: BulletTowerConfig
   m_EditorClassIdentifier: 
   tower: {fileID: 4786586311508209222, guid: c4446df0f46e57c4eb20ef648f4c464e, type: 3}
-  bullet: {fileID: 182018789025706645, guid: 5242279194a681a459634d3fad3b07ee, type: 3}
-  bulletRateOfFire: 0.5
-  bulletSpeed: 4000
-  bulletTowerDamage: 15
+  bulletControllerConfig: {fileID: 11400000, guid: 86d591d81ddcbcd4b9defab9b894defa, type: 2}
+  bulletRateOfFire: 0.1
+  bulletTowerDamage: 1
   priceBulletTower: 50

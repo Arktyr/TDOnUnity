@@ -17,5 +17,5 @@ MonoBehaviour:
   points:
   - {fileID: 8580228050563552444, guid: 3cd2f16d93363e04abd634677c4af6b2, type: 3}
   speed: 600
-  health: 60
+  health: 400
   moneyReward: 20

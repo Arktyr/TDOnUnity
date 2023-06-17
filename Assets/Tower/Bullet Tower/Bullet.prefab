@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6319515611273750499
 Transform:
   m_ObjectHideFlags: 0
@@ -29,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3208026196862109540}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.148, y: 4.938, z: -2.64}
+  m_LocalPosition: {x: 56.96046, y: 4.4749417, z: -6.0118465}
   m_LocalScale: {x: 1.0294396, y: 1.0294391, z: 1.0294391}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -146,4 +146,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4cba85491fe3d364f95cab1073ce7207, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletTowerDamage: 0
