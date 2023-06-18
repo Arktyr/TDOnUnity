@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 2011498399385676212}
   - component: {fileID: 6057137228376351279}
   m_Layer: 0
-  m_Name: TowerChain
+  m_Name: ChainTower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

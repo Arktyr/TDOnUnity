@@ -1,5 +1,17 @@
 fileFormatVersion: 2
+<<<<<<< HEAD
+<<<<<<<< HEAD:Assets/Plugins.meta
 guid: 3fe549b2bfd97964898f12652ac426f1
+========
+guid: 7b8132b0078164f468ba9e56c4932c71
+>>>>>>>> temp:Assets/Plugins/Demigiant.meta
+=======
+<<<<<<< HEAD
+guid: 3fe549b2bfd97964898f12652ac426f1
+=======
+guid: 55d8cc046dfa8d74894a8b29c060cedd
+>>>>>>> origin/master
+>>>>>>> temp
 folderAsset: yes
 DefaultImporter:
   externalObjects: {}
