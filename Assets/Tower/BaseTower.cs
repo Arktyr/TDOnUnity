@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Enemy;
@@ -18,6 +19,17 @@ public abstract class BaseTower : MonoBehaviour
     protected virtual void Start()
     {
         EnemyInRadius = new List<GameObject>();
+    }
+
+    protected virtual void OnTriggerStay(Collider other)
+    {
+        if (other.TryGetComponent(out EnemyController enemyController))
+        {
+            if (enemyController.Health <= 0)
+            {
+                EnemyInRadius.Remove(other.gameObject);
+            }
+        }
     }
 
     protected virtual void OnTriggerEnter(Collider other)
