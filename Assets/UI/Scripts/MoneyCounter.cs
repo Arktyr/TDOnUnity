@@ -1,7 +1,7 @@
 using System;
-using Enemy;
 using TMPro;
 using UI.Animations;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace UI.Scripts
@@ -39,20 +39,11 @@ namespace UI.Scripts
             ChangeTextInMoneyCounterUI();
         }
 
-        public void GetRewardFromEnemy(EnemyController enemyController)
-        {
-            _reward = enemyController.moneyReward;
-        }
+
 
         private void ChangeTextInMoneyCounterUI()
         {
             text.SetText($"{_money}");
-        }
-
-        public void BuyTower(float price)
-        {
-            _money -= price;
-            ChangeTextInMoneyCounterUI();
         }
     }
 }

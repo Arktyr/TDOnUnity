@@ -1,8 +1,7 @@
 using System.Collections;
-using Enemy;
 using UnityEngine;
 
-namespace Bullet_Tower
+namespace Implementations.Bullet.Bullet
 {
     public class BulletController : MonoBehaviour
     {
@@ -24,7 +23,7 @@ namespace Bullet_Tower
         
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out EnemyController enemyController))
+            if (other.TryGetComponent(out Enemy.Enemy enemyController))
             {
                 enemyController.TakeDamage(_bulletTowerDamage);
                 _bulletFactory.ReturnToPool(_bulletController);

@@ -1,11 +1,12 @@
+using System;
 using System.Collections;
 using Enemy;
 using UI.Scripts;
 using UnityEngine;
 
-namespace Ground
+namespace Wave
 {
-    public class Wavespawner : MonoBehaviour 
+    public class WaveSpawner : MonoBehaviour 
     {
         [SerializeField] private Wave[] waves;
         [SerializeField] private WaveCounter waveCounter;
@@ -18,7 +19,8 @@ namespace Ground
         private bool _isDelay;
         public float CurrentDelayBeforeNextWave => waves[_currentWaveIndex].DelayBeforeNextWave;
         public int CurrentWaveIndex => _currentWaveIndex;
-        
+
+        public event Action<Enemy.Enemy> EnemySpawned;
         
         private void Start()
         {

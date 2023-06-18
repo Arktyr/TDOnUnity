@@ -3,7 +3,7 @@ using System.Linq;
 using Configs;
 using UnityEngine;
 
-namespace Bullet_Tower
+namespace Implementations.Bullet.Bullet
 {
     public class BulletFactory : MonoBehaviour
     {

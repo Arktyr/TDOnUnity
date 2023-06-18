@@ -1,5 +1,5 @@
 
-namespace CreateTower
+namespace Creation
 {
   public static class TowersTypes
   {

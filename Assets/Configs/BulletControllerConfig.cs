@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Bullet_Tower;
+﻿using Implementations.Bullet.Bullet;
+using UnityEngine;
 
 namespace Configs
 {
@@ -10,7 +10,6 @@ namespace Configs
         [SerializeField] private float bulletSpeed;
 
         public BulletController BulletController => bulletController;
-   
         public float BulletSpeed => bulletSpeed;
     }
 }

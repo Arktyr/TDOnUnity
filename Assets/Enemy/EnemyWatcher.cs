@@ -1,68 +1,57 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UI.Scripts;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Wave;
 
 namespace Enemy
 {
     public class EnemyWatcher : MonoBehaviour
     {
-        [SerializeField] private EnemyCounter enemyCounter;
-        [SerializeField] private MoneyCounter moneyCounter;
-        private List<EnemyController> _enemyCount;
+        [SerializeField] private WaveSpawner _waveSpawner;
+        
+        private readonly List<Enemy> _leftEnemy = new();
 
-        private void Start()
-        {
-            _enemyCount = new List<EnemyController>();
-        }
+        public event Action<Enemy> EnemySpawned;
+        public event Action<Enemy> EnemyKilled;
+        public event Action<Enemy> EnemyFinishedPath;
 
-        private void Update()
-        {
-            OnEnemyKill();
-        }
+        private void OnEnable() => 
+            _waveSpawner.EnemySpawned += OnEnemySpawned;
 
-        private void OnTriggerEnter(Collider other)
+        private void OnDisable()
         {
-            if (other.TryGetComponent(out EnemyController enemyController))
+            _waveSpawner.EnemySpawned -= OnEnemySpawned;
+
+            foreach (Enemy enemy in _leftEnemy)
             {
-                OnEnemySpawn(enemyController);
+                enemy.FinishedThePath -= OnEnemyFinishedPath;
+                enemy.Died -= OnEnemyKilled;
             }
         }
 
-        private void OnTriggerExit(Collider other)
+        private void OnEnemySpawned(Enemy enemy)
         {
-            if (other.TryGetComponent(out EnemyController enemyController))
-            {
-                OnEnemyFinishedThePath(enemyController);
-            }
+            _leftEnemy.Add(enemy);
+            EnemySpawned?.Invoke(enemy);
+
+            enemy.FinishedThePath += OnEnemyFinishedPath;
+            enemy.Died += OnEnemyKilled;
         }
 
-        private void OnEnemySpawn(EnemyController enemyController)
+        private void OnEnemyFinishedPath(Enemy enemy)
         {
-            enemyCounter.OnEnemySpawn.Invoke();
-            _enemyCount.Add(enemyController);
+            enemy.FinishedThePath -= OnEnemyFinishedPath;
+            
+            _leftEnemy.Remove(enemy);
+            EnemyFinishedPath?.Invoke(enemy);
         }
 
-        private void OnEnemyFinishedThePath(EnemyController enemyController)
+        private void OnEnemyKilled(Enemy enemy)
         {
-            _enemyCount.Remove(enemyController);
-            enemyCounter.OnEnemyFinish.Invoke();
-        }
-
-        private void OnEnemyKill()
-        {
-            if (_enemyCount.Count != 0)
-            {
-                for (int i = 0; i < _enemyCount.Count; i++)
-                {
-                    if (_enemyCount.ElementAt(i) == null)
-                    {
-                        moneyCounter.GetRewardFromEnemy(_enemyCount.ElementAt(i));
-                        _enemyCount.Remove(_enemyCount.ElementAt(i));
-                        enemyCounter.OnEnemyKill.Invoke();
-                    }
-                }
-            }
+            enemy.Died -= OnEnemyKilled;
+            
+            _leftEnemy.Remove(enemy);
+            EnemyKilled?.Invoke(enemy);
         }
     }
 }

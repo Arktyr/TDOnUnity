@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Linq;
-using Bullet_Tower;
 using Configs;
-using Tower;
+using Implementations.Bullet.Bullet;
 using UnityEngine;
 
-namespace Bullet_Tower
+namespace Implementations.Bullet.Tower
 {
 public class BulletTower : BaseTower
 {
@@ -26,8 +25,6 @@ public class BulletTower : BaseTower
         _bulletRateOfFire = bulletRateOfFire;
         _bulletTowerDamage = bulletTowerDamage;
     }
-    
-    
     
     private void FixedUpdate()
     {
@@ -50,26 +47,25 @@ public class BulletTower : BaseTower
         }
     }
     
-
-    private void BulletFire()
+    private void FireBullet()
     {
         if (CheckingEnemy())
         {
-            BulletCreate();
-            LastEnemy = EnemyInRadius.ElementAt(IntCheckingEnemyInRadius());
+            CreateBullet();
+            LastEnemy = EnemyInRadius.ElementAt(GetFirstEnemyIndex());
         }
         else
         {
             RemoveEnemyIfKill();
         }
     }
-
-
+    
     private IEnumerator FireRate()
     {
         _checkFireRate = true;
-        BulletFire();
+        FireBullet();
         yield return new WaitForSeconds(_bulletRateOfFire);
+        
         if (CheckingEnemyCount())
         {
             StartCoroutine(FireRate());
@@ -80,12 +76,12 @@ public class BulletTower : BaseTower
         }
     }
 
-    private void BulletCreate()
+    private void CreateBullet()
     {
-        if (BoolCheckingEnemyInRadius())
+        if (IsEnemyInRadius())
         {
             _bulletFactory.ConstructConfig(_bulletControllerConfig);
-            _bulletFactory.TakeFromPool( transform.GetChild(0).position, EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).transform.position, _bulletTowerDamage, _bulletFactory);
+            _bulletFactory.TakeFromPool( transform.GetChild(0).position, EnemyInRadius.ElementAt(GetFirstEnemyIndex()).transform.position, _bulletTowerDamage, _bulletFactory);
         }
     }
 }

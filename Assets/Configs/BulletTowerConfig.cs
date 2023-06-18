@@ -1,5 +1,5 @@
+using Implementations.Bullet.Tower;
 using UnityEngine;
-using Bullet_Tower;
 
 namespace Configs
 {
@@ -11,8 +11,9 @@ namespace Configs
         [SerializeField] private float bulletRateOfFire;
         [SerializeField] private float bulletTowerDamage;
         [SerializeField] private float priceBulletTower;
-        public BulletControllerConfig BulletControllerConfig => bulletControllerConfig;
+
         public BulletTower Tower => tower;
+        public BulletControllerConfig BulletControllerConfig => bulletControllerConfig;
         public float BulletRateOfFire => bulletRateOfFire;
         public float BulletTowerDamage => bulletTowerDamage;
         public float PriceBulletTower => priceBulletTower;

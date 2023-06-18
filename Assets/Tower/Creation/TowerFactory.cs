@@ -1,11 +1,12 @@
 using System;
 using Configs;
-using Freeze_Tower;
-using Laser_Tower;
+using Implementations.Bullet.Bullet;
+using Implementations.Bullet.Tower;
+using Implementations.Freeze;
+using Implementations.Laser;
 using UnityEngine;
-using Bullet_Tower; 
 
-namespace CreateTower
+namespace Creation
 {
     public class TowerFactory : MonoBehaviour
     {
@@ -39,37 +40,24 @@ namespace CreateTower
             }
         }
 
-        private void CreateFreezeTower(Vector3 pos)
+        private void CreateFreezeTower(Vector3 position)
         {
-            FreezeTower tower  = Instantiate(freezeTowerConfig.Tower, pos, Quaternion.identity);
+            FreezeTower tower  = Instantiate(freezeTowerConfig.Tower, position, Quaternion.identity);
             tower.Construct(freezeTowerConfig.FreezeTowerDamage,freezeTowerConfig.FreezingPower);
         }
 
-        private void CreateLaserTower(Vector3 pos)
+        private void CreateLaserTower(Vector3 position)
         {
-            LaserTower tower = Instantiate(laserTowerConfig.Tower, pos, Quaternion.identity);
+            LaserTower tower = Instantiate(laserTowerConfig.Tower, position, Quaternion.identity);
             tower.Construct(laserTowerConfig.LaserTowerDamage);
         }
 
-        private void CreateBulletTower(Vector3 pos,BulletFactory bulletFactory)
+        private void CreateBulletTower(Vector3 position, BulletFactory bulletFactory)
         {
-            BulletTower tower = Instantiate(bulletTowerConfig.Tower, pos, Quaternion.identity);
+            BulletTower tower = Instantiate(bulletTowerConfig.Tower, position, Quaternion.identity);
             tower.Construct(bulletFactory, bulletTowerConfig.BulletRateOfFire, bulletTowerConfig.BulletTowerDamage, bulletTowerConfig.BulletControllerConfig);
         }
 
-        public float GetPriceTower(TowersTypes.TowerTypes type)
-        {
-            switch (type)
-            {
-                case TowersTypes.TowerTypes.BulletTower:
-                    return bulletTowerConfig.PriceBulletTower;
-                case TowersTypes.TowerTypes.FreezeTower:
-                    return freezeTowerConfig.PriceFreezeTower;
-                case TowersTypes.TowerTypes.LaserTower:
-                    return laserTowerConfig.PriceLaserTower;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
-        }
+        
     }
 }

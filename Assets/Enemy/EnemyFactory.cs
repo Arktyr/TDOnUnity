@@ -5,10 +5,12 @@ namespace Enemy
 {
     public class EnemyFactory : MonoBehaviour
     {
-        public void CreateEnemy(EnemyConfig enemyConfig, Vector3 pos)
+        public void CreateEnemy(EnemyConfig config, Vector3 position)
         {
-            EnemyController enemy  = Instantiate(enemyConfig.Enemy, pos, Quaternion.identity);
-            enemy.Construct(enemyConfig.Path, enemyConfig.Points, enemyConfig.Speed, enemyConfig.Health,enemyConfig.MoneyReward,enemyConfig.DeathAnimation);
+            Enemy enemy  = Instantiate(config.Enemy, position, Quaternion.identity);
+            
+            enemy.Construct(config.Path, config.Points, config.Speed, 
+                config.Health, config.MoneyReward, config.EnemyDeathAnimator);
         }
     }
 }

@@ -1,7 +1,6 @@
 using UnityEngine;
-using Tower;
 
-namespace Laser_Tower
+namespace Implementations.Laser
 {
     public class LaserTower : BaseTower
     {

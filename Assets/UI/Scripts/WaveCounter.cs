@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
-using Ground;
 using TMPro;
 using UnityEngine;
+using Wave;
 
 namespace UI.Scripts
 {
@@ -10,7 +10,7 @@ namespace UI.Scripts
     {
         [SerializeField] private TMP_Text waveCounterText;
         [SerializeField] private TMP_Text delayBeforeNextWaveCounterText;
-        [SerializeField] private Wavespawner waveSpawner;
+        [SerializeField] private WaveSpawner waveSpawner;
         public Action ChangeWaveCounter;
         public Action NextWave;
         

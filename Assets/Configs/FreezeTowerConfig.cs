@@ -1,4 +1,4 @@
-using Freeze_Tower;
+using Implementations.Freeze;
 using UnityEngine;
 
 namespace Configs
@@ -10,6 +10,7 @@ namespace Configs
         [SerializeField] private float freezeTowerDamage;
         [SerializeField] private float freezingPower;
         [SerializeField] private float priceFreezeTower;
+        
         public FreezeTower Tower => tower;
         public float FreezingPower => freezingPower;
         public float FreezeTowerDamage => freezeTowerDamage;

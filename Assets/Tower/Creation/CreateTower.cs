@@ -1,29 +1,32 @@
-using System;
 using System.Collections;
-using Bullet_Tower;
+using Implementations.Bullet.Bullet;
 using UI.Scripts;
 using UnityEngine;
 
-namespace CreateTower
+namespace Creation
 {
     public class CreateTower : MonoBehaviour
     {
-        [SerializeField] private Camera mainCamera;
         [SerializeField] private SetTowerType setTowerType;
         [SerializeField] private TowerFactory towerFactory;
         [SerializeField] private Alert alert;
-        [SerializeField] private MoneyCounter moneyCounter;
+        [SerializeField] private MoneyService _moneyService;
         [SerializeField] private BulletFactory bulletFactory;
+
         private bool _isCreatePool;
-        private Ray _ray;
-        private RaycastHit _hit;
-        private MeshRenderer _lastMeshRenderer;
         private CreatePlatform _createPlatform;
         private TowersTypes.TowerTypes _type;
-        private MeshRenderer _platformMeshRenderer;
-        private int _layerMask;
         private bool _delayCreation;
         
+        [SerializeField] private Camera mainCamera;
+        private Ray _ray;
+        private RaycastHit _hit;
+        private int _layerMask;
+
+        private MeshRenderer _lastMeshRenderer;
+        private MeshRenderer _platformMeshRenderer;
+
+
         private void Update()
         {
             if (_delayCreation == false)
@@ -38,38 +41,45 @@ namespace CreateTower
             _layerMask = 1 << LayerMask.NameToLayer("Ignore Raycast");
             if (Input.GetMouseButton(0) && _delayCreation == false)
             {
-                CheckForConstruct(_ray, _layerMask);
+                if (CheckForConstruct(_ray, _layerMask) == true)
+                {
+                    BuildTower(setTowerType.Type, createPlatform);
+                }
             }
         }
         
-        private void CheckForConstruct(Ray ray, int layerMask)
+        private bool CheckForConstruct(Ray ray, int layerMask)
         {
-            if (CheckCollisionHit(ray, layerMask).collider == null) return;
-            if (CheckCollisionHit(ray, layerMask).collider.TryGetComponent(out CreatePlatform createPlatform) &&
-                _delayCreation == false && Input.GetMouseButton(0))
+            if (CheckCollisionHit(ray, layerMask).collider == null) 
+                return false;
+
+            bool isTowerCreationPlatform = CheckCollisionHit(ray, layerMask).collider.TryGetComponent(out CreatePlatform createPlatform);
+            
+            if (isTowerCreationPlatform && _delayCreation == false && Input.GetMouseButton(0))
             {
                 _delayCreation = true;
                 setTowerType.ChooseTypeTower();
+                
                 if (createPlatform.isEmpty)
                 {
                     ChangePlatformColor(_lastMeshRenderer, Color.red);
                     if (alert.isAnimationEnd) alert.AnimationPlay("Здесь уже установлена вышка");
                 }
+                
                 if (setTowerType.Type != 0 && createPlatform.isEmpty == false)
                 {
-                    ConstructTower(setTowerType.Type, createPlatform);
                 }
                 StartCoroutine(DelayBeforeNextConstruction());
             }
         }
 
-        private RaycastHit CheckCollisionHit(Ray ray, int layerMask )
+        private RaycastHit CheckCollisionHit(Ray ray, int layerMask, out CreatePlatform createPlatform)
         {
             if (Physics.Raycast(ray, out _hit, Mathf.Infinity, ~layerMask) && Input.GetMouseButton(0))
             {
-                if (_hit.collider.TryGetComponent(out CreatePlatform createPlatform))
+                if (_hit.collider.TryGetComponent(out createPlatform))
                 {
-                    CheckLastMeshRenderer(createPlatform);
+                    PaintPlatform(createPlatform);
                     return _hit;
                 }
             }
@@ -80,18 +90,17 @@ namespace CreateTower
             return _hit;
         }
 
-        private void CheckLastMeshRenderer(CreatePlatform createPlatform)
+        private void PaintPlatform(CreatePlatform createPlatform)
         {
-            if (createPlatform != null)
+
+            _platformMeshRenderer = createPlatform.GetComponent<MeshRenderer>();
+            if (_lastMeshRenderer != null)
             {
-                _platformMeshRenderer = createPlatform.GetComponent<MeshRenderer>();
-                if (_lastMeshRenderer != null)
-                {
-                    ChangePlatformColor(_lastMeshRenderer, Color.white);
-                }
-                _lastMeshRenderer = _platformMeshRenderer;
-                ChangePlatformColor(_platformMeshRenderer,Color.green);
+                ChangePlatformColor(_lastMeshRenderer, Color.white);
             }
+            _lastMeshRenderer = _platformMeshRenderer;
+            ChangePlatformColor(_platformMeshRenderer,Color.green);
+            
         }
         
         private void ChangePlatformColor(MeshRenderer platform, Color color)
@@ -105,7 +114,7 @@ namespace CreateTower
             _delayCreation = false;
         }
         
-        private void ConstructTower(TowersTypes.TowerTypes type, CreatePlatform createPlatform)
+        private void BuildTower(TowersTypes.TowerTypes type, CreatePlatform createPlatform)
         {
             if (moneyCounter.Money >= towerFactory.GetPriceTower(type))
             {

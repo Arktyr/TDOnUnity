@@ -1,11 +1,9 @@
 using System.Linq;
-using Tower;
-using Enemy;
 using UnityEngine;
 
-
-namespace Freeze_Tower
+namespace Implementations.Freeze
 {
+    [RequireComponent(typeof(LineRenderer))]
     public class FreezeTower : BaseTower
     {
         private float _freezeTowerDamage;
@@ -13,7 +11,7 @@ namespace Freeze_Tower
         public float freezePower;
         private bool _isAttack;
         private float _freezeStacks;
-        private EnemyController _currentEnemy;
+        private Enemy.Enemy _currentEnemy;
 
         public void Construct(float freezeTowerDamage, float freezingPower)
         {
@@ -25,7 +23,7 @@ namespace Freeze_Tower
         {
             base.Start();
             freezePower = _freezingPower / 100;
-            LaserLine = transform.GetChild(0).GetComponent<LineRenderer>();
+            LaserLine = transform.GetComponentInChildren<LineRenderer>();
         }
 
         private void FixedUpdate()
@@ -43,7 +41,7 @@ namespace Freeze_Tower
         protected override void OnTriggerEnter(Collider other)
         {
             base.OnTriggerEnter(other);
-            if (other.TryGetComponent(out EnemyController enemyController))
+            if (other.TryGetComponent(out Enemy.Enemy enemyController))
             {
                 enemyController.inRadius++;
             }
@@ -51,8 +49,7 @@ namespace Freeze_Tower
         
         protected override void OnTriggerExit(Collider other)
         {
-            
-            if (other.TryGetComponent(out EnemyController enemyController))
+            if (other.TryGetComponent(out Enemy.Enemy enemyController))
             {
                 if (_currentEnemy == enemyController)
                 {
@@ -77,10 +74,10 @@ namespace Freeze_Tower
         {
             if (CheckingEnemy())
             {
-                if (_currentEnemy == null || _currentEnemy != EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).GetComponent<EnemyController>())
+                if (_currentEnemy == null || _currentEnemy != EnemyInRadius.ElementAt(GetFirstEnemyIndex()).GetComponent<Enemy.Enemy>())
                 {
                     _isAttack = false;
-                    _currentEnemy = EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).GetComponent<EnemyController>();
+                    _currentEnemy = EnemyInRadius.ElementAt(GetFirstEnemyIndex()).GetComponent<Enemy.Enemy>();
                 }
                 if (_currentEnemy.inRadius > 0)
                 {
@@ -94,40 +91,40 @@ namespace Freeze_Tower
             }
         }
 
-        private void GetFreeze(EnemyController currentEnemy)
+        private void GetFreeze(Enemy.Enemy currentEnemy)
         {
-            switch (currentEnemy.freezeStacks)
+            switch (currentEnemy.FreezeStacks)
             {
                 case 0:
                 {
-                    currentEnemy.speed = currentEnemy.speedBeforefreeze;
+                    currentEnemy.Speed = currentEnemy.SpeedBeforefreeze;
                     break;
                 }
                 case > 0:
                 {
-                    currentEnemy.speed = currentEnemy.speedBeforefreeze - currentEnemy.speedBeforefreeze * (freezePower * currentEnemy.freezeStacks);
+                    currentEnemy.Speed = currentEnemy.SpeedBeforefreeze - currentEnemy.SpeedBeforefreeze * (freezePower * currentEnemy.FreezeStacks);
                     CheckMinimumSpeed(_currentEnemy);
                     break;
                 }
             }
         }
 
-        private void UnFreeze(EnemyController currentEnemy)
+        private void UnFreeze(Enemy.Enemy currentEnemy)
         {
-            currentEnemy.freezeStacks = 0;
-            currentEnemy.speed = currentEnemy.speedBeforefreeze;
+            currentEnemy.FreezeStacks = 0;
+            currentEnemy.Speed = currentEnemy.SpeedBeforefreeze;
         }
 
         private void FreezeStacks()
         {
-            _currentEnemy.freezeStacks++;
+            _currentEnemy.FreezeStacks++;
         }
 
-        private void CheckMinimumSpeed(EnemyController currentEnemy)
+        private void CheckMinimumSpeed(Enemy.Enemy currentEnemy)
         {
-            if (currentEnemy.speed < currentEnemy.minimumSpeed)
+            if (currentEnemy.Speed < currentEnemy.MinimumSpeed)
             {
-                currentEnemy.speed = currentEnemy.minimumSpeed;
+                currentEnemy.Speed = currentEnemy.MinimumSpeed;
             }
         }
     }

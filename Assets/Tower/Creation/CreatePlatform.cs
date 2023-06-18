@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace CreateTower
+namespace Creation
 {
     public class CreatePlatform : MonoBehaviour
     {

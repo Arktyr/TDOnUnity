@@ -6,15 +6,16 @@ namespace Configs
     [CreateAssetMenu (fileName = "EnemyConfig", menuName = "Configs/EnemyConfig")]
     public class EnemyConfig : ScriptableObject
     {
-        [SerializeField] private EnemyController enemy;
-        [SerializeField] private DeathAnimation deathAnimation;
+        [SerializeField] private Enemy.Enemy enemy;
+        [SerializeField] private EnemyDeathAnimator _enemyDeathAnimator;
         [SerializeField] private Transform path;
         [SerializeField] private Transform[] points;
         [SerializeField] private float speed;
         [SerializeField] private float health;
         [SerializeField] private float moneyReward;
-        public EnemyController Enemy => enemy;
-        public DeathAnimation DeathAnimation => deathAnimation;
+        
+        public Enemy.Enemy Enemy => enemy;
+        public EnemyDeathAnimator EnemyDeathAnimator => _enemyDeathAnimator;
         public Transform Path => path;
         public Transform[] Points => points;
         public float Speed => speed;

@@ -4,8 +4,6 @@ using System.Linq;
 using Enemy;
 using UnityEngine;
 
-namespace Tower
-{
 public abstract class BaseTower : MonoBehaviour
 {
     protected List<GameObject> EnemyInRadius;
@@ -13,9 +11,7 @@ public abstract class BaseTower : MonoBehaviour
     private bool _checkEnemyInRadius;
     private bool _checkEnemyCount;
     protected GameObject LastEnemy;
-
-
-
+    
     protected virtual void Start()
     {
         EnemyInRadius = new List<GameObject>();
@@ -23,7 +19,7 @@ public abstract class BaseTower : MonoBehaviour
 
     protected virtual void OnTriggerStay(Collider other)
     {
-        if (other.TryGetComponent(out EnemyController enemyController))
+        if (other.TryGetComponent(out Enemy.Enemy enemyController))
         {
             if (enemyController.Health <= 0)
             {
@@ -34,7 +30,7 @@ public abstract class BaseTower : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out EnemyController enemyController))
+        if (other.TryGetComponent(out Enemy.Enemy enemyController))
         {
             EnemyInRadius.Add(other.gameObject);
         }
@@ -42,21 +38,21 @@ public abstract class BaseTower : MonoBehaviour
     
     protected virtual void OnTriggerExit(Collider other)
     {
-       EnemyInRadius.Remove(other.gameObject);
+        EnemyInRadius.Remove(other.gameObject);
     }
 
     protected virtual void LaserFire(float damage)
     {
         SetPositionLaser(CheckingEnemy());
-        if (BoolCheckingEnemyInRadius())
+        if (IsEnemyInRadius())
         {
             RemoveEnemyIfKill();
-            EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).GetComponent<EnemyController>().TakeDamage(damage);
-            LastEnemy = EnemyInRadius.ElementAt(IntCheckingEnemyInRadius());
+            EnemyInRadius.ElementAt(GetFirstEnemyIndex()).GetComponent<Enemy.Enemy>().TakeDamage(damage);
+            LastEnemy = EnemyInRadius.ElementAt(GetFirstEnemyIndex());
         }
     }
 
-    protected int IntCheckingEnemyInRadius()
+    protected int GetFirstEnemyIndex()
     {
         for (int i = 0; i < EnemyInRadius.Count; i++)
         {
@@ -67,7 +63,7 @@ public abstract class BaseTower : MonoBehaviour
         }
         return 0;
     }
-    protected bool BoolCheckingEnemyInRadius()
+    protected bool IsEnemyInRadius()
     {
         for (int i = 0; i < EnemyInRadius.Count; i++)
         {
@@ -82,7 +78,7 @@ public abstract class BaseTower : MonoBehaviour
     protected bool CheckingEnemy()
     {
         _checkEnemyCount = CheckingEnemyCount();
-        _checkEnemyInRadius = BoolCheckingEnemyInRadius();
+        _checkEnemyInRadius = IsEnemyInRadius();
         if (_checkEnemyInRadius == _checkEnemyCount && _checkEnemyCount)
         {
             return  true;
@@ -98,7 +94,7 @@ public abstract class BaseTower : MonoBehaviour
 
     protected void RemoveEnemyIfKill()
     {
-        if (LastEnemy != EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()) && LastEnemy != null)
+        if (LastEnemy != EnemyInRadius.ElementAt(GetFirstEnemyIndex()) && LastEnemy != null)
         {
             EnemyInRadius.Remove(LastEnemy);
         }
@@ -110,7 +106,7 @@ public abstract class BaseTower : MonoBehaviour
         {
             case true:
             {
-                LaserLine.SetPosition(1, EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).transform.position);
+                LaserLine.SetPosition(1, EnemyInRadius.ElementAt(GetFirstEnemyIndex()).transform.position);
                 break;
             }
             case false:
@@ -122,8 +118,3 @@ public abstract class BaseTower : MonoBehaviour
         }
     }
 }
-}
-
-
-
-

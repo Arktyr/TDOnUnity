@@ -1,7 +1,7 @@
 ﻿using Configs;
 using UnityEngine;
 
-namespace Ground
+namespace Wave
 {
     [System.Serializable]
     public class WaveSettings
