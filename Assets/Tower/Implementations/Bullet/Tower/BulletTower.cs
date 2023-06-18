@@ -37,8 +37,9 @@ public class BulletTower : BaseTower
         }
     }
 
-    protected void OnTriggerStay(Collider other)
+    protected override void OnTriggerStay(Collider other)
     {
+        base.OnTriggerStay(other);
         for (int i = 0; i < EnemyInRadius.Count; i++)
         {
             if (EnemyInRadius.ElementAt(i) != null)

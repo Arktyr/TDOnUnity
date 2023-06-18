@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using Bullet_Tower;
 using UI.Scripts;
@@ -22,7 +23,7 @@ namespace CreateTower
         private MeshRenderer _platformMeshRenderer;
         private int _layerMask;
         private bool _delayCreation;
-
+        
         private void Update()
         {
             if (_delayCreation == false)
@@ -52,7 +53,7 @@ namespace CreateTower
                 if (createPlatform.isEmpty)
                 {
                     ChangePlatformColor(_lastMeshRenderer, Color.red);
-                    StartCoroutine(alert.AnimationPlay("Здесь уже установлена вышка"));
+                    if (alert.isAnimationEnd) alert.AnimationPlay("Здесь уже установлена вышка");
                 }
                 if (setTowerType.Type != 0 && createPlatform.isEmpty == false)
                 {
@@ -115,7 +116,7 @@ namespace CreateTower
             }
             else
             {
-                StartCoroutine(alert.AnimationPlay("У вас недостаточно монет для покупки"));
+                if (alert.isAnimationEnd) alert.AnimationPlay("У вас недостаточно монет для покупки");
             }
         }
 

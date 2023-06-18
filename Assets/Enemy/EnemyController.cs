@@ -1,3 +1,5 @@
+using System.Collections;
+using DG.Tweening;
 using UnityEngine;
 
 namespace Enemy
@@ -9,6 +11,9 @@ namespace Enemy
         private float _health;
         private Rigidbody _enemyRigidBody;
         private int _currentPoint;
+        private DeathAnimation _deathAnimation;
+        private bool _isDead;
+        public float Health => _health;
         [HideInInspector]public float speed;
         [HideInInspector]public float moneyReward;
         [HideInInspector]public float minimumSpeed;
@@ -16,7 +21,7 @@ namespace Enemy
         [HideInInspector]public float freezeStacks;
         [HideInInspector]public int inRadius;
         
-        public void Construct(Transform Path, Transform[] Points, float Speed, float Health, float MoneyReward )
+        public void Construct(Transform Path, Transform[] Points, float Speed, float Health, float MoneyReward, DeathAnimation deathAnimation )
         {
             _path = Path;
             _points = Points;
@@ -26,6 +31,7 @@ namespace Enemy
             minimumSpeed = speed - (speed*0.65f);
             speedBeforefreeze = speed;
             _enemyRigidBody = GetComponent<Rigidbody>();
+            _deathAnimation = deathAnimation;
             GetPoints();
         }
 
@@ -57,7 +63,10 @@ namespace Enemy
             _health -= damage;
             if (_health <= 0)
             {
-                Destroy(gameObject);
+                if (_isDead == false)
+                {
+                    StartCoroutine(Death());
+                }
             }
         }
 
@@ -68,6 +77,14 @@ namespace Enemy
             {
                 _points[i] = _path.GetChild(i);
             }
+        }
+
+        private IEnumerator Death()
+        {
+            _isDead = true;
+            _deathAnimation.PlayAnimation(transform,gameObject);
+            yield return new WaitForSeconds(1);
+            Destroy(gameObject);
         }
     }
 }
