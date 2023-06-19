@@ -1,5 +1,6 @@
 using System;
 using Enemy;
+using Enemy.Scripts;
 using TMPro;
 using UI.Animations;
 using UnityEngine;

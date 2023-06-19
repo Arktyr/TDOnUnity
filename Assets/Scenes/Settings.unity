@@ -1410,7 +1410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   resolutionDropDown: {fileID: 647598833}
   qualityDropDown: {fileID: 908176569}
-  audioMixer: {fileID: 24100000, guid: 15b012d6e93cfc447901d2b5f6719b4e, type: 2}
+  audioMixer: {fileID: 24100000, guid: 43ee7c35c9fda784f9fbe93b6823e8da, type: 2}
   currentVolume: 0
   slider: {fileID: 1362810595}
 --- !u!1 &436077440

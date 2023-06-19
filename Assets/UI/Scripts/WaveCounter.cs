@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
-using Ground;
 using TMPro;
 using UnityEngine;
+using Wave.Scripts;
 
 namespace UI.Scripts
 {
