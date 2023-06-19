@@ -44,7 +44,7 @@ namespace Creation.Scripts
         private void CreateFreezeTower(Vector3 pos)
         {
             FreezeTower tower  = Instantiate(freezeTowerConfig.Tower, pos, Quaternion.identity);
-            tower.Construct(freezeTowerConfig.FreezeTowerDamage,freezeTowerConfig.FreezingPower);
+            tower.Construct(freezeTowerConfig.FreezeTowerDamage,freezeTowerConfig.FreezingPercents);
         }
 
         private void CreateLaserTower(Vector3 pos)

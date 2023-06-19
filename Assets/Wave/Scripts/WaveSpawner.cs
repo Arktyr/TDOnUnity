@@ -1,5 +1,6 @@
+using System;
 using System.Collections;
-using Enemy.Scripts;
+using Enemies.Scripts;
 using UI.Scripts;
 using UnityEngine;
 
@@ -7,22 +8,27 @@ namespace Wave.Scripts
 {
     public class Wavespawner : MonoBehaviour 
     {
-        [SerializeField] private Wave[] waves;
-        [SerializeField] private WaveCounter waveCounter;
-        [SerializeField] private EnemyFactory enemyFactory;
+        [SerializeField] private Wave[] _waves;
+        [SerializeField] private WaveCounter _waveCounter;
+        [SerializeField] private EnemyFactory _enemyFactory;
+
         private int _currentWaveIndex;
-        private int _enemiesLeftToSpawn;
         private int _currentSettings;
-        private float _spawnEnemyDelay;
         private int _settingsCount;
+        
+        private int _enemiesLeftToSpawn;
+        private float _spawnEnemyDelay;
         private bool _isDelay;
-        public float CurrentDelayBeforeNextWave => waves[_currentWaveIndex].DelayBeforeNextWave;
+
+        public event Action<Enemy> EnemySpawned;
+        
+        public float CurrentDelayBeforeNextWave => _waves[_currentWaveIndex].DelayBeforeNextWave;
+        
         public int CurrentWaveIndex => _currentWaveIndex;
-        
-        
+
         private void Start()
         {
-            _enemiesLeftToSpawn = waves[0].Settings[0].EnemyCount;
+            _enemiesLeftToSpawn = _waves[0].Settings[0].EnemyCount;
             StartCoroutine(SpawnWave());
         }
 
@@ -40,16 +46,18 @@ namespace Wave.Scripts
             }
             if (_settingsCount == _currentSettings + 1 && _enemiesLeftToSpawn == 0)
             {
-                if (_currentWaveIndex < waves.Length - 1)
+                if (_currentWaveIndex < _waves.Length - 1)
                 {
-                    if (_isDelay == false) StartCoroutine(DelayBeforeNextWave(waves[_currentWaveIndex].DelayBeforeNextWave));
+                    if (_isDelay == false) StartCoroutine(DelayBeforeNextWave(_waves[_currentWaveIndex].DelayBeforeNextWave));
                 }
             }
         }
 
         private void SpawnCurrentEnemy()
         {
-            enemyFactory.CreateEnemy(waves[_currentWaveIndex].Settings[_currentSettings].EnemyConfig, transform.position);
+            Enemy enemy = _enemyFactory.CreateEnemy(_waves[_currentWaveIndex].Settings[_currentSettings].EnemyConfig,
+                transform.position);
+            EnemySpawned?.Invoke(enemy);
             _enemiesLeftToSpawn--;
             StartCoroutine(SpawnWave());
         }
@@ -57,28 +65,28 @@ namespace Wave.Scripts
         private void NextSettingsEnemyInWave()
         {
             _currentSettings++;
-            _enemiesLeftToSpawn = waves[_currentWaveIndex].Settings[_currentSettings].EnemyCount;
+            _enemiesLeftToSpawn = _waves[_currentWaveIndex].Settings[_currentSettings].EnemyCount;
             StartCoroutine(SpawnWave());
         }
 
         private void NextWave()
         {
             _currentWaveIndex++;
-            waveCounter.ChangeWaveCounter.Invoke();
+            _waveCounter.ChangeWaveCounter.Invoke();
             _currentSettings = 0;
-            _enemiesLeftToSpawn = waves[_currentWaveIndex].Settings[_currentSettings].EnemyCount;
+            _enemiesLeftToSpawn = _waves[_currentWaveIndex].Settings[_currentSettings].EnemyCount;
             StartCoroutine(SpawnWave()); 
         }
 
         private void PrepareForSpawnEnemy()
         {
-            _spawnEnemyDelay = waves[_currentWaveIndex].Settings[_currentSettings].SpawnDelay;
-            _settingsCount = waves[_currentWaveIndex].Settings.Length;
+            _spawnEnemyDelay = _waves[_currentWaveIndex].Settings[_currentSettings].SpawnDelay;
+            _settingsCount = _waves[_currentWaveIndex].Settings.Length;
         }
 
         private IEnumerator DelayBeforeNextWave(float delay)
         {
-            waveCounter.NextWave.Invoke();
+            _waveCounter.NextWave.Invoke();
             _isDelay = true;
             yield return new WaitForSeconds(delay);
             _isDelay = false;

@@ -6,13 +6,17 @@ namespace Configs.Scripts
     [CreateAssetMenu(fileName = "FreezeTowerConfig", menuName = "Configs/FreezeTower")]
     public class FreezeTowerConfig : ScriptableObject
     {
-        [SerializeField] private FreezeTower tower;
-        [SerializeField] private float freezeTowerDamage;
-        [SerializeField] private float freezingPower;
-        [SerializeField] private float priceFreezeTower;
-        public FreezeTower Tower => tower;
-        public float FreezingPower => freezingPower;
-        public float FreezeTowerDamage => freezeTowerDamage;
-        public float PriceFreezeTower => priceFreezeTower;
+        [SerializeField] private FreezeTower _tower;
+        [SerializeField] private float _freezeTowerDamage;
+        [SerializeField] private float _freezingPercents;
+        [SerializeField] private float _priceFreezeTower;
+        
+        public FreezeTower Tower => _tower;
+        
+        public float FreezingPercents => _freezingPercents;
+        
+        public float FreezeTowerDamage => _freezeTowerDamage;
+        
+        public float PriceFreezeTower => _priceFreezeTower;
     }
 }

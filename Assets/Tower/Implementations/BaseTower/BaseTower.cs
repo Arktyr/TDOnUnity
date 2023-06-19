@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Enemy.Scripts;
+using Enemies.Scripts;
 using UnityEngine;
 
 namespace Implementations.BaseTower
@@ -22,7 +22,7 @@ public abstract class BaseTower : MonoBehaviour
 
     protected virtual void OnTriggerStay(Collider other)
     {
-        if (other.TryGetComponent(out EnemyController enemyController))
+        if (other.TryGetComponent(out Enemy enemyController))
         {
             if (enemyController.Health <= 0)
             {
@@ -33,7 +33,7 @@ public abstract class BaseTower : MonoBehaviour
 
     protected virtual void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out EnemyController enemyController))
+        if (other.TryGetComponent(out Enemy enemyController))
         {
             EnemyInRadius.Add(other.gameObject);
         }
@@ -50,7 +50,7 @@ public abstract class BaseTower : MonoBehaviour
         if (BoolCheckingEnemyInRadius())
         {
             RemoveEnemyIfKill();
-            EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).GetComponent<EnemyController>().TakeDamage(damage);
+            EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).GetComponent<Enemy>().TakeDamage(damage);
             LastEnemy = EnemyInRadius.ElementAt(IntCheckingEnemyInRadius());
         }
     }

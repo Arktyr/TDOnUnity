@@ -1,6 +1,4 @@
-using System;
-using Enemy;
-using Enemy.Scripts;
+using Enemies.Scripts;
 using TMPro;
 using UI.Animations;
 using UnityEngine;
@@ -40,9 +38,9 @@ namespace UI.Scripts
             ChangeTextInMoneyCounterUI();
         }
 
-        public void GetRewardFromEnemy(EnemyController enemyController)
+        public void GetRewardFromEnemy(Enemy enemy)
         {
-            _reward = enemyController.moneyReward;
+            _reward = enemy.MoneyReward;
         }
 
         private void ChangeTextInMoneyCounterUI()

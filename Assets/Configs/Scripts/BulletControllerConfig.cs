@@ -6,11 +6,11 @@ namespace Configs.Scripts
     [CreateAssetMenu(fileName = "BulletControllerConfig", menuName = "Configs/BulletControllerConfig")]
     public class BulletControllerConfig : ScriptableObject
     {
-        [SerializeField] private BulletController bulletController;
-        [SerializeField] private float bulletSpeed;
+        [SerializeField] private BulletController _bulletController;
+        [SerializeField] private float _bulletSpeed;
 
-        public BulletController BulletController => bulletController;
+        public BulletController BulletController => _bulletController;
    
-        public float BulletSpeed => bulletSpeed;
+        public float BulletSpeed => _bulletSpeed;
     }
 }

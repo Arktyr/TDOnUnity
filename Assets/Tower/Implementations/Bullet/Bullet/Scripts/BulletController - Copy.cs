@@ -1,5 +1,5 @@
 using System.Collections;
-using Enemy.Scripts;
+using Enemies.Scripts;
 using UnityEngine;
 
 namespace Implementations.Bullet.Bullet.Scripts
@@ -24,7 +24,7 @@ namespace Implementations.Bullet.Bullet.Scripts
         
         private void OnTriggerEnter(Collider other)
         {
-            if (other.TryGetComponent(out EnemyController enemyController))
+            if (other.TryGetComponent(out Enemy enemyController))
             {
                 enemyController.TakeDamage(_bulletTowerDamage);
                 _bulletFactory.ReturnToPool(_bulletController);

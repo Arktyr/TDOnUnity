@@ -6,11 +6,14 @@ namespace Configs.Scripts
  [CreateAssetMenu ( fileName = "LaserTowerConfig", menuName = "Configs/LaserTowerConfig")]
  public class LaserTowerConfig : ScriptableObject
  {
-  [SerializeField] private LaserTower tower;
-  [SerializeField] private float laserTowerDamage;
-  [SerializeField] private float priceLaserTower;
-  public LaserTower Tower => tower;
-  public float LaserTowerDamage => laserTowerDamage;
-  public float PriceLaserTower => priceLaserTower;
+  [SerializeField] private LaserTower _tower;
+  [SerializeField] private float _laserTowerDamage;
+  [SerializeField] private float _priceLaserTower;
+  
+  public LaserTower Tower => _tower;
+  
+  public float LaserTowerDamage => _laserTowerDamage;
+  
+  public float PriceLaserTower => _priceLaserTower;
  }
 }

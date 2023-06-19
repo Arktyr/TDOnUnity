@@ -1,17 +1,18 @@
 using System.Linq;
-using Enemy.Scripts;
+using Enemies.Scripts;
 using UnityEngine;
 
 namespace Implementations.Freeze.Scripts
 {
+    [RequireComponent(typeof(LineRenderer))]
     public class FreezeTower : BaseTower.BaseTower
     {
+        private Enemy _currentEnemy;
         private float _freezeTowerDamage;
         private float _freezingPower;
         public float freezePower;
         private bool _isAttack;
         private float _freezeStacks;
-        private EnemyController _currentEnemy;
 
         public void Construct(float freezeTowerDamage, float freezingPower)
         {
@@ -41,23 +42,23 @@ namespace Implementations.Freeze.Scripts
         protected override void OnTriggerEnter(Collider other)
         {
             base.OnTriggerEnter(other);
-            if (other.TryGetComponent(out EnemyController enemyController))
+            if (other.TryGetComponent(out Enemy enemyController))
             {
-                enemyController.inRadius++;
+                enemyController.EnemyAilments.Freeze.AddInRadius();
             }
         }
         
         protected override void OnTriggerExit(Collider other)
         {
             
-            if (other.TryGetComponent(out EnemyController enemyController))
+            if (other.TryGetComponent(out Enemy enemyController))
             {
                 if (_currentEnemy == enemyController)
                 {
                     _currentEnemy = null;
                 }
-                enemyController.inRadius--;
-                if (enemyController.inRadius == 0)
+                enemyController.EnemyAilments.Freeze.RemoveInRadius();
+                if (enemyController.EnemyAilments.Freeze.InRadius == 0)
                 {
                     UnFreeze(enemyController);
                 }
@@ -75,58 +76,56 @@ namespace Implementations.Freeze.Scripts
         {
             if (CheckingEnemy())
             {
-                if (_currentEnemy == null || _currentEnemy != EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).GetComponent<EnemyController>())
+                if (_currentEnemy == null || _currentEnemy != EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).GetComponent<Enemy>())
                 {
                     _isAttack = false;
-                    _currentEnemy = EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).GetComponent<EnemyController>();
+                    _currentEnemy = EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).GetComponent<Enemy>();
+                    _currentEnemy.EnemyAilments.Freeze.AddFreezeStack();
                 }
-                if (_currentEnemy.inRadius > 0)
+                if (_currentEnemy.EnemyAilments.Freeze.FreezeStacks > 0)
                 {
                     if (_isAttack == false)
                     {
                         _isAttack = true;
-                        FreezeStacks();
-                        GetFreeze(_currentEnemy);
+                        Debug.Log(_currentEnemy.EnemyAilments.Freeze.FreezeStacks);
+                        FreezeEnemy(_currentEnemy);
                     }
                 }
             }
         }
 
-        private void GetFreeze(EnemyController currentEnemy)
+        private void FreezeEnemy(Enemy currentEnemy)
         {
-            switch (currentEnemy.freezeStacks)
+            float currentFreezeStacks = currentEnemy.EnemyAilments.Freeze.FreezeStacks;
+            
+            switch (currentFreezeStacks)
             {
                 case 0:
                 {
-                    currentEnemy.speed = currentEnemy.speedBeforefreeze;
+                    currentEnemy.SetSpeed(currentEnemy.StartSpeed); 
                     break;
                 }
+                
                 case > 0:
                 {
-                    currentEnemy.speed = currentEnemy.speedBeforefreeze - currentEnemy.speedBeforefreeze * (freezePower * currentEnemy.freezeStacks);
-                    CheckMinimumSpeed(_currentEnemy);
+                    Debug.Log(SetSlowdown(currentEnemy));
+                    currentEnemy.SetSpeed(SetSlowdown(currentEnemy));
+                    currentEnemy.CheckMinimumSpeed();
                     break;
                 }
             }
         }
-
-        private void UnFreeze(EnemyController currentEnemy)
+        
+        private void UnFreeze(Enemy enemy)
         {
-            currentEnemy.freezeStacks = 0;
-            currentEnemy.speed = currentEnemy.speedBeforefreeze;
+            enemy.EnemyAilments.Freeze.SetZeroFreezeStack();
+            enemy.SetSpeed(enemy.StartSpeed);
         }
 
-        private void FreezeStacks()
+        private float SetSlowdown(Enemy currentEnemy)
         {
-            _currentEnemy.freezeStacks++;
-        }
-
-        private void CheckMinimumSpeed(EnemyController currentEnemy)
-        {
-            if (currentEnemy.speed < currentEnemy.minimumSpeed)
-            {
-                currentEnemy.speed = currentEnemy.minimumSpeed;
-            }
+            return currentEnemy.StartSpeed -
+                   currentEnemy.StartSpeed * (freezePower * currentEnemy.EnemyAilments.Freeze.FreezeStacks);
         }
     }
 }
