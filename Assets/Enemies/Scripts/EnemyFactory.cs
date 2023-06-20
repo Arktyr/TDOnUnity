@@ -5,9 +5,13 @@ namespace Enemies.Scripts
 {
     public class EnemyFactory : MonoBehaviour
     {
+        [SerializeField] private EnemyPool _enemyPool;
+
         public Enemy CreateEnemy(EnemyConfig config, Vector3 position)
         {
-            Enemy enemy = Instantiate(config.Enemy, position, Quaternion.identity);
+            if (_enemyPool.IsCreate == false) _enemyPool.CreatePool(config.Enemy);
+
+            Enemy enemy = _enemyPool.TakeFromPool(config.Enemy, position);
             
             enemy.Construct(config.Health,
                 config.Speed,

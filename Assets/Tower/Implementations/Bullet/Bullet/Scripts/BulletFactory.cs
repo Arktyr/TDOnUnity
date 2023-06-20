@@ -38,7 +38,7 @@ namespace Implementations.Bullet.Bullet.Scripts
             _bulletPool = new Queue<BulletController>();
             for (int i = 0; i < startCountBulletPool; i++)
             {
-                BulletController createdObject = Instantiate(_bulletControllerConfig.BulletController);
+                BulletController createdObject = Instantiate(_bulletControllerConfig.BulletController, transform.parent);
                 _bulletPool.Enqueue(createdObject);
                 _bulletPool.Peek().gameObject.SetActive(false);
             }
@@ -69,7 +69,7 @@ namespace Implementations.Bullet.Bullet.Scripts
 
         private void AddToPool(Vector3 pos, Vector3 target, float bulletDamage, BulletFactory bulletFactory)
         {
-            var createdObject = Instantiate(_bulletControllerConfig.BulletController);
+            var createdObject = Instantiate(_bulletControllerConfig.BulletController, transform.parent);
             _bulletPool.Enqueue(createdObject);
             TakeFromPool(pos,target,bulletDamage,bulletFactory);
         }

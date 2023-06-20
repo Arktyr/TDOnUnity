@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b68a394b2f7c56742b21d199fd794566, type: 3}
   m_Name: LaserTowerConfig
   m_EditorClassIdentifier: 
-  tower: {fileID: 0}
-  laserTowerDamage: 0
-  priceLaserTower: 0
+  _tower: {fileID: 1213900178349330682, guid: a125d8ca06c00e84080a37ca0518737c, type: 3}
+  _laserTowerDamage: 0.2
+  _priceLaserTower: 100

@@ -31,7 +31,7 @@ namespace UI.Scripts
             ChangeTextInEnemyCounterUI();
         }
 
-        private void CounterDown()
+        private void CounterDown(Enemy enemy)
         {
             _leftEnemy--;
             ChangeTextInEnemyCounterUI();
@@ -39,7 +39,7 @@ namespace UI.Scripts
         
         private void ChangeTextInEnemyCounterUI()
         {
-            text.SetText($"Enemies Left:  {_leftEnemy}");
+            text.SetText($"Enemies Left: {_leftEnemy}");
         }
     }
 }

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5751ac7977dad484c80f93b1cc64915d, type: 3}
   m_Name: EnemyConfig
   m_EditorClassIdentifier: 
-  enemy: {fileID: 4442373164848520278, guid: 422de99448ebfab40b0d305de34a0f17, type: 3}
-  deathAnimation: {fileID: 3905974315207621991, guid: a371fe93f63dd204399b0444d4d2718b, type: 3}
-  path: {fileID: 8580228050563552444, guid: 3cd2f16d93363e04abd634677c4af6b2, type: 3}
-  points:
-  - {fileID: 8580228050563552444, guid: 3cd2f16d93363e04abd634677c4af6b2, type: 3}
-  speed: 600
-  health: 200
-  moneyReward: 20
+  _enemy: {fileID: 4442373164848520278, guid: 422de99448ebfab40b0d305de34a0f17, type: 3}
+  _health: 10
+  _speed: 600
+  _moneyReward: 20
+  _maximumSlowPercents: 65
+  _path: {fileID: 8580228050563552444, guid: 3cd2f16d93363e04abd634677c4af6b2, type: 3}
+  _deathAnimation: {fileID: 3905974315207621991, guid: a371fe93f63dd204399b0444d4d2718b, type: 3}
+  _enemyAilmentsConfig: {fileID: 11400000, guid: 5c720f94a242a1b4fa5587290ec698dc, type: 2}

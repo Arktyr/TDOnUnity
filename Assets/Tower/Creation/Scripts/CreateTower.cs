@@ -1,5 +1,6 @@
 using System.Collections;
 using Implementations.Bullet.Bullet.Scripts;
+using Player_Manager.Scripts;
 using UI.Scripts;
 using UnityEngine;
 
@@ -11,7 +12,7 @@ namespace Creation.Scripts
         [SerializeField] private SetTowerType setTowerType;
         [SerializeField] private TowerFactory towerFactory;
         [SerializeField] private Alert alert;
-        [SerializeField] private MoneyCounter moneyCounter;
+        [SerializeField] private MoneyManager _moneyManager;
         [SerializeField] private BulletFactory bulletFactory;
         private bool _isCreatePool;
         private Ray _ray;
@@ -106,11 +107,11 @@ namespace Creation.Scripts
         
         private void ConstructTower(TowersTypes.TowerTypes type, CreatePlatform createPlatform)
         {
-            if (moneyCounter.Money >= towerFactory.GetPriceTower(type))
+            if (_moneyManager.Money >= towerFactory.GetPriceTower(type))
             {
                 TakePlace(type, createPlatform);
-                moneyCounter.BuyTower(towerFactory.GetPriceTower(type));
                 Vector3 position = createPlatform.transform.position;
+                _moneyManager.BuyTower(towerFactory.GetPriceTower(type));
                 towerFactory.Create(type, new Vector3(position.x, position.y + 5, position.z), bulletFactory);
             }
             else

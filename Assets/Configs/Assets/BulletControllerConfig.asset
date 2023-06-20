@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c691ff0adc1844d1a169f8e891df6586, type: 3}
   m_Name: BulletControllerConfig
   m_EditorClassIdentifier: 
-  bulletController: {fileID: 182018789025706645, guid: 5242279194a681a459634d3fad3b07ee, type: 3}
-  bulletSpeed: 4000
+  _bulletController: {fileID: 182018789025706645, guid: 5242279194a681a459634d3fad3b07ee, type: 3}
+  _bulletSpeed: 4000

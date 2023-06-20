@@ -5,15 +5,16 @@ namespace Enemies.Scripts
 {
     public class DeathAnimation : MonoBehaviour
     {
-        [SerializeField] private float _scaleEndValue;
         [SerializeField] private float _scaleDuration;
+       
+        private float _scaleEndValue;
 
         public float ScaleDuration => _scaleDuration;
 
-        public void PlayAnimation(GameObject enemyGameObject)
+        public void PlayAnimation(Enemy enemy, float scaleEndValue)
         {
-            enemyGameObject.transform.DOScale(_scaleEndValue, _scaleDuration)
-                .SetLink(enemyGameObject)
+            enemy.transform.DOScale(scaleEndValue, _scaleDuration)
+                .SetLink(enemy.gameObject)
                 .SetEase(Ease.InQuart)
                 .Play();
         }

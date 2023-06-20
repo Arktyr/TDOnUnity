@@ -8,7 +8,7 @@ namespace Enemies.Scripts
     {
         [SerializeField] private Wavespawner _waveSpawner;
         
-        public event Action EnemyKilled;
+        public event Action <Enemy> EnemyKilled;
         public event Action EnemySpawned;
         public event Action EnemyFinishedPath;
 
@@ -24,8 +24,11 @@ namespace Enemies.Scripts
         
         private void OnEnemySpawn(Enemy enemy)
         {
-            enemy.OnKill += OnEnemyKill;
-            enemy.FinishedThePath += OnEnemyFinishedThePath;
+            if (enemy != null)
+            {
+                enemy.OnKill += OnEnemyKill;
+                enemy.FinishedThePath += OnEnemyFinishedThePath;
+            }
             
             EnemySpawned?.Invoke();
         }
@@ -42,7 +45,7 @@ namespace Enemies.Scripts
             // _moneyCounter.GetRewardFromEnemy(_leftEnemy.ElementAt(i));
             enemy.OnKill -= OnEnemyKill;
             
-            EnemyKilled?.Invoke();
+            EnemyKilled?.Invoke(enemy);
         }
     }
 }

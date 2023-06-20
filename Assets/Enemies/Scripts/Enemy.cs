@@ -55,19 +55,21 @@ namespace Enemies.Scripts
         private void Start()
         {
             _enemyRigidBody = GetComponent<Rigidbody>();
-
-            GetPathPoints();
         }
 
         private void FixedUpdate()
         {
+            if (_path != null)
+            {
+                GetPathPoints();
+            }
             EnemyMove();
         }
 
         private void GetPathPoints()
         {
             _pathPoints = new Transform[_path.childCount];
-            
+                
             for (int i = 0; i < _pathPoints.Length; i++)
             {
                 _pathPoints[i] = _path.GetChild(i);
@@ -90,13 +92,16 @@ namespace Enemies.Scripts
         
         private void EnemyMove()
         {
-            Vector3 position = _enemyRigidBody.transform.position;
-            Vector3 currentPointPosition = _pathPoints[_currentPoint].position;
-            
-            Vector3 direction = -(position - currentPointPosition).normalized;
-            Vector3 velocity = direction * (_speed * Time.fixedDeltaTime);
-            
-            _enemyRigidBody.velocity = velocity;
+            if (_pathPoints != null)
+            {
+                Vector3 position = _enemyRigidBody.transform.position;
+                Vector3 currentPointPosition = _pathPoints[_currentPoint].position;
+                
+                Vector3 direction = -(position - currentPointPosition).normalized;
+                Vector3 velocity = direction * (_speed * Time.fixedDeltaTime);
+                
+                _enemyRigidBody.velocity = velocity;
+            }
         }
 
         public void TakeDamage(float damage)
@@ -134,11 +139,15 @@ namespace Enemies.Scripts
         private IEnumerator Death()
         {
             _isDead = true;
-            _deathAnimation.PlayAnimation(gameObject);
+            
+            _deathAnimation.PlayAnimation(this, 0);
             yield return new WaitForSeconds(_deathAnimation.ScaleDuration);
             
+            _deathAnimation.PlayAnimation(this, 5);
+            Destroy(_enemyAilments.gameObject);
             OnKill?.Invoke(this);
-            Destroy(gameObject);
+            
+            _isDead = false;
         }
     }
 }

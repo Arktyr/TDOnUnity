@@ -22,11 +22,12 @@ namespace UI.Animations
         {
             reward += Reward;
             SetText();
+            animatedText.transform.position = _startPosition;
             _sequence = DOTween.Sequence();
             _sequence.OnStart(StartMoveAnimation).AppendCallback(Fade)
                 .AppendCallback(MoveAnimatedText).AppendInterval(1f).AppendCallback(OutFade)
-                .AppendCallback(EndMoveAnimation).AppendCallback(ScaleMoneyCounterIn).AppendInterval(0.4f)
-                .AppendCallback(ScaleMoneyCounterOut).Play();
+                .AppendCallback(ScaleMoneyCounterIn).AppendInterval(0.4f)
+                .AppendCallback(ScaleMoneyCounterOut).OnComplete(EndMoveAnimation).Play();
         }
 
         private void EndMoveAnimation()
@@ -52,9 +53,6 @@ namespace UI.Animations
         
         private void OutFade() => animatedText.DOFade(1, 0f).SetEase(Ease.InQuart).Play();
 
-        public void SetText()
-        {
-            animatedText.SetText($"{reward}");
-        }
+        public void SetText() => animatedText.SetText($"{reward}");
     }
 }
