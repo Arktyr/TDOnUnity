@@ -1,4 +1,4 @@
-using Implementations.Bullet.Tower.Scripts;
+using Implementations.Bullet_Tower.Tower.Scripts;
 using UnityEngine;
 
 
@@ -10,7 +10,6 @@ namespace Configs.Scripts
         [SerializeField] private BulletTower _tower;
         [SerializeField] private BulletControllerConfig _bulletControllerConfig;
         [SerializeField] private float _bulletRateOfFire;
-        [SerializeField] private float _bulletTowerDamage;
         [SerializeField] private float _priceBulletTower;
         
         public BulletTower Tower => _tower;
@@ -18,8 +17,6 @@ namespace Configs.Scripts
         public BulletControllerConfig BulletControllerConfig => _bulletControllerConfig;
         
         public float BulletRateOfFire => _bulletRateOfFire;
-        
-        public float BulletTowerDamage => _bulletTowerDamage;
         
         public float PriceBulletTower => _priceBulletTower;
     }

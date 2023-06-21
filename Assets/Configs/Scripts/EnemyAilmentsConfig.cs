@@ -6,10 +6,8 @@ namespace Configs.Scripts
     [CreateAssetMenu(fileName = "EnemyAilmentConfig", menuName = "Configs/EnemyAilmentConfig")]
     public class EnemyAilmentsConfig : ScriptableObject
     {
-        [SerializeField] private EnemyAilments _enemyAilments;
-        [SerializeField] private Freeze _freeze;
-
-        public EnemyAilments EnemyAilments => _enemyAilments;
-        public Freeze Freeze => _freeze;
+        [SerializeField] private FreezeAilment freezeAilment;
+        
+        public FreezeAilment FreezeAilment => freezeAilment;
     }
 }

@@ -2,7 +2,7 @@ using System.Linq;
 using Enemies.Scripts;
 using UnityEngine;
 
-namespace Implementations.Freeze.Scripts
+namespace Implementations.Freeze_Tower.Scripts
 {
     [RequireComponent(typeof(LineRenderer))]
     public class FreezeTower : BaseTower.BaseTower
@@ -44,7 +44,7 @@ namespace Implementations.Freeze.Scripts
             base.OnTriggerEnter(other);
             if (other.TryGetComponent(out Enemy enemyController))
             {
-                enemyController.EnemyAilments.Freeze.AddInRadius();
+                enemyController.FreezeAilment.AddInRadius();
             }
         }
         
@@ -57,8 +57,8 @@ namespace Implementations.Freeze.Scripts
                 {
                     _currentEnemy = null;
                 }
-                enemyController.EnemyAilments.Freeze.RemoveInRadius();
-                if (enemyController.EnemyAilments.Freeze.InRadius == 0)
+                enemyController.FreezeAilment.RemoveInRadius();
+                if (enemyController.FreezeAilment.InRadius == 0)
                 {
                     UnFreeze(enemyController);
                 }
@@ -80,14 +80,13 @@ namespace Implementations.Freeze.Scripts
                 {
                     _isAttack = false;
                     _currentEnemy = EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).GetComponent<Enemy>();
-                    _currentEnemy.EnemyAilments.Freeze.AddFreezeStack();
+                    _currentEnemy.FreezeAilment.AddFreezeStack();
                 }
-                if (_currentEnemy.EnemyAilments.Freeze.FreezeStacks > 0)
+                if (_currentEnemy.FreezeAilment.FreezeStacks > 0)
                 {
                     if (_isAttack == false)
                     {
                         _isAttack = true;
-                        Debug.Log(_currentEnemy.EnemyAilments.Freeze.FreezeStacks);
                         FreezeEnemy(_currentEnemy);
                     }
                 }
@@ -96,7 +95,7 @@ namespace Implementations.Freeze.Scripts
 
         private void FreezeEnemy(Enemy currentEnemy)
         {
-            float currentFreezeStacks = currentEnemy.EnemyAilments.Freeze.FreezeStacks;
+            float currentFreezeStacks = currentEnemy.FreezeAilment.FreezeStacks;
             
             switch (currentFreezeStacks)
             {
@@ -108,7 +107,7 @@ namespace Implementations.Freeze.Scripts
                 
                 case > 0:
                 {
-                    Debug.Log(SetSlowdown(currentEnemy));
+                    Debug.Log(currentFreezeStacks);
                     currentEnemy.SetSpeed(SetSlowdown(currentEnemy));
                     currentEnemy.CheckMinimumSpeed();
                     break;
@@ -118,14 +117,14 @@ namespace Implementations.Freeze.Scripts
         
         private void UnFreeze(Enemy enemy)
         {
-            enemy.EnemyAilments.Freeze.SetZeroFreezeStack();
+            enemy.FreezeAilment.SetZeroFreezeStack();
             enemy.SetSpeed(enemy.StartSpeed);
         }
 
         private float SetSlowdown(Enemy currentEnemy)
         {
             return currentEnemy.StartSpeed -
-                   currentEnemy.StartSpeed * (freezePower * currentEnemy.EnemyAilments.Freeze.FreezeStacks);
+                   currentEnemy.StartSpeed * (freezePower * currentEnemy.FreezeAilment.FreezeStacks);
         }
     }
 }

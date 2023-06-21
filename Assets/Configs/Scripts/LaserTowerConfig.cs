@@ -1,4 +1,4 @@
-using Implementations.Laser.Scripts;
+using Implementations.Laser_Tower.Scripts;
 using UnityEngine;
 
 namespace Configs.Scripts

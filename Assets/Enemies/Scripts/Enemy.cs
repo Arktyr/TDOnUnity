@@ -8,7 +8,7 @@ namespace Enemies.Scripts
     public class Enemy : MonoBehaviour
     {
         private float _health;
-        public float _speed;
+        private float _speed;
         private float _moneyReward;
         private float _minimumSpeed;
         private float _startSpeed;
@@ -21,7 +21,7 @@ namespace Enemies.Scripts
         private DeathAnimation _deathAnimation;
         private bool _isDead;
 
-        private EnemyAilments _enemyAilments;
+        public FreezeAilment _freezeAilment;
 
         public float Health => _health;
         
@@ -29,15 +29,14 @@ namespace Enemies.Scripts
         
         public float StartSpeed => _startSpeed;
         
-        public EnemyAilments EnemyAilments => _enemyAilments;
+        public FreezeAilment FreezeAilment => _freezeAilment;
 
         public void Construct(float health,
             float speed,
             float moneyReward,
             float maximumSlowPercents,
             Transform path,
-            DeathAnimation deathAnimation,
-            EnemyAilments enemyAilments)
+            DeathAnimation deathAnimation)
         {
             _health = health;
             _speed = speed;
@@ -45,24 +44,23 @@ namespace Enemies.Scripts
             _minimumSpeed = speed - (speed*maximumSlowPercents);
             _path = path;
             _deathAnimation = deathAnimation;
-            _enemyAilments = enemyAilments;
             _startSpeed = _speed;
+        }
+
+        public void ConstructEnemyAilments(FreezeAilment freezeAilment)
+        {
+            _freezeAilment = freezeAilment;
         }
         
         public event Action<Enemy> OnKill;
         public event Action<Enemy> FinishedThePath;
 
-        private void Start()
-        {
-            _enemyRigidBody = GetComponent<Rigidbody>();
-        }
+        private void Start() => _enemyRigidBody = GetComponent<Rigidbody>();
 
         private void FixedUpdate()
         {
-            if (_path != null)
-            {
-                GetPathPoints();
-            }
+            if (_path != null) GetPathPoints();
+            
             EnemyMove();
         }
 
@@ -70,17 +68,13 @@ namespace Enemies.Scripts
         {
             _pathPoints = new Transform[_path.childCount];
                 
-            for (int i = 0; i < _pathPoints.Length; i++)
-            {
-                _pathPoints[i] = _path.GetChild(i);
-            }
+            for (int i = 0; i < _pathPoints.Length; i++) _pathPoints[i] = _path.GetChild(i);
         }
         
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.TryGetComponent(out EnemyPath enemyPath))
             {
-                
                 if (enemyPath._EndPath)
                 {
                     FinishedThePath?.Invoke(this);
@@ -107,33 +101,16 @@ namespace Enemies.Scripts
         public void TakeDamage(float damage)
         {
             _health -= damage;
+            if (damage <= 0) Debug.LogError("Damage should be above zero");
 
-            if (damage <= 0)
-            {
-                Debug.LogError("Damage should be above zero");
-            }
-            
-            if (_health <= 0)
-            {
-                
-                if (_isDead == false)
-                {
-                    StartCoroutine(Death());
-                }
-            }
+            if (_health <= 0 && _isDead == false) StartCoroutine(Death());
         }
 
-        public void SetSpeed(float speed)
-        {
-            _speed = speed;
-        }
-        
+        public void SetSpeed(float speed) => _speed = speed;
+
         public void CheckMinimumSpeed()
         {
-            if (_speed < _minimumSpeed)
-            {
-                SetSpeed(_minimumSpeed);
-            }
+            if (_speed < _minimumSpeed) SetSpeed(_minimumSpeed);
         }
         
         private IEnumerator Death()
@@ -144,7 +121,10 @@ namespace Enemies.Scripts
             yield return new WaitForSeconds(_deathAnimation.ScaleDuration);
             
             _deathAnimation.PlayAnimation(this, 5);
-            Destroy(_enemyAilments.gameObject);
+            
+            _freezeAilment.SetZeroFreezeStack();
+            _freezeAilment.SetZeroInRadius();
+            
             OnKill?.Invoke(this);
             
             _isDead = false;

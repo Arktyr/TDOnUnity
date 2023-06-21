@@ -12,16 +12,10 @@ namespace Enemies.Scripts
         public event Action EnemySpawned;
         public event Action EnemyFinishedPath;
 
-        private void OnEnable()
-        {
-            _waveSpawner.EnemySpawned += OnEnemySpawn;
-        }
+        private void OnEnable() => _waveSpawner.EnemySpawned += OnEnemySpawn;
 
-        private void OnDestroy()
-        {
-            _waveSpawner.EnemySpawned -= OnEnemySpawn;
-        }
-        
+        private void OnDestroy() => _waveSpawner.EnemySpawned -= OnEnemySpawn;
+
         private void OnEnemySpawn(Enemy enemy)
         {
             if (enemy != null)
@@ -42,7 +36,6 @@ namespace Enemies.Scripts
 
         private void OnEnemyKill(Enemy enemy)
         {
-            // _moneyCounter.GetRewardFromEnemy(_leftEnemy.ElementAt(i));
             enemy.OnKill -= OnEnemyKill;
             
             EnemyKilled?.Invoke(enemy);

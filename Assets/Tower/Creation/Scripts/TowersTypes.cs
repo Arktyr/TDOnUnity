@@ -1,4 +1,3 @@
-
 namespace Creation.Scripts
 {
   public static class TowersTypes

@@ -21,11 +21,13 @@ namespace Wave.Scripts
         private bool _isDelay;
 
         public event Action<Enemy> EnemySpawned;
+        public event Action WaveHasChanged;
+        public event Action StartCountDownToNewWave;
         
         public float CurrentDelayBeforeNextWave => _waves[_currentWaveIndex].DelayBeforeNextWave;
         
         public int CurrentWaveIndex => _currentWaveIndex;
-
+        
         private void Start()
         {
             _enemiesLeftToSpawn = _waves[0].Settings[0].EnemyCount;
@@ -72,7 +74,7 @@ namespace Wave.Scripts
         private void NextWave()
         {
             _currentWaveIndex++;
-            _waveCounter.ChangeWaveCounter.Invoke();
+            WaveHasChanged?.Invoke();
             _currentSettings = 0;
             _enemiesLeftToSpawn = _waves[_currentWaveIndex].Settings[_currentSettings].EnemyCount;
             StartCoroutine(SpawnWave()); 
@@ -86,7 +88,7 @@ namespace Wave.Scripts
 
         private IEnumerator DelayBeforeNextWave(float delay)
         {
-            _waveCounter.NextWave.Invoke();
+            StartCountDownToNewWave?.Invoke();
             _isDelay = true;
             yield return new WaitForSeconds(delay);
             _isDelay = false;

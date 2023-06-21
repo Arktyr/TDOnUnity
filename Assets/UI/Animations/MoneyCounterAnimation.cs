@@ -20,26 +20,30 @@ namespace UI.Animations
 
         public void PlayAnimation(float Reward)
         {
-            reward += Reward;
-            SetText();
-            animatedText.transform.position = _startPosition;
+            //reward += Reward;
+            //SetText();
+            //animatedText.transform.position = _startPosition;
             _sequence = DOTween.Sequence();
-            _sequence.OnStart(StartMoveAnimation).AppendCallback(Fade)
-                .AppendCallback(MoveAnimatedText).AppendInterval(1f).AppendCallback(OutFade)
-                .AppendCallback(ScaleMoneyCounterIn).AppendInterval(0.4f)
-                .AppendCallback(ScaleMoneyCounterOut).OnComplete(EndMoveAnimation).Play();
+            _sequence.OnStart(StartMoveAnimation)
+                .AppendCallback(ScaleMoneyCounterIn)
+                .AppendInterval(0.4f)
+                .AppendCallback(ScaleMoneyCounterOut)
+                .OnComplete(EndMoveAnimation)
+                .Play();
+               // .AppendCallback(MoveAnimatedText).AppendInterval(1f).AppendCallback(OutFade)
+               // .AppendCallback(ScaleMoneyCounterIn).AppendInterval(0.4f)
         }
 
         private void EndMoveAnimation()
         {
             isMoveAnimationStart = false;
-            animatedText.gameObject.SetActive(false);
+            //animatedText.gameObject.SetActive(false);
             reward = 0;
         }
 
         private void StartMoveAnimation()
         { 
-            animatedText.gameObject.SetActive(true);
+            //animatedText.gameObject.SetActive(true);
             isMoveAnimationStart = true;
         }
 

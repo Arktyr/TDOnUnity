@@ -2,7 +2,7 @@
 
 namespace Enemies.Scripts
 {
-    public class Freeze : MonoBehaviour
+    public class FreezeAilment : MonoBehaviour
     {
         private float _freezeStacks;
         private int _inRadius;
@@ -14,6 +14,8 @@ namespace Enemies.Scripts
         public void AddFreezeStack() => _freezeStacks++;
 
         public void SetZeroFreezeStack() => _freezeStacks = 0;
+        
+        public void SetZeroInRadius() => _inRadius = 0;
         
         public void AddInRadius() => _inRadius++;
         

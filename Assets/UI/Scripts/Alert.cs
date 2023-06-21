@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Net.Mime;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
 namespace UI.Scripts
 {
+    [RequireComponent(typeof(TMP_Text))]
     public class Alert : MonoBehaviour
     {
         public bool isAnimationEnd;
@@ -20,9 +19,12 @@ namespace UI.Scripts
 
         public void AnimationPlay(string alertText)
         {
-            sequence = DOTween.Sequence();
-            _text.SetText(alertText);
-            sequence.OnStart(StartAnimation).AppendCallback(FadeIn).AppendInterval(2).AppendCallback(FadeOut).AppendInterval(2).OnComplete(EndAnimation).Play();
+            if (isAnimationEnd)
+            {
+                sequence = DOTween.Sequence();
+                _text.SetText(alertText);
+                sequence.OnStart(StartAnimation).AppendCallback(FadeIn).AppendInterval(2).AppendCallback(FadeOut).AppendInterval(2).OnComplete(EndAnimation).Play();
+            }
         }
 
         private void FadeIn() => _text.DOFade(1, 2).SetEase(Ease.InQuart).Play();

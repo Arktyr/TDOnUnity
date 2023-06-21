@@ -7,10 +7,23 @@ namespace Enemies.Scripts
     {
         [SerializeField] private EnemyPool _enemyPool;
 
+        private EnemyAilmentsConfig _enemyAilmentsConfig;
+
+        private void OnEnable() => _enemyPool.PoolExpanded += CreateEnemyAilments;
+
+        private void OnDisable() => _enemyPool.PoolExpanded -= CreateEnemyAilments;
+
         public Enemy CreateEnemy(EnemyConfig config, Vector3 position)
         {
-            if (_enemyPool.IsCreate == false) _enemyPool.CreatePool(config.Enemy);
+            _enemyAilmentsConfig = config.EnemyAilmentsConfig;
 
+            if (_enemyPool.IsCreate == false)
+            {
+                _enemyPool.CreatePool(config.Enemy);
+                
+                CreateEnemyAilments(config.Enemy);
+            }
+            
             Enemy enemy = _enemyPool.TakeFromPool(config.Enemy, position);
             
             enemy.Construct(config.Health,
@@ -18,22 +31,20 @@ namespace Enemies.Scripts
                 config.MoneyReward,
                 config.MaximumSlowPercent,
                 config.Path,
-                config.DeathAnimation,
-                CreateEnemyAilment(config.EnemyAilmentsConfig, enemy));
+                config.DeathAnimation);
 
             return enemy;
         }
 
-        private EnemyAilments CreateEnemyAilment(EnemyAilmentsConfig enemyAilmentsConfig, Enemy enemy)
+        private void CreateEnemyAilments(Enemy enemy)
         {
-            EnemyAilments enemyAilments = Instantiate(enemyAilmentsConfig.EnemyAilments, enemy.transform);
-            Freeze freeze = Instantiate(enemyAilmentsConfig.Freeze, enemyAilments.transform, true);
-            
-            enemyAilments.SetFreeze(freeze);
-            
-            enemyAilments.transform.parent = enemy.transform;
-            
-            return enemyAilments;
+            foreach (var Enemy in _enemyPool.enemyPool)
+            {
+                if (Enemy.FreezeAilment != null) return;
+                
+                FreezeAilment freezeAilment = Instantiate(_enemyAilmentsConfig.FreezeAilment, Enemy.transform);
+                Enemy.ConstructEnemyAilments(freezeAilment);
+            }
         }
     }
 }

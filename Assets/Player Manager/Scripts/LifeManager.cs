@@ -1,6 +1,4 @@
-using System;
 using Enemies.Scripts;
-using UnityEditor.Build.Content;
 using UnityEngine;
 
 namespace Player_Manager.Scripts

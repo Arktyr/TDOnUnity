@@ -20,7 +20,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1378137220086639470
 Transform:
   m_ObjectHideFlags: 0
@@ -146,12 +146,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ea5a649aa8bb864b87fedb9cc41974e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  path: {fileID: 8580228050563552444, guid: 3cd2f16d93363e04abd634677c4af6b2, type: 3}
-  points: []
-  speed: 600
-  health: 60
-  moneyReward: 20
-  minimumSpeed: 0
-  speedBeforefreeze: 0
-  freezeStacks: 0
-  inRadius: 0
+  _speed: 0

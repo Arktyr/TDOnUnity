@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Enemies.Scripts
@@ -13,8 +14,12 @@ namespace Enemies.Scripts
         private readonly Queue<Enemy> _enemyPool = new();
         private readonly Queue<Enemy> _activeEnemies = new();
 
+        public Queue<Enemy> enemyPool => _enemyPool;
+
         public bool IsCreate => _isCreate;
-        
+
+        public event Action<Enemy> PoolExpanded; 
+
         public void CreatePool(Enemy enemy)
         {
             _isCreate = true;
@@ -22,7 +27,7 @@ namespace Enemies.Scripts
             for (int i = 0; i < startCountEnemyPool; i++)
             {
                 Enemy newEnemy = Instantiate(enemy, transform.parent);
-
+                
                 _enemyPool.Enqueue(newEnemy);
                 newEnemy.gameObject.SetActive(false);
             }
@@ -54,6 +59,7 @@ namespace Enemies.Scripts
             Enemy newEnemy = Instantiate(enemy, transform.parent);
             
             _enemyPool.Enqueue(newEnemy);
+            PoolExpanded?.Invoke(newEnemy);
         }
     }
 }

@@ -1,4 +1,4 @@
-using Implementations.Freeze.Scripts;
+using Implementations.Freeze_Tower.Scripts;
 using UnityEngine;
 
 namespace Configs.Scripts

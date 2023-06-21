@@ -1,6 +1,4 @@
-﻿using System;
-using DG.Tweening;
-using Enemies.Scripts;
+﻿using Enemies.Scripts;
 using TMPro;
 using UnityEngine;
 
@@ -37,9 +35,6 @@ namespace UI.Scripts
             ChangeTextInEnemyCounterUI();
         }
         
-        private void ChangeTextInEnemyCounterUI()
-        {
-            text.SetText($"Enemies Left: {_leftEnemy}");
-        }
+        private void ChangeTextInEnemyCounterUI() => text.SetText($"Enemies Left: {_leftEnemy}");
     }
 }

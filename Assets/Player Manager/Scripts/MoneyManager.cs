@@ -1,4 +1,3 @@
-using System;
 using UI.Scripts;
 using UnityEngine;
 
@@ -6,7 +5,7 @@ namespace Player_Manager.Scripts
 {
     public class MoneyManager : MonoBehaviour
     {
-        [SerializeField] private MoneyCounter _moneyCounter; 
+        [SerializeField] private MoneyCounter _moneyCounter;
 
         [Header("Start Money")]
         [SerializeField] private float _money;
@@ -17,11 +16,9 @@ namespace Player_Manager.Scripts
 
         public void AddMoney(float money) => _money += money;
 
-        private void RemoveMoney(float money) => _money -= money;
-
-        public void BuyTower(float money)
+        public void RemoveMoney(float money)
         {
-            RemoveMoney(money);
+            _money -= money;
             _moneyCounter.ChangeTextInMoneyCounterUI(_money);
         }
     }

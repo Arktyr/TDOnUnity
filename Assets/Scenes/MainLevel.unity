@@ -5768,6 +5768,51 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b55f0e9b572fbe44f9b50d6ff33acd11, type: 3}
+--- !u!1 &789517349
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 789517350}
+  - component: {fileID: 789517351}
+  m_Layer: 0
+  m_Name: EnemyPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &789517350
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789517349}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -11.92424, y: -203.88, z: -110.84744}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5585889570527460540}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &789517351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 789517349}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d8e979621434c3eb19ae7adad2562c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startCountEnemyPool: 5
 --- !u!1001 &794461750
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7445,7 +7490,7 @@ MonoBehaviour:
   setTowerType: {fileID: 323913940}
   towerFactory: {fileID: 2072801439091076375, guid: e7141de64b66dd140af6bfa4139af336, type: 3}
   alert: {fileID: 2145958665}
-  moneyCounter: {fileID: 1258129746}
+  _moneyManager: {fileID: 1244489923}
   bulletFactory: {fileID: 1053621172}
 --- !u!1001 &963611193
 PrefabInstance:
@@ -9799,7 +9844,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8b521d11f915847abc3102b0a4645f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _money: 0
+  _moneyCounter: {fileID: 1258129746}
+  _money: 250
 --- !u!1001 &1246273839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10089,7 +10135,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 686673225}
-  startMoney: 250
   moneyCounterAnimation: {fileID: 1929438634}
 --- !u!4 &1258129747
 Transform:
@@ -15804,7 +15849,6 @@ MonoBehaviour:
   _enemyWatcher: {fileID: 841019297}
   _moneyManager: {fileID: 1244489923}
   _moneyCounter: {fileID: 1258129746}
-  _moneyCounterAnimation: {fileID: 1929438634}
 --- !u!4 &2045900780 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 180443831573065519, guid: b55f0e9b572fbe44f9b50d6ff33acd11, type: 3}
@@ -17659,11 +17703,16 @@ MonoBehaviour:
   _waves:
   - settings:
     - enemyConfig: {fileID: 11400000, guid: ee283bdc77f662549acfafaa648ae395, type: 2}
-      enemyCount: 5
+      enemyCount: 15
       spawnDelay: 1
-    delayBeforeNextWave: 0
+    delayBeforeNextWave: 10
+  - settings:
+    - enemyConfig: {fileID: 11400000, guid: ee283bdc77f662549acfafaa648ae395, type: 2}
+      enemyCount: 2
+      spawnDelay: 1
+    delayBeforeNextWave: 10
   _waveCounter: {fileID: 1913111829130029978}
-  _enemyFactory: {fileID: -3108717646320978570, guid: f9b64c0cfae20d04f8ad572870d67176, type: 3}
+  _enemyFactory: {fileID: 4782920757446138333}
 --- !u!222 &4439983934986269541
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17672,6 +17721,35 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6579241849143459425}
   m_CullTransparentMesh: 1
+--- !u!114 &4782920757446138333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7498665317122764992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98bc00914a9efd34886334f555a38ac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _enemyPool: {fileID: 789517351}
+--- !u!4 &5585889570527460540
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7498665317122764992}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 128.36449, y: 258.85257, z: 100.89122}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 789517350}
+  m_Father: {fileID: 0}
+  m_RootOrder: 10
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!222 &5816776698037568762
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17744,6 +17822,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 3837012899994841275}
   _enemyWatcher: {fileID: 841019297}
+--- !u!1 &7498665317122764992
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5585889570527460540}
+  - component: {fileID: 4782920757446138333}
+  m_Layer: 0
+  m_Name: EnemyFactory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!224 &7698718779122321822
 RectTransform:
   m_ObjectHideFlags: 0
