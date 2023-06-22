@@ -2,31 +2,24 @@ using UnityEngine;
 
 namespace Implementations.Laser_Tower.Scripts
 {
+    [RequireComponent(typeof(LineRenderer))]
     public class LaserTower : BaseTower.BaseTower
     {
         private float _laserTowerDamage;
 
-        public void Construct(float laserTowerDamage)
+        public void Construct(float laserTowerDamage) => _laserTowerDamage = laserTowerDamage;
+
+        protected void Start()
         {
-            _laserTowerDamage = laserTowerDamage;
-        }
-    
-        protected override void Start()
-        {
-            base.Start();
-            LaserLine = transform.GetChild(0).GetComponent<LineRenderer>();
+            Transform towerWeapon = transform.GetChild(0);
+            LaserLine = towerWeapon.GetComponent<LineRenderer>();
         }
 
         private void FixedUpdate()
         {
-            if (CheckingEnemy())
-            {
-                LaserFire(_laserTowerDamage);
-            }
-            else
-            {
-                SetPositionLaser(false);
-            }
+            if (CheckingEnemyCount()) LaserFire(_laserTowerDamage);
+            
+            else SetPositionLaser(false);
         }
     }
 }

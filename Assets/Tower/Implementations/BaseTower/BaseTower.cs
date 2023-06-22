@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Enemies.Scripts;
@@ -5,122 +6,81 @@ using UnityEngine;
 
 namespace Implementations.BaseTower
 {
-public abstract class BaseTower : MonoBehaviour
-{
-    protected List<GameObject> EnemyInRadius;
-    protected LineRenderer LaserLine;
-    private bool _checkEnemyInRadius;
-    private bool _checkEnemyCount;
-    protected GameObject LastEnemy;
-
-
-
-    protected virtual void Start()
+    public abstract class BaseTower : MonoBehaviour
     {
-        EnemyInRadius = new List<GameObject>();
-    }
+        protected LineRenderer LaserLine;
 
-    protected virtual void OnTriggerStay(Collider other)
-    {
-        if (other.TryGetComponent(out Enemy enemyController))
+        private bool _checkEnemyInRadius;
+        private bool _checkEnemyCount;
+
+        protected readonly List<Enemy> EnemyInRadius = new();
+
+        private event Action<Enemy> EnterInRadius;     
+        private event Action<Enemy> ExitFromRadius;
+
+        protected void OnEnable()
         {
-            if (enemyController.Health <= 0)
+            EnterInRadius += AddEnemyInRadius;
+            ExitFromRadius += RemoveEnemyFromRadius;
+        }
+
+        protected void OnDestroy()
+        {
+            EnterInRadius -= AddEnemyInRadius;
+            ExitFromRadius -= RemoveEnemyFromRadius;
+        }
+        
+        protected virtual void OnTriggerEnter(Collider other)
+        {
+            if (other.TryGetComponent(out Enemy enemy))
             {
-                EnemyInRadius.Remove(other.gameObject);
+                EnterInRadius?.Invoke(enemy);
+                enemy.OnKillForTower += RemoveEnemyFromRadius;
             }
         }
-    }
-
-    protected virtual void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent(out Enemy enemyController))
+        
+        protected virtual void OnTriggerExit(Collider other)
         {
-            EnemyInRadius.Add(other.gameObject);
+            if (other.TryGetComponent(out Enemy enemy)) ExitFromRadius?.Invoke(enemy);
         }
-    }
-    
-    protected virtual void OnTriggerExit(Collider other)
-    {
-       EnemyInRadius.Remove(other.gameObject);
-    }
 
-    protected virtual void LaserFire(float damage)
-    {
-        SetPositionLaser(CheckingEnemy());
-        if (BoolCheckingEnemyInRadius())
+        protected virtual void LaserFire(float damage)
         {
-            RemoveEnemyIfKill();
-            EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).GetComponent<Enemy>().TakeDamage(damage);
-            LastEnemy = EnemyInRadius.ElementAt(IntCheckingEnemyInRadius());
+            SetPositionLaser(EnemyInRadius.First());
+            
+            EnemyInRadius.First().TakeDamage(damage);
         }
-    }
 
-    protected int IntCheckingEnemyInRadius()
-    {
-        for (int i = 0; i < EnemyInRadius.Count; i++)
+        protected bool CheckingEnemyCount() => EnemyInRadius.Count > 0;
+
+        protected void SetPositionLaser(bool check)
         {
-            if (EnemyInRadius.ElementAt(i) != null)
+            switch (check)
             {
-                return i;
+                case true: 
+                    Vector3 target = EnemyInRadius.First().transform.position;
+                    
+                    LaserLine.SetPosition(1, target);
+                    break;
+                
+                case false:
+                    Vector3 towerWeaponPosition = transform.GetChild(0).position;
+                    
+                    LaserLine.SetPosition(0, towerWeaponPosition);
+                    LaserLine.SetPosition(1, towerWeaponPosition);
+                    break;
             }
         }
-        return 0;
-    }
-    protected bool BoolCheckingEnemyInRadius()
-    {
-        for (int i = 0; i < EnemyInRadius.Count; i++)
-        {
-            if (EnemyInRadius.ElementAt(i) != null)
-            {
-                return true;
-            }
-        }
-        return false;
-    }
 
-    protected bool CheckingEnemy()
-    {
-        _checkEnemyCount = CheckingEnemyCount();
-        _checkEnemyInRadius = BoolCheckingEnemyInRadius();
-        if (_checkEnemyInRadius == _checkEnemyCount && _checkEnemyCount)
-        {
-            return  true;
-        }
-        return false;
-    }
-    
-    protected bool CheckingEnemyCount()
-    {
-        _checkEnemyCount = EnemyInRadius.Count > 0;
-        return _checkEnemyCount;
-    }
+        private void AddEnemyInRadius(Enemy enemy) => EnemyInRadius.Add(enemy);
 
-    protected void RemoveEnemyIfKill()
-    {
-        if (LastEnemy != EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()) && LastEnemy != null)
+        private void RemoveEnemyFromRadius(Enemy enemy)
         {
-            EnemyInRadius.Remove(LastEnemy);
+            enemy.OnKillForTower -= RemoveEnemyFromRadius;
+            
+            EnemyInRadius.Remove(enemy);
         }
     }
-    
-    protected void SetPositionLaser(bool check)
-    {
-        switch (check)
-        {
-            case true:
-            {
-                LaserLine.SetPosition(1, EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).transform.position);
-                break;
-            }
-            case false:
-            {
-                LaserLine.SetPosition(0, transform.GetChild(0).position);
-                LaserLine.SetPosition(1, transform.GetChild(0).position);
-                break;
-            }
-        }
-    }
-}
 }
 
 

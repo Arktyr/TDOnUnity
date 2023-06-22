@@ -8,60 +8,51 @@ namespace Implementations.Freeze_Tower.Scripts
     public class FreezeTower : BaseTower.BaseTower
     {
         private Enemy _currentEnemy;
+        
         private float _freezeTowerDamage;
-        private float _freezingPower;
-        public float freezePower;
-        private bool _isAttack;
+        private float _freezingPercents;
+        private float _freezePower;
         private float _freezeStacks;
+        
+        private bool _isAttack;
 
-        public void Construct(float freezeTowerDamage, float freezingPower)
+        public void Construct(float freezeTowerDamage, float freezingPercents)
         {
             _freezeTowerDamage = freezeTowerDamage;
-            _freezingPower = freezingPower;
+            _freezingPercents = freezingPercents;
         }
         
-        protected override void Start()
+        private void Start()
         {
-            base.Start();
-            freezePower = _freezingPower / 100;
+            _freezePower = _freezingPercents / 100;
             LaserLine = transform.GetChild(0).GetComponent<LineRenderer>();
         }
 
         private void FixedUpdate()
         {
-            if (CheckingEnemyCount())
-            {
-                LaserFire(_freezeTowerDamage);
-            }
-            else
-            {
-                SetPositionLaser(false);
-            }
+            if (CheckingEnemyCount()) LaserFire(_freezeTowerDamage);
+            
+            else SetPositionLaser(false);
         }
 
         protected override void OnTriggerEnter(Collider other)
         {
             base.OnTriggerEnter(other);
-            if (other.TryGetComponent(out Enemy enemyController))
+            if (other.TryGetComponent(out Enemy enemy))
             {
-                enemyController.FreezeAilment.AddInRadius();
+                enemy.FreezeAilment.AddInRadius();
             }
         }
         
         protected override void OnTriggerExit(Collider other)
         {
-            
-            if (other.TryGetComponent(out Enemy enemyController))
+            if (other.TryGetComponent(out Enemy enemy))
             {
-                if (_currentEnemy == enemyController)
-                {
-                    _currentEnemy = null;
-                }
-                enemyController.FreezeAilment.RemoveInRadius();
-                if (enemyController.FreezeAilment.InRadius == 0)
-                {
-                    UnFreeze(enemyController);
-                }
+                if (_currentEnemy == enemy) _currentEnemy = null;
+                
+                enemy.FreezeAilment.RemoveInRadius();
+                
+                if (enemy.FreezeAilment.InRadius == 0) UnFreeze(enemy);
             }
             base.OnTriggerExit(other);
         }
@@ -69,26 +60,26 @@ namespace Implementations.Freeze_Tower.Scripts
         protected override void LaserFire(float damage)
         {
             base.LaserFire(damage);
+            
             Freeze();
         }
 
         private void Freeze()
         {
-            if (CheckingEnemy())
+            if (_currentEnemy == null || _currentEnemy != EnemyInRadius.First())
             {
-                if (_currentEnemy == null || _currentEnemy != EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).GetComponent<Enemy>())
+                _isAttack = false;
+                _currentEnemy = EnemyInRadius.First();
+                _currentEnemy.FreezeAilment.AddFreezeStack();
+            }
+            
+            if (_currentEnemy.FreezeAilment.FreezeStacks > 0)
+            { 
+                
+                if (_isAttack == false)
                 {
-                    _isAttack = false;
-                    _currentEnemy = EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).GetComponent<Enemy>();
-                    _currentEnemy.FreezeAilment.AddFreezeStack();
-                }
-                if (_currentEnemy.FreezeAilment.FreezeStacks > 0)
-                {
-                    if (_isAttack == false)
-                    {
-                        _isAttack = true;
-                        FreezeEnemy(_currentEnemy);
-                    }
+                    _isAttack = true;
+                    FreezeEnemy(_currentEnemy);
                 }
             }
         }
@@ -122,8 +113,8 @@ namespace Implementations.Freeze_Tower.Scripts
 
         private float SetSlowdown(Enemy currentEnemy)
         {
-            return currentEnemy.StartSpeed -
-                   currentEnemy.StartSpeed * (freezePower * currentEnemy.FreezeAilment.FreezeStacks);
+            return currentEnemy.StartSpeed - currentEnemy.StartSpeed * 
+                (_freezePower * currentEnemy.FreezeAilment.FreezeStacks);
         }
     }
 }

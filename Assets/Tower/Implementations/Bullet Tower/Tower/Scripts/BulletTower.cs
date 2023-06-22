@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Linq;
 using Configs.Scripts;
@@ -13,7 +14,9 @@ namespace Implementations.Bullet_Tower.Tower.Scripts
     
         private float _bulletRateOfFire;
 
-        private bool _checkFireRate;
+        private bool _isFire;
+
+        private event Action Fire;
 
         public void Construct(BulletFactory bulletFactory, BulletControllerConfig bulletControllerConfig, float bulletRateOfFire)
         {
@@ -24,45 +27,45 @@ namespace Implementations.Bullet_Tower.Tower.Scripts
     
         private void FixedUpdate()
         {
-            if (CheckingEnemyCount() && _checkFireRate == false) StartCoroutine(FireRate());
+            if (CheckingEnemyCount())
+            {
+                if (_isFire == false) StartCoroutine(FireRate());
+                
+                LookAtEnemy();
+            }
         }
 
-        protected override void OnTriggerStay(Collider other)
+        private BulletController BulletCreate()
         {
-            base.OnTriggerStay(other);
-        
-            for (int i = 0; i < EnemyInRadius.Count; i++)
-            {
-                if (EnemyInRadius.ElementAt(i) != null)
-                {
-                    transform.LookAt(EnemyInRadius.ElementAt(i).transform.position);
-                    break;
-                }
-            }
+            Vector3 target = EnemyInRadius.First().transform.position;
+            Vector3 towerWeaponPosition = transform.GetChild(0).position;
+            
+            BulletController currentBullet = _bulletFactory.CreateBullet(_bulletControllerConfig, 
+                towerWeaponPosition, target);
+
+            Fire += currentBullet.BulletMovement;
+
+            return currentBullet;
         }
         
         private void BulletFire()
         {
-            if (CheckingEnemy())
-            {
-                BulletCreate();
-                LastEnemy = EnemyInRadius.ElementAt(IntCheckingEnemyInRadius());
-            }
-            else RemoveEnemyIfKill();
+            BulletController currentBullet = BulletCreate();
+                
+            Fire?.Invoke();
+            Fire -= currentBullet.BulletMovement;
         }
-    
+        
+        private void LookAtEnemy() => transform.LookAt(EnemyInRadius.First().transform);
+        
         private IEnumerator FireRate()
         {
-            _checkFireRate = true;
+            _isFire = true;
         
             BulletFire();
             yield return new WaitForSeconds(_bulletRateOfFire);
-        
-            if (CheckingEnemyCount()) StartCoroutine(FireRate());
-            else _checkFireRate = false;
-        }
 
-        private void BulletCreate() => _bulletFactory.CreateBullet(_bulletControllerConfig, transform.GetChild(0).position,
-            EnemyInRadius.ElementAt(IntCheckingEnemyInRadius()).transform.position);
+            _isFire = false;
+        }
     }
 }

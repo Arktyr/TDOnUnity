@@ -9,11 +9,14 @@ namespace Configs.Scripts
         [SerializeField] private BulletController _bulletController;
         [SerializeField] private float _bulletDamage;
         [SerializeField] private float _bulletSpeed;
+        [SerializeField] private float _delayBeforeDestroy;
         
         public BulletController BulletController => _bulletController;
 
         public float BulletDamage => _bulletDamage;
         
         public float BulletSpeed => _bulletSpeed;
+
+        public float DelayBeforeDestroy => _delayBeforeDestroy;
     }
 }

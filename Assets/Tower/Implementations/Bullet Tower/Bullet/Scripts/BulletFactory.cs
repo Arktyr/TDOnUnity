@@ -7,7 +7,7 @@ namespace Implementations.Bullet_Tower.Bullet.Scripts
     {
         [SerializeField] private BulletPool _bulletPool;
 
-        public void CreateBullet(BulletControllerConfig bulletControllerConfig, Vector3 position, Vector3 target)
+        public BulletController CreateBullet(BulletControllerConfig bulletControllerConfig, Vector3 position, Vector3 target)
         {
             if (_bulletPool.IsCreatePool == false)
             {
@@ -17,7 +17,9 @@ namespace Implementations.Bullet_Tower.Bullet.Scripts
             BulletController bulletController = 
                 _bulletPool.TakeFromPool(bulletControllerConfig.BulletController, position);
             
-            bulletController.Construct(bulletControllerConfig.BulletDamage, bulletControllerConfig.BulletSpeed, target);
+            bulletController.Construct(bulletControllerConfig.BulletDamage, bulletControllerConfig.BulletSpeed, bulletControllerConfig.DelayBeforeDestroy, target);
+
+            return bulletController;
         }
     }
 }

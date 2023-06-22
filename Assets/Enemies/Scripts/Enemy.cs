@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace Enemies.Scripts
 {
-    [RequireComponent(typeof(Rigidbody))]
+    [RequireComponent(typeof(Rigidbody), typeof(SphereCollider))]
     public class Enemy : MonoBehaviour
     {
         private float _health;
-        private float _speed;
+        public float _speed;
         private float _moneyReward;
         private float _minimumSpeed;
         private float _startSpeed;
@@ -18,19 +18,18 @@ namespace Enemies.Scripts
         private int _currentPoint;
         
         private Rigidbody _enemyRigidBody;
+        private SphereCollider _sphereCollider;
         private DeathAnimation _deathAnimation;
         private bool _isDead;
 
         public FreezeAilment _freezeAilment;
-
-        public float Health => _health;
         
         public float MoneyReward => _moneyReward;
         
         public float StartSpeed => _startSpeed;
         
         public FreezeAilment FreezeAilment => _freezeAilment;
-
+        
         public void Construct(float health,
             float speed,
             float moneyReward,
@@ -46,16 +45,16 @@ namespace Enemies.Scripts
             _deathAnimation = deathAnimation;
             _startSpeed = _speed;
         }
-
-        public void ConstructEnemyAilments(FreezeAilment freezeAilment)
-        {
-            _freezeAilment = freezeAilment;
-        }
         
         public event Action<Enemy> OnKill;
+        public event Action<Enemy> OnKillForTower; 
         public event Action<Enemy> FinishedThePath;
 
-        private void Start() => _enemyRigidBody = GetComponent<Rigidbody>();
+        private void Start()
+        {
+            _sphereCollider = GetComponent<SphereCollider>();
+            _enemyRigidBody = GetComponent<Rigidbody>();
+        }
 
         private void FixedUpdate()
         {
@@ -103,7 +102,7 @@ namespace Enemies.Scripts
             _health -= damage;
             if (damage <= 0) Debug.LogError("Damage should be above zero");
 
-            if (_health <= 0 && _isDead == false) StartCoroutine(Death());
+            if (_health <= 0 && _isDead == false) StartCoroutine(EnemyKill());
         }
 
         public void SetSpeed(float speed) => _speed = speed;
@@ -113,20 +112,27 @@ namespace Enemies.Scripts
             if (_speed < _minimumSpeed) SetSpeed(_minimumSpeed);
         }
         
-        private IEnumerator Death()
+        private void ResetEnemy()
+        {
+            _freezeAilment.SetZeroFreezeStack();
+            _freezeAilment.SetZeroInRadius();
+            OnKill?.Invoke(this);
+        }
+        
+        private IEnumerator EnemyKill()
         {
             _isDead = true;
+            _sphereCollider.enabled = false;
+            OnKillForTower?.Invoke(this);
             
-            _deathAnimation.PlayAnimation(this, 0);
+            _deathAnimation.PlayAnimation(this, 0 );
             yield return new WaitForSeconds(_deathAnimation.ScaleDuration);
             
             _deathAnimation.PlayAnimation(this, 5);
             
-            _freezeAilment.SetZeroFreezeStack();
-            _freezeAilment.SetZeroInRadius();
+            ResetEnemy();
             
-            OnKill?.Invoke(this);
-            
+            _sphereCollider.enabled = true;
             _isDead = false;
         }
     }

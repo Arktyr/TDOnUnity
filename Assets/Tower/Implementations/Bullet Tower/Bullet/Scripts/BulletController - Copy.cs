@@ -15,24 +15,26 @@ namespace Implementations.Bullet_Tower.Bullet.Scripts
         
         private float _bulletDamage;
         private float _bulletSpeed;
+        private float _delayBeforeDestroy;
         
         private Vector3 _target;
-
+        
         public event Action<BulletController> OnDestroy; 
 
-        public void Construct(float bulletDamage, float bulletSpeed, Vector3 target)
+        public void Construct(float bulletDamage, float bulletSpeed, float delayBeforeDestroy, Vector3 target)
         {
             _bulletDamage = bulletDamage;
             _bulletSpeed = bulletSpeed;
+            _delayBeforeDestroy = delayBeforeDestroy;
             _target = target;
         }
 
-        private void OnEnable() => StartCoroutine(CycleLifeTimeBullet());
-
-        private void Start() => _bulletRigidBody = GetComponent<Rigidbody>();
-
-        private void Update() => BulletMovement();
-
+        private void OnEnable()
+        {
+            _bulletRigidBody = GetComponent<Rigidbody>();
+            StartCoroutine(CycleLifeTimeBullet(_delayBeforeDestroy));
+        }
+        
         private void OnTriggerEnter(Collider other)
         {
             if (other.TryGetComponent(out Enemy enemyController))
@@ -43,7 +45,7 @@ namespace Implementations.Bullet_Tower.Bullet.Scripts
             }
         }
 
-        private void BulletMovement()
+        public void BulletMovement()
         {
             Vector3 position = _bulletRigidBody.transform.position;
 
@@ -53,9 +55,9 @@ namespace Implementations.Bullet_Tower.Bullet.Scripts
             _bulletRigidBody.velocity = velocity;
         }
         
-        private IEnumerator CycleLifeTimeBullet()   
+        private IEnumerator CycleLifeTimeBullet(float delayBeforeDestroy)   
         {
-            yield return new WaitForSeconds(1);
+            yield return new WaitForSeconds(delayBeforeDestroy);
             
             OnDestroy?.Invoke(this);
         }
