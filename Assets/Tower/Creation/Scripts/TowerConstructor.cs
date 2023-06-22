@@ -1,5 +1,4 @@
 using System.Collections;
-using Player_Manager.Scripts;
 using UI.Scripts;
 using UnityEngine;
 
@@ -7,12 +6,11 @@ namespace Creation.Scripts
 {
     public class TowerConstructor : MonoBehaviour
     {
-        [SerializeField] private RaycastController _raycastController;
+        [SerializeField] private PlatformRaycaster platformRaycaster;
         [SerializeField] private TowerTypeManager _towerTypeManager;
         [SerializeField] private TowerFactory _towerFactory;
         [SerializeField] private TowerSeller _towerSeller;
         [SerializeField] private Alert _alert;
-        [SerializeField] private MoneyManager _moneyManager;
         [SerializeField] private float _delayBeforeNextConstruction;
         
         private TowersTypes.TowerTypes _type; 
@@ -28,7 +26,7 @@ namespace Creation.Scripts
         private void PrepareToConstruct()
         {
             _delayCreation = true;
-            PlatformConstructor platformConstructor = _raycastController.GetPositionUserClick();
+            PlatformConstructor platformConstructor = platformRaycaster.GetCreatePlatform();
             
             StartCoroutine(DelayBeforeNextConstruction(_delayBeforeNextConstruction));
             

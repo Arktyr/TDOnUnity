@@ -107,7 +107,6 @@ namespace Implementations.Freeze_Tower.Scripts
                 
                 case > 0:
                 {
-                    Debug.Log(currentFreezeStacks);
                     currentEnemy.SetSpeed(SetSlowdown(currentEnemy));
                     currentEnemy.CheckMinimumSpeed();
                     break;

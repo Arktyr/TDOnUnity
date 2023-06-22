@@ -12,5 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867b293450114377b83c7631b08925f4, type: 3}
   m_Name: EnemyAilmentConfig
   m_EditorClassIdentifier: 
-  _enemyAilments: {fileID: 2877398094708264168, guid: cad3b06626f583d4a8ece6402026ee8d, type: 3}
-  _freeze: {fileID: 1941191665457393660, guid: 530b3f603f697c24fa89a2a07122cd71, type: 3}
+  freezeAilment: {fileID: -4040895743405172677, guid: 530b3f603f697c24fa89a2a07122cd71, type: 3}

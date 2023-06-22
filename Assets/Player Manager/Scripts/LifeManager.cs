@@ -21,9 +21,6 @@ namespace Player_Manager.Scripts
             if (_life <= 0) GameOver();
         }
 
-        private void GameOver()
-        {
-            Time.timeScale = 0;
-        }
+        private void GameOver() => Time.timeScale = 0;
     }
 }

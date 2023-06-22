@@ -6,24 +6,11 @@ namespace Enemies.Scripts
     public class EnemyFactory : MonoBehaviour
     {
         [SerializeField] private EnemyPool _enemyPool;
-
-        private EnemyAilmentsConfig _enemyAilmentsConfig;
-
-        private void OnEnable() => _enemyPool.PoolExpanded += CreateEnemyAilments;
-
-        private void OnDisable() => _enemyPool.PoolExpanded -= CreateEnemyAilments;
-
+        
         public Enemy CreateEnemy(EnemyConfig config, Vector3 position)
         {
-            _enemyAilmentsConfig = config.EnemyAilmentsConfig;
+            if (_enemyPool.IsCreate == false) _enemyPool.CreatePool(config.Enemy);
 
-            if (_enemyPool.IsCreate == false)
-            {
-                _enemyPool.CreatePool(config.Enemy);
-                
-                CreateEnemyAilments(config.Enemy);
-            }
-            
             Enemy enemy = _enemyPool.TakeFromPool(config.Enemy, position);
             
             enemy.Construct(config.Health,
@@ -34,17 +21,6 @@ namespace Enemies.Scripts
                 config.DeathAnimation);
 
             return enemy;
-        }
-
-        private void CreateEnemyAilments(Enemy enemy)
-        {
-            foreach (var Enemy in _enemyPool.enemyPool)
-            {
-                if (Enemy.FreezeAilment != null) return;
-                
-                FreezeAilment freezeAilment = Instantiate(_enemyAilmentsConfig.FreezeAilment, Enemy.transform);
-                Enemy.ConstructEnemyAilments(freezeAilment);
-            }
         }
     }
 }

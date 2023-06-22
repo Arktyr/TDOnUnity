@@ -14,6 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _tower: {fileID: 4786586311508209222, guid: c4446df0f46e57c4eb20ef648f4c464e, type: 3}
   _bulletControllerConfig: {fileID: 11400000, guid: 86d591d81ddcbcd4b9defab9b894defa, type: 2}
-  _bulletRateOfFire: 0.2
-  _bulletTowerDamage: 2
+  _bulletRateOfFire: 0.1
   _priceBulletTower: 50

@@ -17,9 +17,7 @@ namespace Enemies.Scripts
         public Queue<Enemy> enemyPool => _enemyPool;
 
         public bool IsCreate => _isCreate;
-
-        public event Action<Enemy> PoolExpanded; 
-
+        
         public void CreatePool(Enemy enemy)
         {
             _isCreate = true;
@@ -59,7 +57,6 @@ namespace Enemies.Scripts
             Enemy newEnemy = Instantiate(enemy, transform.parent);
             
             _enemyPool.Enqueue(newEnemy);
-            PoolExpanded?.Invoke(newEnemy);
         }
     }
 }
