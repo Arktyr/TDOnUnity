@@ -6,7 +6,7 @@ namespace Enemies.Scripts
 {
     public class EnemyWatcher : MonoBehaviour
     {
-        [SerializeField] private Wavespawner _waveSpawner;
+        [SerializeField] private WaveSpawner _waveSpawner;
         
         public event Action <Enemy> EnemyKilled;
         public event Action EnemySpawned;

@@ -10,7 +10,7 @@ namespace Creation.Scripts
         [SerializeField] private TowerTypeManager _towerTypeManager;
         [SerializeField] private TowerFactory _towerFactory;
         [SerializeField] private TowerSeller _towerSeller;
-        [SerializeField] private Alert _alert;
+        [SerializeField] private AlertUI alertUI;
         [SerializeField] private float _delayBeforeNextConstruction;
         
         private TowersTypes.TowerTypes _type; 
@@ -46,7 +46,7 @@ namespace Creation.Scripts
                 ReservePlace(type, platformConstructor);
                 _towerFactory.Create(type, new Vector3(position.x, position.y + 5, position.z));
             }
-            else _alert.AnimationPlay("У вас недостаточно монет для покупки");
+            else alertUI.FadeUIAnimation.AnimationPlay(alertUI.SetText("У вас недостаточно монет для покупки"));
         }
 
         private void ReservePlace(TowersTypes.TowerTypes type, PlatformConstructor platformConstructor)

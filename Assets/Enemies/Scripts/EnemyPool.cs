@@ -1,62 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Object_Pools.Scripts;
 using UnityEngine;
 
 namespace Enemies.Scripts
 {
-    public class EnemyPool : MonoBehaviour
+    public class EnemyPool : BasePool<Enemy>
     {
-        [SerializeField] private float startCountEnemyPool;
-
-        private bool _isCreate;
-        private int _currentEnemyCount;
+        private void Start() => Construct(CreateEnemy, SetDisable, SetActive, RemoveFromEvent, AddToEvent, SetTransform);
         
-        private readonly Queue<Enemy> _enemyPool = new();
-        private readonly Queue<Enemy> _activeEnemies = new();
+        private Enemy CreateEnemy(Enemy enemy) => Instantiate(enemy, transform.parent);
 
-        public Queue<Enemy> enemyPool => _enemyPool;
+        private void SetActive(Enemy enemy) => enemy.gameObject.SetActive(true);
 
-        public bool IsCreate => _isCreate;
-        
-        public void CreatePool(Enemy enemy)
-        {
-            _isCreate = true;
-            
-            for (int i = 0; i < startCountEnemyPool; i++)
-            {
-                Enemy newEnemy = Instantiate(enemy, transform.parent);
-                
-                _enemyPool.Enqueue(newEnemy);
-                newEnemy.gameObject.SetActive(false);
-            }
-        }
+        private void SetDisable(Enemy enemy) => enemy.gameObject.SetActive(false);
 
-        public Enemy TakeFromPool(Enemy enemy, Vector3 position)
-        {
-            if (_enemyPool.Count == 0) AddToPool(enemy);
-            
-            _activeEnemies.Enqueue(_enemyPool.Dequeue());
-            
-            _activeEnemies.Peek().OnKill += ReturnToPool;
-            _activeEnemies.Peek().gameObject.SetActive(true);
-            _activeEnemies.Peek().transform.position = position;
-            
-            return _activeEnemies.Dequeue();
-        }
+        private void SetTransform(Enemy enemy, Vector3 position) => enemy.transform.position = position;
 
-        private void ReturnToPool(Enemy enemy)
-        {
-            enemy.OnKill -= ReturnToPool;
-            
-            _enemyPool.Enqueue(enemy);
-            enemy.gameObject.SetActive(false);
-        }
+        private void AddToEvent(Enemy enemy) => enemy.OnKill += ReturnToPool;
 
-        private void AddToPool(Enemy enemy)
-        {
-            Enemy newEnemy = Instantiate(enemy, transform.parent);
-            
-            _enemyPool.Enqueue(newEnemy);
-        }
+        private void RemoveFromEvent(Enemy enemy) => enemy.OnKill -= ReturnToPool;
     }
 }

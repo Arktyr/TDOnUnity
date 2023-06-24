@@ -6,10 +6,9 @@ using UnityEngine;
 
 namespace Wave.Scripts
 {
-    public class Wavespawner : MonoBehaviour 
+    public class WaveSpawner : MonoBehaviour 
     {
         [SerializeField] private Wave[] _waves;
-        [SerializeField] private WaveCounter _waveCounter;
         [SerializeField] private EnemyFactory _enemyFactory;
 
         private int _currentWaveIndex;

@@ -11,7 +11,7 @@ namespace Player_Manager.Scripts
         [SerializeField] private EnemyWatcher _enemyWatcher;
         
         [SerializeField] private MoneyManager _moneyManager;
-        [SerializeField] private MoneyCounter _moneyCounter;
+        [SerializeField] private MoneyCounterUI moneyCounterUI;
 
         private void OnEnable()
         {
@@ -27,11 +27,11 @@ namespace Player_Manager.Scripts
         {
             float _reward = enemy.MoneyReward;
             
-            _moneyCounter.PlayAnimation(_reward);
+            moneyCounterUI.PlayAnimation(_reward);
             
             _moneyManager.AddMoney(_reward);
             
-            _moneyCounter.ChangeTextInMoneyCounterUI(_moneyManager.Money);
+            moneyCounterUI.ChangeTextInMoneyCounterUI(_moneyManager.Money);
         }
     }
 }

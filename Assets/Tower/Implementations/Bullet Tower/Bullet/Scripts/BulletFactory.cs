@@ -9,11 +9,8 @@ namespace Implementations.Bullet_Tower.Bullet.Scripts
 
         public BulletController CreateBullet(BulletControllerConfig bulletControllerConfig, Vector3 position, Vector3 target)
         {
-            if (_bulletPool.IsCreatePool == false)
-            {
-                _bulletPool.CreatePool(bulletControllerConfig.BulletController);
-            }
-            
+            if (_bulletPool.IsCreate == false) _bulletPool.CreatePool(bulletControllerConfig.BulletController);
+
             BulletController bulletController = 
                 _bulletPool.TakeFromPool(bulletControllerConfig.BulletController, position);
             

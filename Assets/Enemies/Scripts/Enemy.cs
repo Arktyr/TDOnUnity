@@ -114,6 +114,7 @@ namespace Enemies.Scripts
         
         private void ResetEnemy()
         {
+            _currentPoint = 0;
             _freezeAilment.SetZeroFreezeStack();
             _freezeAilment.SetZeroInRadius();
             OnKill?.Invoke(this);

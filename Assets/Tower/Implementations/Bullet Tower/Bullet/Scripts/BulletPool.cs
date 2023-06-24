@@ -1,50 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using Object_Pools.Scripts;
 using UnityEngine;
 
 namespace Implementations.Bullet_Tower.Bullet.Scripts
 {
-    public class BulletPool : MonoBehaviour
+    public class BulletPool : BasePool<BulletController>
     {
-        [SerializeField] private float startCountBulletPool;
+        private void Start() => Construct(CreateEnemy, SetDisable, SetActive, RemoveFromEvent, AddToEvent, SetTransform);
         
-        private bool _isCreatePool;
-        
-        private readonly Queue<BulletController> _bulletPool = new();
-        private readonly Queue<BulletController> _activeBullet = new();
+        private BulletController CreateEnemy(BulletController bullet) => Instantiate(bullet, transform.parent);
 
-        public bool IsCreatePool => _isCreatePool;
-        
-        public void CreatePool(BulletController bulletController)
-        {
-            _isCreatePool = true;
-            
-            for (int i = 0; i < startCountBulletPool; i++)
-            {
-                _bulletPool.Enqueue(Instantiate(bulletController, transform.parent));
-                _bulletPool.Peek().gameObject.SetActive(false);
-            }
-        }
-        public BulletController TakeFromPool(BulletController bulletController, Vector3 position)
-        {
-            if (_bulletPool.Count == 0) AddToPool(bulletController);
-            
-            _activeBullet.Enqueue(_bulletPool.Dequeue());
+        private void SetActive(BulletController bullet) => bullet.gameObject.SetActive(true);
 
-            _activeBullet.Peek().OnDestroy += ReturnToPool;
-            _activeBullet.Peek().gameObject.SetActive(true);
-            _activeBullet.Peek().transform.position = position;
-            
-            return _activeBullet.Dequeue();
-        }
+        private void SetDisable(BulletController bullet) => bullet.gameObject.SetActive(false);
 
-        private void ReturnToPool(BulletController bulletController)
-        {
-            bulletController.OnDestroy -= ReturnToPool;
-            
-            _bulletPool.Enqueue(bulletController);
-            bulletController.gameObject.SetActive(false);
-        }
+        private void SetTransform(BulletController bullet, Vector3 position) => bullet.transform.position = position;
 
-        private void AddToPool(BulletController bulletController) => _bulletPool.Enqueue(Instantiate(bulletController, transform.parent));
+        private void AddToEvent(BulletController bullet) => bullet.OnDestroy += ReturnToPool;
+
+        private void RemoveFromEvent(BulletController bullet) => bullet.OnDestroy -= ReturnToPool;
     }
 }

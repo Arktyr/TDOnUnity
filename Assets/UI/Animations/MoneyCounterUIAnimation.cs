@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UI.Animations
 {
-    public class MoneyCounterAnimation : MonoBehaviour
+    public class MoneyCounterUIAnimation : MonoBehaviour
     {
         [SerializeField] public TMP_Text animatedText;
         [SerializeField] private TMP_Text moneyCounter;

@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _bulletController: {fileID: 182018789025706645, guid: 5242279194a681a459634d3fad3b07ee, type: 3}
   _bulletDamage: 10
-  _bulletSpeed: 4000
+  _bulletSpeed: 5000
+  _delayBeforeDestroy: 0.4

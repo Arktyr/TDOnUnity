@@ -8,7 +8,7 @@ namespace Creation.Scripts
     {
         [SerializeField] private Camera mainCamera;
         [SerializeField] private PlatformColorController _platformColorController;
-        [SerializeField] private Alert _alert;
+        [SerializeField] private AlertUI alertUI;
       
         private Ray _ray;
         private RaycastHit _hit;
@@ -53,7 +53,7 @@ namespace Creation.Scripts
             MeshRenderer createPlatformMesh = platformConstructor.GetComponent<MeshRenderer>();
             
             _platformColorController.ChangePlatformColor(createPlatformMesh, Color.red);
-            _alert.AnimationPlay("Здесь уже установлена вышка");
+            alertUI.FadeUIAnimation.AnimationPlay(alertUI.SetText("Здесь уже установлена вышка"));
             return false;
         }
     }
