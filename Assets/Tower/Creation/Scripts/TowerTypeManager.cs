@@ -4,43 +4,20 @@ namespace Creation.Scripts
 {
     public class TowerTypeManager : MonoBehaviour
     {
+        [SerializeField] private InteractionUI _interactionUI;
+        
         private TowersTypes.TowerTypes _type;
         
-        private bool _laserEnable;
-        private bool _freezeEnable;
-        private bool _bulletEnable;
-        
         public TowersTypes.TowerTypes Type => _type;
-        
-        public void CheckLaserEnableInUI(bool enable)
-        {
-            if (enable) _laserEnable = false;
-            
-            if (enable == false) _laserEnable = true;
-        }
-        
-        public void CheckFreezeEnableInUI(bool enable)
-        {
-            if (enable) _freezeEnable = false;
-            
-            if (enable == false) _freezeEnable = true;
-        }
-        
-        public void CheckBulletEnableInUI(bool enable)
-        {
-            if (enable) _bulletEnable = false;
-            
-            if (enable == false) _bulletEnable = true;
-        }
         
         public void ChooseTypeTower()
         {
             _type = 0;
-            if (_laserEnable) ChooseTypeLaserTower();
+            if (_interactionUI.LaserEnable) ChooseTypeLaserTower();
             
-            if (_bulletEnable) ChooseTypeBulletTower();
+            if (_interactionUI.BulletEnable) ChooseTypeBulletTower();
             
-            if (_freezeEnable) ChooseTypeFreezeTower();
+            if (_interactionUI.FreezeEnable) ChooseTypeFreezeTower();
         }
         
         private void ChooseTypeLaserTower() => _type = TowersTypes.TowerTypes.LaserTower;

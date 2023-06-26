@@ -14,7 +14,11 @@ namespace Player_Manager.Scripts
 
         private void Start() => moneyCounterUI.ChangeTextInMoneyCounterUI(_money);
 
-        public void AddMoney(float money) => _money += money;
+        public void AddMoney(float money)
+        {
+            _money += money;
+            moneyCounterUI.ChangeTextInMoneyCounterUI(_money);
+        }
 
         public void RemoveMoney(float money)
         {

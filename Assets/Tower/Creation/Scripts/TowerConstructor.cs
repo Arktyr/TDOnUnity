@@ -10,7 +10,8 @@ namespace Creation.Scripts
         [SerializeField] private TowerTypeManager _towerTypeManager;
         [SerializeField] private TowerFactory _towerFactory;
         [SerializeField] private TowerSeller _towerSeller;
-        [SerializeField] private AlertUI alertUI;
+        [SerializeField] private InteractionUI _interactionUI;
+        [SerializeField] private AlertUI _alertUI;
         [SerializeField] private float _delayBeforeNextConstruction;
         
         private TowersTypes.TowerTypes _type; 
@@ -32,9 +33,15 @@ namespace Creation.Scripts
             
             if (platformConstructor == null) return;
             
+            if (_interactionUI.RefundEnable && platformConstructor.IsEmpty)
+            {
+                _towerSeller.RefundTower(platformConstructor);
+                return;
+            }
+            
             _towerTypeManager.ChooseTypeTower();
                 
-            if (_towerTypeManager.Type != 0) ConstructTower(_towerTypeManager.Type,platformConstructor);
+            if (_towerTypeManager.Type != 0) ConstructTower(_towerTypeManager.Type, platformConstructor);
         }
         
         private void ConstructTower(TowersTypes.TowerTypes type, PlatformConstructor platformConstructor)
@@ -42,16 +49,17 @@ namespace Creation.Scripts
             if (_towerSeller.PurchasingCheck(_towerSeller.GetPriceTower(type)))
             {
                 Vector3 position = platformConstructor.transform.position;
-                
+
                 ReservePlace(type, platformConstructor);
-                _towerFactory.Create(type, new Vector3(position.x, position.y + 5, position.z));
+                _towerFactory.Create
+                    (type, new Vector3(position.x, position.y + 5, position.z), platformConstructor);
             }
-            else alertUI.FadeUIAnimation.AnimationPlay(alertUI.SetText("У вас недостаточно монет для покупки"));
+            else _alertUI.FadeUIAnimation.AnimationPlay(_alertUI.SetText("У вас недостаточно монет для покупки"));
         }
 
         private void ReservePlace(TowersTypes.TowerTypes type, PlatformConstructor platformConstructor)
         {
-            platformConstructor.TakePlace();
+            platformConstructor.SetPlace(true);
             platformConstructor.SetTowerType(type);
         }
         

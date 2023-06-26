@@ -1,6 +1,4 @@
-﻿using System;
-using Enemies.Scripts;
-using TMPro;
+﻿using Enemies.Scripts;
 using UI.Animations;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,7 +9,7 @@ namespace UI.Scripts
     {
         [SerializeField] private Text _text;
         [SerializeField] private EnemyWatcher _enemyWatcher;
-        [SerializeField] private EnemyCounterUIAnimation _enemyCounterUIAnimation;
+        [SerializeField] private ScaleUIAnimation _scaleUIAnimation;
       
         private float _leftEnemy;
         
@@ -29,14 +27,14 @@ namespace UI.Scripts
 
         private void CounterUp()
         {
-            _enemyCounterUIAnimation.PlayAnimation(_text);
+            _scaleUIAnimation.PlayAnimation(_text);
             _leftEnemy++;
             ChangeTextInEnemyCounterUI();
         }
 
         private void CounterDown(Enemy enemy)
         {
-            _enemyCounterUIAnimation.PlayAnimation(_text);
+            _scaleUIAnimation.PlayAnimation(_text);
             _leftEnemy--;
             ChangeTextInEnemyCounterUI();
         }

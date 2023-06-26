@@ -1,24 +1,24 @@
-using DG.Tweening;
-using TMPro;
+using System.Net.Mime;
 using UI.Animations;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI.Scripts
 {
-    [RequireComponent(typeof(TMP_Text))]
+    [RequireComponent(typeof(MediaTypeNames.Text))]
     public class AlertUI : MonoBehaviour
     {
         [SerializeField] private FadeUIAnimation _fadeUIAnimation;
         
-        private TMP_Text _text;
+        private Text _text;
 
         public FadeUIAnimation FadeUIAnimation => _fadeUIAnimation;
         
-        private void Start() => _text = GetComponent<TMP_Text>();
+        private void Start() => _text = GetComponent<Text>();
 
-        public TMP_Text SetText(string text)
+        public Text SetText(string text)
         {
-            _text.SetText(text);
+            _text.text = text;
             return _text;
         }
     }

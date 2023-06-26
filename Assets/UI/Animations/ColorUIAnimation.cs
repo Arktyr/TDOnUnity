@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 namespace UI.Animations
 {
-    public class WaveCounterUIAnimation : MonoBehaviour
+    public class ColorUIAnimation : MonoBehaviour
     {
         [SerializeField] private float _duration;
         [SerializeField] private Ease _ease;

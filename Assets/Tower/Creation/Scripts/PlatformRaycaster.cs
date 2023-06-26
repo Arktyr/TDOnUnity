@@ -3,27 +3,37 @@ using UnityEngine;
 
 namespace Creation.Scripts
 {
-    [RequireComponent(typeof(MeshRenderer))]
+    [RequireComponent(typeof(PlatformConstructor))]
     public class PlatformRaycaster : MonoBehaviour
     {
-        [SerializeField] private Camera mainCamera;
+        [SerializeField] private Camera _mainCamera;
         [SerializeField] private PlatformColorController _platformColorController;
-        [SerializeField] private AlertUI alertUI;
-      
+        [SerializeField] private AlertUI _alertUI;
+        [SerializeField] private InteractionUI _interactionUI;
+
         private Ray _ray;
         private RaycastHit _hit;
         
         private int _layerMask;
+
+        public RaycastHit Hit => _hit;
         
         private void Start() => _layerMask = 1 << LayerMask.NameToLayer("Ignore Raycast");
 
+        private void Update() => RaycastRay();
+
+        private void RaycastRay()
+        {
+            _ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
+            _hit = CheckRaycastHit(_ray, _layerMask);
+        }
+
         public PlatformConstructor GetCreatePlatform()
         {
-            _ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-            _hit = CheckRaycastHit(_ray, _layerMask);
-            
             if (_hit.collider != null && _hit.collider.TryGetComponent(out PlatformConstructor createPlatform))
             {
+                if (_interactionUI.RefundEnable) return createPlatform;
+                
                 if (CheckOnEmptyPlace(createPlatform)) return createPlatform;
                 
                 return null;
@@ -36,24 +46,24 @@ namespace Creation.Scripts
         {
             if (Physics.Raycast(ray, out _hit, Mathf.Infinity, ~layerMask))
             {
-                MeshRenderer createPlatformMesh = _hit.collider.GetComponent<MeshRenderer>();
+                if (_hit.collider.TryGetComponent(out PlatformConstructor createPlatformConstructor))
+                {
+                    _platformColorController.CheckLastMeshRenderer(createPlatformConstructor);
+                    return _hit;
+                }
                 
-                _platformColorController.CheckLastMeshRenderer(createPlatformMesh);
+                _platformColorController.CheckLastMeshRenderer(null);
                 return _hit;
             }
-            
-            _platformColorController.CheckLastMeshRenderer(null);
+
             return _hit;
         }
 
         private bool CheckOnEmptyPlace(PlatformConstructor platformConstructor)
         {
             if (platformConstructor.IsEmpty == false) return true;
-
-            MeshRenderer createPlatformMesh = platformConstructor.GetComponent<MeshRenderer>();
             
-            _platformColorController.ChangePlatformColor(createPlatformMesh, Color.red);
-            alertUI.FadeUIAnimation.AnimationPlay(alertUI.SetText("Здесь уже установлена вышка"));
+            _alertUI.FadeUIAnimation.AnimationPlay(_alertUI.SetText("Здесь уже установлена вышка"));
             return false;
         }
     }

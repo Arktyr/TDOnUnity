@@ -1,12 +1,12 @@
-using TMPro;
 using UI.Animations;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI.Scripts
 {
     public class MoneyCounterUI : MonoBehaviour
     {
-        [SerializeField] private TMP_Text text;
+        [SerializeField] private Text text;
         [SerializeField] private MoneyCounterUIAnimation moneyCounterUIAnimation;
         
         public void PlayAnimation(float reward)
@@ -14,6 +14,6 @@ namespace UI.Scripts
             if (moneyCounterUIAnimation.isMoveAnimationStart == false) moneyCounterUIAnimation.PlayAnimation(reward);
         }
         
-        public void ChangeTextInMoneyCounterUI(float money) => text.SetText($"{money}");
+        public void ChangeTextInMoneyCounterUI(float money) => text.text = $"{money}";
     }
 }

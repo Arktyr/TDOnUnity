@@ -107,16 +107,22 @@ namespace Enemies.Scripts
 
         public void SetSpeed(float speed) => _speed = speed;
 
-        public void CheckMinimumSpeed()
+        public bool CheckMinimumSpeed()
         {
-            if (_speed < _minimumSpeed) SetSpeed(_minimumSpeed);
+            if (_speed < _minimumSpeed)
+            {
+                SetSpeed(_minimumSpeed);
+                return true;
+            }
+
+            return false;
         }
         
         private void ResetEnemy()
         {
             _currentPoint = 0;
-            _freezeAilment.SetZeroFreezeStack();
-            _freezeAilment.SetZeroInRadius();
+            SetSpeed(_startSpeed);
+            
             OnKill?.Invoke(this);
         }
         

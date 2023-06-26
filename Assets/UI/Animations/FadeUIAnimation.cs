@@ -1,6 +1,4 @@
-﻿using System;
-using DG.Tweening;
-using TMPro;
+﻿using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,13 +10,13 @@ namespace UI.Animations
         [SerializeField] private float _fadeOutEndValue;
         [SerializeField] private float _fadeDuration;
         [SerializeField] private Ease _setEase;
-
-        private TMP_Text _text;
+        
         private Sequence _sequence;
-
+        private Text _text;
+        
         private bool _isAnimationEnd = true;
 
-        public void AnimationPlay(TMP_Text text)
+        public void AnimationPlay(Text text)
         {
             if (_isAnimationEnd)
             {

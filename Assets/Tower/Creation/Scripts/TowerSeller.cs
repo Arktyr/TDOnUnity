@@ -8,8 +8,18 @@ namespace Creation.Scripts
     {
         [SerializeField] private TowerFactory _towerFactory;
         [SerializeField] private MoneyManager _moneyManager;
+        [SerializeField] private float _percentsReturnMoneyFromRefund;
         
         private void BuyTower(float price) => _moneyManager.RemoveMoney(price);
+
+        public void RefundTower(PlatformConstructor platformConstructor)
+        {
+            _moneyManager.AddMoney(GetPriceTower(platformConstructor.Type) * _percentsReturnMoneyFromRefund / 100);
+
+            Destroy(platformConstructor.BaseTower.gameObject);
+            
+            platformConstructor.ResetPlatform();
+        }
 
         public bool PurchasingCheck(float price)
         {

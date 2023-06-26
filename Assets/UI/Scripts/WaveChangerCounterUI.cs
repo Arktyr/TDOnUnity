@@ -1,4 +1,3 @@
-using System.Collections;
 using UI.Animations;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,11 +8,11 @@ namespace UI.Scripts
     public class WaveChangerCounterUI : MonoBehaviour
     {
         [SerializeField] private WaveSpawner _waveSpawner;
-        [SerializeField] private WaveCounterUIAnimation _waveCounterUIAnimation;
+        [SerializeField] private ColorUIAnimation colorUIAnimation;
         
         [SerializeField] private Text _waveCounterText;
 
-        private void Start() => _waveCounterUIAnimation.PlayAnimation(_waveCounterText);
+        private void Start() => colorUIAnimation.PlayAnimation(_waveCounterText);
 
         private void OnEnable() => _waveSpawner.WaveHasChanged += TextInWaveHasChangedCounterUI;
 

@@ -2,17 +2,27 @@
 
 namespace Creation.Scripts
 {
+    [RequireComponent(typeof(MeshRenderer))]
     public class PlatformColorController : MonoBehaviour
     {
         private MeshRenderer _lastMeshRenderer;
 
-        public void CheckLastMeshRenderer(MeshRenderer createPlatformMeshRenderer)
+        public void CheckLastMeshRenderer(PlatformConstructor createPlatformConstructor)
         {
             if (_lastMeshRenderer != null) ChangePlatformColor(_lastMeshRenderer, Color.white);
             
-            if (createPlatformMeshRenderer != null)
+            if (createPlatformConstructor == null) return;
+            
+            if (createPlatformConstructor.TryGetComponent(out MeshRenderer createPlatformMeshRenderer))
             {
                 SetLastMeshRenderer(createPlatformMeshRenderer);
+
+                if (createPlatformConstructor.IsEmpty)
+                {
+                    ChangePlatformColor(createPlatformMeshRenderer, Color.red);
+                    return;
+                }
+                
                 ChangePlatformColor(createPlatformMeshRenderer, Color.green);
             }
         }

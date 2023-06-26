@@ -1,11 +1,10 @@
 ﻿using DG.Tweening;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace UI.Animations
 {
-    public class EnemyCounterUIAnimation : MonoBehaviour
+    public class ScaleUIAnimation : MonoBehaviour
     {
         [SerializeField] private float _scaleDuration;
         [SerializeField] private float _scaleIn;

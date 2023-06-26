@@ -34,6 +34,7 @@ namespace UI.Scripts
 
         private IEnumerator CounterBeforeNextWave()
         {
+            _fadeUIAnimation.AnimationPlay(_NextWaveCounterText);
             for (int i = 0; i < _waveSpawner.CurrentDelayBeforeNextWave; i++)
             {
                 yield return new WaitForSeconds(_delayOneSecond);

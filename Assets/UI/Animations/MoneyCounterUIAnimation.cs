@@ -1,23 +1,17 @@
 ﻿using DG.Tweening;
-using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI.Animations
 {
     public class MoneyCounterUIAnimation : MonoBehaviour
     {
-        [SerializeField] public TMP_Text animatedText;
-        [SerializeField] private TMP_Text moneyCounter;
+        [SerializeField] private Text _moneyCounter;
         public bool isMoveAnimationStart;
         private Vector3 _startPosition;
         private Sequence _sequence;
         public float reward;
-
-        private void Start()
-        {
-            _startPosition = animatedText.transform.position;
-        }
-
+        
         public void PlayAnimation(float Reward)
         {
             //reward += Reward;
@@ -46,17 +40,10 @@ namespace UI.Animations
             //animatedText.gameObject.SetActive(true);
             isMoveAnimationStart = true;
         }
-
-        private void MoveAnimatedText() => animatedText.transform.DOMove(moneyCounter.transform.position, 1f).SetEase(Ease.InQuart).Play();
         
-        private void ScaleMoneyCounterIn() => moneyCounter.transform.DOScale(1.2f, 0.5f).SetEase(Ease.InQuart).Play();
         
-        private void ScaleMoneyCounterOut() => moneyCounter.transform.DOScale(1, 0.5f).SetEase(Ease.InQuart).Play();
-
-        private void Fade() => animatedText.DOFade(0, 1f).SetEase(Ease.InQuart).Play();
+        private void ScaleMoneyCounterIn() => _moneyCounter.transform.DOScale(1.2f, 0.5f).SetEase(Ease.InQuart).Play();
         
-        private void OutFade() => animatedText.DOFade(1, 0f).SetEase(Ease.InQuart).Play();
-
-        public void SetText() => animatedText.SetText($"{reward}");
+        private void ScaleMoneyCounterOut() => _moneyCounter.transform.DOScale(1, 0.5f).SetEase(Ease.InQuart).Play();
     }
 }

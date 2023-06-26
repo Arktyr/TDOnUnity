@@ -1,24 +1,29 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace Enemies.Scripts
 {
     public class FreezeAilment : MonoBehaviour
     {
-        private float _freezeStacks;
-        private int _inRadius;
+        public void FreezeEnemy(Enemy currentEnemy, float freezePower, float freezeDuration)
+        {
+            if (currentEnemy.CheckMinimumSpeed()) return;
+            
+            currentEnemy.SetSpeed(SetSlowdown(currentEnemy, freezePower));
+            StartCoroutine(FreezeDuration(currentEnemy, freezeDuration, freezePower));
+        }
 
-        public float FreezeStacks => _freezeStacks;
+        private float SetSlowdown(Enemy currentEnemy, float freezePower) => currentEnemy._speed - freezePower;
 
-        public int InRadius => _inRadius;
+        private float SetBoost(Enemy currentEnemy, float freezePower) => currentEnemy._speed + freezePower;
 
-        public void AddFreezeStack() => _freezeStacks++;
+        private IEnumerator FreezeDuration(Enemy currentEnemy, float freezeDuration, float freezePower)
+        {
+            yield return new WaitForSeconds(freezeDuration);
 
-        public void SetZeroFreezeStack() => _freezeStacks = 0;
-        
-        public void SetZeroInRadius() => _inRadius = 0;
-        
-        public void AddInRadius() => _inRadius++;
-        
-        public void RemoveInRadius() => _inRadius--;
+            if (currentEnemy.gameObject == null) yield break;
+            
+            currentEnemy.SetSpeed(SetBoost(currentEnemy, freezePower));
+        }
     }
 }

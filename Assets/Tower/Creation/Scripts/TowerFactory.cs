@@ -21,37 +21,44 @@ namespace Creation.Scripts
         
         public LaserTowerConfig LaserTowerConfig => _laserTowerConfig;
         
-        public void Create(TowersTypes.TowerTypes type, Vector3 position)
+        public void Create(TowersTypes.TowerTypes type, Vector3 position, PlatformConstructor platformConstructor)
         {
             switch (type)
             {
-                case TowersTypes.TowerTypes.BulletTower: CreateBulletTower(position);
+                case TowersTypes.TowerTypes.BulletTower: CreateBulletTower(position, platformConstructor);
                     break;
-                case TowersTypes.TowerTypes.FreezeTower: CreateFreezeTower(position);
+                case TowersTypes.TowerTypes.FreezeTower: CreateFreezeTower(position, platformConstructor);
                     break;
-                case TowersTypes.TowerTypes.LaserTower: CreateLaserTower(position);
+                case TowersTypes.TowerTypes.LaserTower: CreateLaserTower(position, platformConstructor);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }
         }
 
-        private void CreateFreezeTower(Vector3 position)
+        private void CreateFreezeTower(Vector3 position, PlatformConstructor platformConstructor)
         {
             FreezeTower tower  = Instantiate(_freezeTowerConfig.Tower, position, Quaternion.identity);
-            tower.Construct(_freezeTowerConfig.FreezeTowerDamage,_freezeTowerConfig.FreezingPercents);
+            platformConstructor.SetBaseTower(tower);
+            tower.Construct(_freezeTowerConfig.FreezeTowerDamage,
+                _freezeTowerConfig.FreezingPercents,
+                _freezeTowerConfig.FreezeDuration);
         }
 
-        private void CreateLaserTower(Vector3 position)
+        private void CreateLaserTower(Vector3 position, PlatformConstructor platformConstructor)
         {
             LaserTower tower = Instantiate(_laserTowerConfig.Tower, position, Quaternion.identity);
+            platformConstructor.SetBaseTower(tower);
             tower.Construct(_laserTowerConfig.LaserTowerDamage);
         }
 
-        private void CreateBulletTower(Vector3 position)
+        private void CreateBulletTower(Vector3 position, PlatformConstructor platformConstructor)
         {
             BulletTower tower = Instantiate(_bulletTowerConfig.Tower, position, Quaternion.identity);
-            tower.Construct(_bulletFactory, _bulletTowerConfig.BulletControllerConfig, _bulletTowerConfig.BulletRateOfFire);
+            platformConstructor.SetBaseTower(tower);
+            tower.Construct(_bulletFactory,
+                _bulletTowerConfig.BulletControllerConfig,
+                _bulletTowerConfig.BulletRateOfFire);
         }
     }
 }
