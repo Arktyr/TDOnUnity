@@ -32,7 +32,7 @@ namespace UI.Scripts
             ChangeTextInEnemyCounterUI();
         }
 
-        private void CounterDown(Enemy enemy)
+        private void CounterDown(EnemyBase enemyBase)
         {
             _scaleUIAnimation.PlayAnimation(_text);
             _leftEnemy--;

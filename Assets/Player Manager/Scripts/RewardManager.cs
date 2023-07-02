@@ -9,17 +9,17 @@ namespace Player_Manager.Scripts
         [SerializeField] private EnemyWatcher _enemyWatcher;
         
         [SerializeField] private MoneyManager _moneyManager;
-        [SerializeField] private MoneyCounterUI moneyCounterUI;
+        [SerializeField] private MoneyCounterUI _moneyCounterUI;
 
         private void OnEnable() => _enemyWatcher.EnemyKilled += GetRewardFromEnemy;
 
         private void OnDisable() => _enemyWatcher.EnemyKilled += GetRewardFromEnemy;
 
-        private void GetRewardFromEnemy(Enemy enemy)
+        private void GetRewardFromEnemy(EnemyBase enemyBase)
         {
-            float _reward = enemy.MoneyReward;
+            float _reward = enemyBase.MoneyReward;
             
-            moneyCounterUI.PlayAnimation(_reward);
+            _moneyCounterUI.PlayAnimation(_reward);
             
             _moneyManager.AddMoney(_reward);
         }

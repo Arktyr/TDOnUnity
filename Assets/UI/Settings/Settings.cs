@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UI.Settings
@@ -55,7 +56,7 @@ namespace UI.Settings
 
         public void ExitSettings()
         {
-            Application.Quit();
+            SceneManager.LoadScene("Scenes/Menu");
         }
 
         public void SaveSettings()

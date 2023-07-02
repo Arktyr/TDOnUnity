@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5751ac7977dad484c80f93b1cc64915d, type: 3}
   m_Name: EnemyConfig
   m_EditorClassIdentifier: 
-  _enemy: {fileID: 4442373164848520278, guid: 422de99448ebfab40b0d305de34a0f17, type: 3}
-  _health: 200
+  enemyBase: {fileID: 8622813716612866025, guid: 422de99448ebfab40b0d305de34a0f17, type: 3}
+  _health: 40
   _speed: 600
   _moneyReward: 20
   _maximumSlowPercents: 65

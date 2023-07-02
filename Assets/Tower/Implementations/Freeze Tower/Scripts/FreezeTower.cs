@@ -1,21 +1,22 @@
 using System.Linq;
+using Implementations.BaseTowerLogic;
 using UnityEngine;
 
 namespace Implementations.Freeze_Tower.Scripts
 {
     [RequireComponent(typeof(LineRenderer))]
-    public class FreezeTower : BaseTower.BaseTower
+    public class FreezeTower : BaseAttackLasersTower
     {
-        private float _freezeTowerDamage;
         private float _freezingPercents;
         private float _freezePower;
         private float _freezeDuration;
-
-        public void Construct(float freezeTowerDamage, float freezingPercents, float freezeDuration)
+        
+        public void Construct(float freezeTowerDamage, float freezingPercents, float freezeDuration, float price)
         {
-            _freezeTowerDamage = freezeTowerDamage;
+            _towerDamage = freezeTowerDamage;
             _freezingPercents = freezingPercents;
             _freezeDuration = freezeDuration;
+            _price = price;
         }
         
         private void Start()
@@ -26,7 +27,7 @@ namespace Implementations.Freeze_Tower.Scripts
 
         private void FixedUpdate()
         {
-            if (CheckingEnemyCount()) LaserFire(_freezeTowerDamage);
+            if (CheckingEnemyCount()) LaserFire(_towerDamage);
             
             else SetPositionLaser(false);
         }
@@ -37,6 +38,9 @@ namespace Implementations.Freeze_Tower.Scripts
             Freeze();
         }
 
-        private void Freeze() => EnemyInRadius.First().FreezeAilment.FreezeEnemy(EnemyInRadius.First(), _freezePower, _freezeDuration);
+        private void Freeze()
+        {
+            EnemyInRadius.First().FreezeAilment.FreezeEnemy(EnemyInRadius.First(), _freezePower, _freezeDuration);
+        }
     }
 }

@@ -119,7 +119,6 @@ GameObject:
   - component: {fileID: 459571400693686220}
   - component: {fileID: 3827573985860830215}
   - component: {fileID: 2011498399385676212}
-  - component: {fileID: 6057137228376351279}
   m_Layer: 0
   m_Name: ChainTower
   m_TagString: Untagged
@@ -216,20 +215,3 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
---- !u!114 &6057137228376351279
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5107688672830317295}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 759d7d30acf87e849967d568cc4edf5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _chaintower: 1
-  _bullet: {fileID: 3208026196862109540, guid: c3fc9de1c075fff49ba022434db6205e, type: 3}
-  _speed: 3500
-  _spawnplace: {fileID: 7218237137606537561, guid: bf4eaf8d667abb045b66f04118aa33f1, type: 3}
-  _allowtoshotchain: 0

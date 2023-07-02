@@ -1,13 +1,16 @@
+using Implementations.BaseTowerLogic;
 using UnityEngine;
 
 namespace Implementations.Laser_Tower.Scripts
 {
     [RequireComponent(typeof(LineRenderer))]
-    public class LaserTower : BaseTower.BaseTower
+    public class LaserTower : BaseAttackLasersTower
     {
-        private float _laserTowerDamage;
-
-        public void Construct(float laserTowerDamage) => _laserTowerDamage = laserTowerDamage;
+        public void Construct(float laserTowerDamage, float price)
+        {
+            _towerDamage = laserTowerDamage;
+            _price = price;
+        }
 
         protected void Start()
         {
@@ -17,7 +20,7 @@ namespace Implementations.Laser_Tower.Scripts
 
         private void FixedUpdate()
         {
-            if (CheckingEnemyCount()) LaserFire(_laserTowerDamage);
+            if (CheckingEnemyCount()) LaserFire(_towerDamage);
             
             else SetPositionLaser(false);
         }

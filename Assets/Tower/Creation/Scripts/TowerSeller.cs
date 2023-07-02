@@ -8,13 +8,14 @@ namespace Creation.Scripts
     {
         [SerializeField] private TowerFactory _towerFactory;
         [SerializeField] private MoneyManager _moneyManager;
+        
         [SerializeField] private float _percentsReturnMoneyFromRefund;
         
         private void BuyTower(float price) => _moneyManager.RemoveMoney(price);
 
         public void RefundTower(PlatformConstructor platformConstructor)
         {
-            _moneyManager.AddMoney(GetPriceTower(platformConstructor.Type) * _percentsReturnMoneyFromRefund / 100);
+            _moneyManager.AddMoney(platformConstructor.BaseTower.Price * _percentsReturnMoneyFromRefund / 100);
 
             Destroy(platformConstructor.BaseTower.gameObject);
             
@@ -42,6 +43,12 @@ namespace Creation.Scripts
                     return _towerFactory.FreezeTowerConfig.PriceFreezeTower;
                 case TowersTypes.TowerTypes.LaserTower:
                     return _towerFactory.LaserTowerConfig.PriceLaserTower;
+                case TowersTypes.TowerTypes.AOETower:
+                    return _towerFactory.AoeTowerConfig.PriceAOETower;
+                case TowersTypes.TowerTypes.DamageUpTower:
+                    return _towerFactory.DamageUpTowerConfig.Price;
+                case TowersTypes.TowerTypes.RateOfFireUpTower:
+                    return _towerFactory.RateOfFireUpTowerConfig.Price;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(type), type, null);
             }

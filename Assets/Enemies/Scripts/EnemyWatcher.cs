@@ -8,7 +8,7 @@ namespace Enemies.Scripts
     {
         [SerializeField] private WaveSpawner _waveSpawner;
         
-        public event Action <Enemy> EnemyKilled;
+        public event Action <EnemyBase> EnemyKilled;
         public event Action EnemySpawned;
         public event Action EnemyFinishedPath;
 
@@ -16,29 +16,29 @@ namespace Enemies.Scripts
 
         private void OnDestroy() => _waveSpawner.EnemySpawned -= OnEnemySpawn;
 
-        private void OnEnemySpawn(Enemy enemy)
+        private void OnEnemySpawn(EnemyBase enemyBase)
         {
-            if (enemy != null)
+            if (enemyBase != null)
             {
-                enemy.OnKill += OnEnemyKill;
-                enemy.FinishedThePath += OnEnemyFinishedThePath;
+                enemyBase.OnKill += OnEnemyKill;
+                enemyBase.FinishedThePath += OnEnemyFinishedThePath;
             }
             
             EnemySpawned?.Invoke();
         }
 
-        private void OnEnemyFinishedThePath(Enemy enemy)
+        private void OnEnemyFinishedThePath(EnemyBase enemyBase)
         {
-            enemy.FinishedThePath -= OnEnemyFinishedThePath;
+            enemyBase.FinishedThePath -= OnEnemyFinishedThePath;
          
             EnemyFinishedPath?.Invoke();
         }
 
-        private void OnEnemyKill(Enemy enemy)
+        private void OnEnemyKill(EnemyBase enemyBase)
         {
-            enemy.OnKill -= OnEnemyKill;
+            enemyBase.OnKill -= OnEnemyKill;
             
-            EnemyKilled?.Invoke(enemy);
+            EnemyKilled?.Invoke(enemyBase);
         }
     }
 }

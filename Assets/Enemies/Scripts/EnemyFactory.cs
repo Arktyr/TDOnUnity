@@ -7,20 +7,20 @@ namespace Enemies.Scripts
     {
         [SerializeField] private EnemyPool _enemyPool;
         
-        public Enemy CreateEnemy(EnemyConfig config, Vector3 position)
+        public EnemyBase CreateEnemy(EnemyConfig config, Vector3 position)
         {
-            if (_enemyPool.IsCreate == false) _enemyPool.CreatePool(config.Enemy);
+            if (_enemyPool.IsCreate == false) _enemyPool.CreatePool(config.EnemyBase);
 
-            Enemy enemy = _enemyPool.TakeFromPool(config.Enemy, position);
+            EnemyBase enemyBase = _enemyPool.TakeFromPool(config.EnemyBase, position);
             
-            enemy.Construct(config.Health,
+            enemyBase.Construct(config.Health,
                 config.Speed,
                 config.MoneyReward,
-                config.MaximumSlowPercent,
                 config.Path,
+                config.MaximumSlowPercent,
                 config.DeathAnimation);
 
-            return enemy;
+            return enemyBase;
         }
     }
 }

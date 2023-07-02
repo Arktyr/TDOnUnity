@@ -1,4 +1,4 @@
-using Implementations.BaseTower;
+using Implementations.BaseTowerLogic;
 using Implementations.Freeze_Tower.Scripts;
 using Implementations.Laser_Tower.Scripts;
 using UnityEngine;
@@ -9,9 +9,7 @@ namespace Creation.Scripts
     {
         private TowersTypes.TowerTypes _type;
         private BaseTower _baseTower;
-        private FreezeTower _freezeTower;
-        private LaserTower _laserTower;
-        
+
         private bool _isEmpty;
 
         public BaseTower BaseTower => _baseTower;

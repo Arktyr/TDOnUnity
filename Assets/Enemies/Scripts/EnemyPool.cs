@@ -2,12 +2,12 @@
 
 namespace Enemies.Scripts
 {
-    public class EnemyPool : BasePool<Enemy>
+    public class EnemyPool : BasePool<EnemyBase>
     {
         private void Start() => Construct(RemoveFromEvent, AddToEvent);
         
-        private void AddToEvent(Enemy enemy) => enemy.OnKill += ReturnToPool;
+        private void AddToEvent(EnemyBase enemyBase) => enemyBase.OnKill += ReturnToPool;
 
-        private void RemoveFromEvent(Enemy enemy) => enemy.OnKill -= ReturnToPool;
+        private void RemoveFromEvent(EnemyBase enemyBase) => enemyBase.OnKill -= ReturnToPool;
     }
 }

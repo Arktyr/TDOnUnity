@@ -1,5 +1,4 @@
-﻿using Implementations.BaseTower;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Creation.Scripts
 {
@@ -7,11 +6,14 @@ namespace Creation.Scripts
     {
         [SerializeField] private PlatformRaycaster _platformRaycaster;
         [SerializeField] private InteractionUI _interactionUI;
-        [SerializeField] private TowerFactory _towerFactory;
 
-        private GameObject _bulletTower;
-        private GameObject _freezeTower;
-        private GameObject _laserTower;
+        [Header("Select Phantom Towers")]
+        [SerializeField] private GameObject _bulletTower;
+        [SerializeField] private GameObject _freezeTower;
+        [SerializeField] private GameObject _laserTower;
+        [SerializeField] private GameObject _aoeTower;
+        [SerializeField] private GameObject _damageUpTower;
+        [SerializeField] private GameObject _rateOfFireUpTower;
 
         private bool _interactionEnable;
 
@@ -23,17 +25,22 @@ namespace Creation.Scripts
         {
             Transform parent = transform.parent;
 
-            _bulletTower = CreatePhantomTower(_towerFactory.BulletTowerConfig.Tower.gameObject, parent);
+            _bulletTower = CreatePhantomTower(_bulletTower, parent);
 
-            _freezeTower = CreatePhantomTower(_towerFactory.FreezeTowerConfig.Tower.gameObject, parent);
+            _freezeTower = CreatePhantomTower(_freezeTower, parent);
 
-            _laserTower = CreatePhantomTower(_towerFactory.LaserTowerConfig.Tower.gameObject, parent);
+            _laserTower = CreatePhantomTower(_laserTower, parent);
+            
+            _aoeTower = CreatePhantomTower(_aoeTower, parent);
+            
+            _damageUpTower = CreatePhantomTower(_damageUpTower, parent);
+            
+            _rateOfFireUpTower = CreatePhantomTower(_rateOfFireUpTower, parent);
         }
 
         private GameObject CreatePhantomTower(GameObject towerCreate, Transform parent)
         {
             GameObject tower = Instantiate(towerCreate, parent);
-            Destroy(tower.GetComponent<BaseTower>());
             tower.gameObject.SetActive(false);
             return tower;
         }
@@ -61,6 +68,27 @@ namespace Creation.Scripts
                 return _laserTower;
             }
             
+            if (_interactionUI.AOEEnable)
+            {
+                SetStatePhantomTower(_aoeTower, true);
+                SetInteraction(true);
+                return _aoeTower;
+            }
+            
+            if (_interactionUI.DamageUpEnable)
+            {
+                SetStatePhantomTower(_damageUpTower, true);
+                SetInteraction(true);
+                return _damageUpTower;
+            }
+            
+            if (_interactionUI.RateOfFireUpEnable)
+            {
+                SetStatePhantomTower(_rateOfFireUpTower, true);
+                SetInteraction(true);
+                return _rateOfFireUpTower;
+            }
+            
             SetInteraction(false);
             
             if (_interactionEnable == false) ResetPhantomTowers();
@@ -77,6 +105,12 @@ namespace Creation.Scripts
             if (_freezeTower.gameObject.activeSelf) SetStatePhantomTower(_freezeTower, false);
                 
             if (_laserTower.gameObject.activeSelf)  SetStatePhantomTower(_laserTower, false);
+            
+            if (_aoeTower.gameObject.activeSelf)  SetStatePhantomTower(_aoeTower, false);
+            
+            if (_damageUpTower.gameObject.activeSelf)  SetStatePhantomTower(_damageUpTower, false);
+            
+            if (_rateOfFireUpTower.gameObject.activeSelf)  SetStatePhantomTower(_rateOfFireUpTower, false);
         }
         
         private void SetStatePhantomTower(GameObject baseTower, bool state) => baseTower.gameObject.SetActive(state);

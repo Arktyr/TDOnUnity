@@ -9,9 +9,9 @@ namespace Enemies.Scripts
         
         public float ScaleDuration => _scaleDuration;
 
-        public void PlayAnimation(Enemy enemy, float scaleEndValue)
+        public void PlayAnimation(EnemyBase enemyBase, float scaleEndValue)
         {
-            Transform enemyTransform = enemy.transform;
+            Transform enemyTransform = enemyBase.transform;
 
             enemyTransform.DOScale(scaleEndValue, _scaleDuration).SetEase(Ease.InQuart).Play();
 

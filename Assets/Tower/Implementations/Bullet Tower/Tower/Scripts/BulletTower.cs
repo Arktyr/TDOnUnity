@@ -2,12 +2,13 @@ using System;
 using System.Collections;
 using System.Linq;
 using Configs.Scripts;
+using Implementations.BaseTowerLogic;
 using Implementations.Bullet_Tower.Bullet.Scripts;
 using UnityEngine;
 
 namespace Implementations.Bullet_Tower.Tower.Scripts
 {
-    public class BulletTower : BaseTower.BaseTower
+    public class BulletTower : BaseAttackTower
     {
         private BulletFactory _bulletFactory;
         private BulletControllerConfig _bulletControllerConfig;
@@ -16,13 +17,18 @@ namespace Implementations.Bullet_Tower.Tower.Scripts
 
         private bool _isFire;
 
+        public float BulletRateOfFire => _bulletRateOfFire;
+
         private event Action Fire;
 
-        public void Construct(BulletFactory bulletFactory, BulletControllerConfig bulletControllerConfig, float bulletRateOfFire)
+        public void Construct(BulletFactory bulletFactory, BulletControllerConfig bulletControllerConfig, float towerDamage,
+            float bulletRateOfFire, float price)
         {
             _bulletFactory = bulletFactory;
             _bulletControllerConfig = bulletControllerConfig;
+            _towerDamage = towerDamage;
             _bulletRateOfFire = bulletRateOfFire;
+            _price = price;
         }
     
         private void FixedUpdate()
@@ -35,12 +41,12 @@ namespace Implementations.Bullet_Tower.Tower.Scripts
             }
         }
 
-        private BulletController BulletCreate()
+        private BulletBase BulletCreate()
         {
             Vector3 target = EnemyInRadius.First().transform.position;
             Vector3 towerWeaponPosition = transform.GetChild(0).position;
             
-            BulletController currentBullet = _bulletFactory.CreateBullet(_bulletControllerConfig, 
+            BulletBase currentBullet = _bulletFactory.CreateBullet(_bulletControllerConfig, _towerDamage,  
                 towerWeaponPosition, target);
 
             Fire += currentBullet.BulletMovement;
@@ -50,7 +56,7 @@ namespace Implementations.Bullet_Tower.Tower.Scripts
         
         private void BulletFire()
         {
-            BulletController currentBullet = BulletCreate();
+            BulletBase currentBullet = BulletCreate();
                 
             Fire?.Invoke();
             Fire -= currentBullet.BulletMovement;
@@ -67,5 +73,7 @@ namespace Implementations.Bullet_Tower.Tower.Scripts
 
             _isFire = false;
         }
+
+        public void SetRateOfFire(float RateOfFire) => _bulletRateOfFire = RateOfFire;
     }
 }

@@ -5,25 +5,25 @@ namespace Enemies.Scripts
 {
     public class FreezeAilment : MonoBehaviour
     {
-        public void FreezeEnemy(Enemy currentEnemy, float freezePower, float freezeDuration)
+        public void FreezeEnemy(EnemyBase currentEnemyBase, float freezePower, float freezeDuration)
         {
-            if (currentEnemy.CheckMinimumSpeed()) return;
+            if (currentEnemyBase.CheckMinimumSpeed()) return;
             
-            currentEnemy.SetSpeed(SetSlowdown(currentEnemy, freezePower));
-            StartCoroutine(FreezeDuration(currentEnemy, freezeDuration, freezePower));
+            currentEnemyBase.SetSpeed(SetSlowdown(currentEnemyBase, freezePower));
+            StartCoroutine(FreezeDuration(currentEnemyBase, freezeDuration, freezePower));
         }
 
-        private float SetSlowdown(Enemy currentEnemy, float freezePower) => currentEnemy._speed - freezePower;
+        private float SetSlowdown(EnemyBase currentEnemyBase, float freezePower) => currentEnemyBase.Speed - freezePower;
 
-        private float SetBoost(Enemy currentEnemy, float freezePower) => currentEnemy._speed + freezePower;
+        private float SetBoost(EnemyBase currentEnemyBase, float freezePower) => currentEnemyBase.Speed + freezePower;
 
-        private IEnumerator FreezeDuration(Enemy currentEnemy, float freezeDuration, float freezePower)
+        private IEnumerator FreezeDuration(EnemyBase currentEnemyBase, float freezeDuration, float freezePower)
         {
             yield return new WaitForSeconds(freezeDuration);
 
-            if (currentEnemy.gameObject == null) yield break;
+            if (currentEnemyBase.gameObject == null) yield break;
             
-            currentEnemy.SetSpeed(SetBoost(currentEnemy, freezePower));
+            currentEnemyBase.SetSpeed(SetBoost(currentEnemyBase, freezePower));
         }
     }
 }

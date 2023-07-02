@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2938874638999741010}
   - component: {fileID: 935400091633902614}
   - component: {fileID: 5338875822381489675}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: AOEWeapon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,8 +119,8 @@ GameObject:
   - component: {fileID: 5259743529203868394}
   - component: {fileID: 289048258877101851}
   - component: {fileID: 1039356785551569166}
-  - component: {fileID: 6439246601087084657}
-  m_Layer: 0
+  - component: {fileID: -7596585422200960214}
+  m_Layer: 2
   m_Name: AOETower
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -141,7 +141,7 @@ Transform:
   m_Children:
   - {fileID: 72052938027659651}
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5259743529203868394
 MeshFilter:
@@ -216,7 +216,7 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &6439246601087084657
+--- !u!114 &-7596585422200960214
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -225,10 +225,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8399480521507489204}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a6ee306bc7c8bea47ac0d9aebfe0d96a, type: 3}
+  m_Script: {fileID: 11500000, guid: 6542ccdc8bcc498194f2f15937be2704, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bullet: {fileID: 3208026196862109540, guid: 09db4c71053bbe944b73e07a784a8ddd, type: 3}
-  _bulletRateOfFire: 4
-  _bulletSpeed: 4000
-  _bulletTowerDamage: 20
+  _towerDamage: 0

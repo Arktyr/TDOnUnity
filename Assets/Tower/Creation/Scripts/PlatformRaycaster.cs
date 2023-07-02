@@ -18,7 +18,7 @@ namespace Creation.Scripts
 
         public RaycastHit Hit => _hit;
         
-        private void Start() => _layerMask = 1 << LayerMask.NameToLayer("Ignore Raycast");
+        private void Start() => _layerMask = 1 << LayerMask.NameToLayer("Default");
 
         private void Update() => RaycastRay();
 
@@ -44,7 +44,7 @@ namespace Creation.Scripts
 
         private RaycastHit CheckRaycastHit(Ray ray, int layerMask)
         {
-            if (Physics.Raycast(ray, out _hit, Mathf.Infinity, ~layerMask))
+            if (Physics.Raycast(ray, out _hit, Mathf.Infinity, layerMask))
             {
                 if (_hit.collider.TryGetComponent(out PlatformConstructor createPlatformConstructor))
                 {

@@ -19,7 +19,7 @@ namespace Wave.Scripts
         private float _spawnEnemyDelay;
         private bool _isDelay;
 
-        public event Action<Enemy> EnemySpawned;
+        public event Action<EnemyBase> EnemySpawned;
         public event Action WaveHasChanged;
         public event Action StartCountDownToNewWave;
         
@@ -56,9 +56,9 @@ namespace Wave.Scripts
 
         private void SpawnCurrentEnemy()
         {
-            Enemy enemy = _enemyFactory.CreateEnemy(_waves[_currentWaveIndex].Settings[_currentSettings].EnemyConfig,
+            EnemyBase enemyBase = _enemyFactory.CreateEnemy(_waves[_currentWaveIndex].Settings[_currentSettings].EnemyConfig,
                 transform.position);
-            EnemySpawned?.Invoke(enemy);
+            EnemySpawned?.Invoke(enemyBase);
             _enemiesLeftToSpawn--;
             StartCoroutine(SpawnWave());
         }

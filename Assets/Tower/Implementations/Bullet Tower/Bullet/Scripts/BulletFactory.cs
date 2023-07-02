@@ -1,4 +1,5 @@
 ﻿using Configs.Scripts;
+using Implementations.BaseTowerLogic;
 using UnityEngine;
 
 namespace Implementations.Bullet_Tower.Bullet.Scripts
@@ -7,16 +8,18 @@ namespace Implementations.Bullet_Tower.Bullet.Scripts
     {
         [SerializeField] private BulletPool _bulletPool;
 
-        public BulletController CreateBullet(BulletControllerConfig bulletControllerConfig, Vector3 position, Vector3 target)
+        public BulletBase CreateBullet(BulletControllerConfig bulletControllerConfig, float damage, Vector3 position,
+            Vector3 target)
         {
-            if (_bulletPool.IsCreate == false) _bulletPool.CreatePool(bulletControllerConfig.BulletController);
+            if (_bulletPool.IsCreate == false) _bulletPool.CreatePool(bulletControllerConfig.BulletBase);
 
-            BulletController bulletController = 
-                _bulletPool.TakeFromPool(bulletControllerConfig.BulletController, position);
+            BulletBase bulletBase = 
+                _bulletPool.TakeFromPool(bulletControllerConfig.BulletBase, position);
             
-            bulletController.Construct(bulletControllerConfig.BulletDamage, bulletControllerConfig.BulletSpeed, bulletControllerConfig.DelayBeforeDestroy, target);
+            bulletBase.Construct(damage, bulletControllerConfig.BulletSpeed,
+                bulletControllerConfig.DelayBeforeDestroy, target);
 
-            return bulletController;
+            return bulletBase;
         }
     }
 }

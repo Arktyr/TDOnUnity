@@ -7,14 +7,17 @@ namespace Configs.Scripts
     [CreateAssetMenu(fileName = "BulletTowerConfig", menuName = "Configs/BulletTower")]
     public class BulletTowerConfig : ScriptableObject
     {
-        [SerializeField] private BulletTower _tower;
+        [SerializeField] private BulletTower tower;
         [SerializeField] private BulletControllerConfig _bulletControllerConfig;
+        [SerializeField] private float _towerDamage;
         [SerializeField] private float _bulletRateOfFire;
         [SerializeField] private float _priceBulletTower;
         
-        public BulletTower Tower => _tower;
+        public BulletTower Tower => tower;
         
         public BulletControllerConfig BulletControllerConfig => _bulletControllerConfig;
+
+        public float TowerDamage => _towerDamage;
         
         public float BulletRateOfFire => _bulletRateOfFire;
         

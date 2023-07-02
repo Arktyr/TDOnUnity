@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a27091a1799d914479c4686d47779164, type: 3}
   m_Name: FreezeTowerConfig
   m_EditorClassIdentifier: 
-  _tower: {fileID: 1118748088132024622, guid: 801f97392bb0aa5469ba38d8e15ce333, type: 3}
+  _tower: {fileID: 7637362890368771208, guid: 801f97392bb0aa5469ba38d8e15ce333, type: 3}
   _freezeTowerDamage: 0.02
-  _freezingPercents: 10
-  _priceFreezeTower: 120
+  _freezingPercents: 20
+  _freezeDuration: 2
+  _priceFreezeTower: 150

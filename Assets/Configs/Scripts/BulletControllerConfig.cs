@@ -1,4 +1,4 @@
-﻿using Implementations.Bullet_Tower.Bullet.Scripts;
+﻿using Implementations.BaseTowerLogic;
 using UnityEngine;
 
 namespace Configs.Scripts
@@ -6,14 +6,11 @@ namespace Configs.Scripts
     [CreateAssetMenu(fileName = "BulletControllerConfig", menuName = "Configs/BulletControllerConfig")]
     public class BulletControllerConfig : ScriptableObject
     {
-        [SerializeField] private BulletController _bulletController;
-        [SerializeField] private float _bulletDamage;
+        [SerializeField] private BulletBase bulletBase;
         [SerializeField] private float _bulletSpeed;
         [SerializeField] private float _delayBeforeDestroy;
         
-        public BulletController BulletController => _bulletController;
-
-        public float BulletDamage => _bulletDamage;
+        public BulletBase BulletBase => bulletBase;
         
         public float BulletSpeed => _bulletSpeed;
 
